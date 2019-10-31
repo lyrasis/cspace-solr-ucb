@@ -84,9 +84,6 @@ cd ~
 rm -rf ~/solrdatasources
 cp -r ~/cspace-solr-ucb/ ~/solrdatasources
 cd ~/solrdatasources/
-# "ucb" is the solr server configuration -- there is a different process
-# to set that up and get a solr server running.
-rm -rf ucb
 # optional: point to dev
 perl -i -pe 's#prod\-42.ist.berkeley.edu port=53#dev-42.ist.berkeley.edu port=51#' */*.sh
 # you will want to sent up the cron job to run one_job.sh

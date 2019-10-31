@@ -35,6 +35,7 @@ cp utilities/optimize.sh ~
 cp utilities/checkstatus.sh ~
 cp utilities/redeploy-etl.sh ~
 
+cd
 rsync -av cspace-solr-ucb/ solrdatasources/
 
 # 4. try to put botgarden's pickle file back; it takes hours to recreate from scratch.
