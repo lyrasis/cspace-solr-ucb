@@ -31,11 +31,11 @@ user@blacklight-dev:~$ sudo /bin/systemctl stop solr.service
 /opt/solr/bin/solr delete -c cinefiles-public
 
 # delete and recreate all 12 ucb cores
-cd ~/cspace-solr-ucb/ucb/multicore/
+cd ~/cspace-solr-ucb/solr-cores/
 nohup time ./makesolrcores.sh > cores.log 2> /dev/null &
 ```
 
 After this finishes, you'll need to reload all the cores with fresh data.
 This is most easily accomplished by rerunning the "solr pipelines"
 
-See the Solr pipeline documentation: [README.md](../../README.md)
+See the Solr pipeline documentation: [README.md](../README.md)
