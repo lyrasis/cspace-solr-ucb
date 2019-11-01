@@ -1,4 +1,4 @@
-#### ETL to extract data for Solr datastores
+### ETL to extract data for Solr datastores
 
 This directory contains the components of the Solr4 system supporting
 the CSpace "Portals"
@@ -6,14 +6,11 @@ the CSpace "Portals"
 There is one directory per UCB tenant, each directory contains the SQL and other
 magic to refresh that tenant's Solr cores.
 
-The instructions to install Solr and configure the cores is not here; look in the
-cspace_django_project directory for that code. HOWEVER, the ucb/ directory here DOES
-contain schema, etc. to configure solar to accept the .csv format files extracted via psql...
+The instructions and code to install Solr and configure the cores is not here; look in the
+`cspace-solr-ucb/utilities` directory for that. 
 
-There is also a ```utilities``` directory containing directions and code for setting
-the ETL scripts to run nightly via cron.
-
-The crontab for the app_solr pseudo-user is now one line:
+The crontab for the app_solr pseudo-user is now one line to run the Solr ETL piplines
+at 03:01am nightly:
 
 ```bash
 [app_solr@cspace-prod-01 ~]$ crontab -l
@@ -26,7 +23,7 @@ starts them at the same time (so the museums are refreshing in parallel).
 The rationale for running all the solr refreshes (and some other processes) as a single script
 is that it minimizes the total elapsed time and eliminates any chance of the jobs overlapping.
 
-NB: as of November 2019, the 13 refreshes take about 3 hours to run sequentially.
+NB: as of November 2019, the 13 core refreshes take about 3 hours to run sequentially.
 
 tS.py is a short script to test the (local) installation of the Python solr
 client module and operation of the (local) solr server. To run:
@@ -41,7 +38,6 @@ pahma-public, records found: 735314
 Other contents of the app_solr working directory (which includes the content of this
 GitHub directory):
 
-archive - junk. anything that might be needed for debugging or other purposes.
 checkstatus.sh - a script to display the contents of the UCB solr4 portals
                  and the status of the last refresh jobs.
 one_job.sh - script to run all solr refresh and other extract processes.
@@ -49,56 +45,99 @@ optimize.log - output of optimize.sh (overwritten each time).
 optimize.sh - runs the "optimize" process on each solr core. Not strictly
               necessary, but solr performs better.
 solrdatasources - the ETL code (i.e. nightly scripts) to refresh the Portals.
-solr4 - the UCB solr4 cores.
-cspace-solr-ucb - clone of the Tools repo. Needed for updates.
-README - this file.
+cspace-solr-ucb - clone of the code repo. Needed for updates.
+README.md - this file.
 refresh.log - cumulative log of refreshes.
 
-#### How to deploy the Solr ETL scripts
+
+#### Initial Installation and Maintenance of ETL pipelines on RTL VMs (Ubuntu)
+
+The following steps will setup the Solr ETL for UCB in ~app_solr.
+
+NB:
+
+* There is an optional step to change the settings to point to Dev or QA instead of Prod.
+* This procedure _only_ deploys the ETL code on a managed server.
+it presumes that you have already installed and started Solr, and have
+configured the appropriate cores. (Installing Solr is an Ops task see the README.md in the `utilities` directory for
+how to do that.)
+* In general, development work on the Solr ETL is done on Dev and not one's local dev system: 
+running the SQL would require tunneling, and be very, very slow. One _could_, though!
 
 ```bash
-# the following steps will setup the solr etl for UCB in ~app_solr.
-# note there is a step to change the set to point to Dev instead of Prod.
+# ssh to a server
+ssh cspace-dev.cspace.berkeley.edu
+sudo su - app_solr
+# assumes that Solr is up and running, see above
+git clone https://github.com/cspace-deployment/cspace-solr-ucb
+cspace-solr-ucb/utilities/redeploy-etl.sh
+# OPTIONAL STEPS:
 #
-# NB: this is not really a script though it looks like one, and indeed
-#     everything except the crontab and .pgpass setup could be run as such
-#     But you'd be advised to do each step yourself and make sure
-#     it works.
-#
-#     also note that this just deploys the ETL code on a managed server.
-#     it presumes that you have already installed and started Solr, and have
-#     configured the appropriate cores.
-#
-#     finally, if you run these steps on Prod, you'll blow away the logs
-#     that have been created by past runs. Perhaps you don't care, but
-#     if you do, you should take care to just copy the needed files and leave
-#     logs.
-#
-# To deploy from scratch:
-#
-cd ~/cspace-solr-ucb/
-git pull -v
-# checkout the release tag, if desired
-git checkout X.Y.Z
+# To make the prod scripts into dev or qa scripts:
+# ymmv! the following used to work (July 2019), but port number and hostnames are prone to change
 cd ~
-rm -rf ~/solrdatasources
-cp -r ~/cspace-solr-ucb/ ~/solrdatasources
-cd ~/solrdatasources/
-# optional: point to dev
-perl -i -pe 's#prod\-42.ist.berkeley.edu port=53#dev-42.ist.berkeley.edu port=51#' */*.sh
-# you will want to sent up the cron job to run one_job.sh
-cat ~/cspace-solr-ucb/utilities/crontab.app_solr
-crontab -e
-# check that .pgpass is set up correctly
-cat ~/.pgpass
-#
-# To simply update the ETL code for a single tenant, providing that the updated code is
-# in GitHub already:
-#
-cd ~/cspace-solr-ucb
-git pull -v
-cp -r pahma/* ~/solrdatasources/pahma
-# if this is a Dev deployment, update the files to point to dev
-cd ~/solrdatasources/pahma
-perl -i -pe 's#prod\-42.ist.berkeley.edu port=53#dev-42.ist.berkeley.edu port=51#' */*.sh
+./switch2dev.sh
+#or
+./switch2qa.sh
+
+# setup pgpass, if it is not already set up.
+cat > .pgpass
+vi .pgpass
+chmod u+rw .pgpass
+ls -ltr .pgpass
+```
+
+#### Testing the Solr ETL pipelines
+
+```bash
+# try reloading a couple of cores 'by hand'. the small ones: takes like 1/2 for both or these, alas
+nohup /home/app_solr/solrdatasources/bampfa/solrETL-public.sh bampfa >> /home/app_solr/logs/bampfa.solr_extract_public.log 2>&1 &
+nohup /home/app_solr/solrdatasources/botgarden/solrETL-public.sh botgarden >> /home/app_solr/logs/botgarden.solr_extract_public.log &
+# did they work?
+./checkstatus.sh -v
+
+# now load the solr cores; couple ways to do this:
+# Provided you have access to the Postgres server, you can run the refresh job (takes a few hours):
+nohup one_job.sh >> /home/app_solr/refresh.log &
+
+```
+
+#### Finding stuff in your Solr cores"
+
+Often it is useful to be able to check for stuff in one of the Solr cores.
+
+Locally, the "Solr admin panel" is a great tool. If solr is running locally, it should be available at:
+
+http://localhost:8983/solr/
+
+You can tunnel to it elsewhere, e.g.:
+
+ssh -L 10000:localhost:8983 me@blacklight-dev.ets.berkeley.edu
+
+and you will be able to see it at:
+
+http://localhost:10000/solr/
+
+If you want to see if your Solr cores are available and you have the Python Solr module
+properly installed, you can use `tS.py`. Try:
+
+`
+python tS.py
+`
+
+in this very directory and debug from there.
+
+For example, if you would like to run check to see if a list of PAHMA museum numbers actually exist, you 
+could make a file of the museum numbers, one per line, and try:
+
+`
+python tS.py pahma-public http://localhost:8983 'objmusno_s:"%s"' < /tmp/objmusno_s.txt > objmusno_s.txt 
+`
+
+Caveats:
+
+* You should read and understand these scripts before using them!
+* Mostly these expect the "standard" Ubuntu OS infrastructure at RTL
+* But they will mostly run on your Mac or local VM, perhaps with some tweaking.
+
 ```

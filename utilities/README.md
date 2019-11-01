@@ -5,6 +5,7 @@ Tools (mainly shell scripts) to:
 * deploy solr8 on Unix-like systems (Mac, Linux, perhaps even Unix).
 * load the existing UCB solr datastores into the solr8 deployment.
 * start and stop the solr service.
+* run the Solr ETL pipelines (but the pipeline scripts themselves are not here: see museum repos)
 
 Currently there are 7 tools, some mature, but mostly unripe, raw, and needy:
 
@@ -31,10 +32,14 @@ The essence:
 * Unzip and load the extracts
 * Verify Solr8 server works
 
-If you want to install the ETL pipelines and refresh from the database 
+NB: in general, you won't be running the Solr ETL pipelines locally, that's why we copy the
+'extracts' that are published on webapps.cspace.berkeley.edu. Only the public extracts are available.
+If you want to have the *-internal cores populated, you'll need to scp them from webapps.cspace.b.e or
+otherwise arrange to obtain them. Inasmuch as there is sensitive info in those internal cores, caution
+should be exercised in hosting them on your local system; in general it should not be necessary since
+you can get access to them by tunneling to one of the RTL servers.
 
 ```bash
-#
 # NB: if solr is *already* running, you'll need to
 #     kill it in order to start it again so it will see the new cores.
 
@@ -64,17 +69,13 @@ bin/solr start
 #
 # 4. update the cores and schema for ucb
 #
-# NB: Assumes you have cloned the cspace-solr-ucb repo...use the full path please
+# NB: clone the cspace-solr-ucb repo if you haven't already
 #
+cd ~
+git clone https://github.com/cspace-deployment/cspace-solr-ucb
 cd ~/cspace-solr-ucb/solr-cores
 # you'll need to edit the SOLR_CMD in makesolrcores.sh to match where you put solr
 ./makesolrcores.sh ~/cspace-solr-ucb
-#
-#
-# 5. Restart solr and check to see your cores are there.
-cd ~/solr8
-bin/solr stop
-bin/solr start
 #
 #    http://localhost:8983/solr/
 #
@@ -84,7 +85,7 @@ bin/solr start
 #
 ~/cspace-solr-ucb/utilities/countSolr8.sh
 #
-# 6. if you want to populate your cores using 'nightly exracts', then...
+# 5. if you want to populate your cores using 'nightly exracts', then...
 #
 # first, make a directory to keep things neat and tidy:
 cd ~
@@ -95,10 +96,10 @@ cd 4solr
 #
 # to get a subset of the dumps (i.e. the public ones), you can download them via HTTP:
 ~/cspace-solr-ucb/utilities/curl4solr.sh
+# or
 ~/cspace-solr-ucb/utilities/wget4solr.sh
-#
 # or, if you have ssh access to either Dev or Prod, you can scp them:
-~/cspace-solr-ucb/utilities/scp4solr.sh mylogin@cspace-prod.cspace.berkeley.edu
+~/cspace-solr-ucb/utilities/scp4solr.sh mylogin@webapps.cspace.berkeley.edu
 #
 # NB: this script makes *a lot* of assumptions!
 # * You must be able to connect to the CSpace production or development servers,
@@ -117,7 +118,7 @@ cd 4solr
 #       gunzip -f 4solr*.gz
 # * Be patient: it may take a while -- 10-20 minutes -- to download all the files. They're a bit big.
 #
-# 7. execute the script to load all the .csv dump files (take 15 mins or so...some biggish datasources!)
+# 6. execute the script to load all the .csv dump files (take 15 mins or so...some biggish datasources!)
 #
 #    this script cleans out each solr core and then loads the dump file.
 #    all the work is done via HTTP
@@ -139,97 +140,6 @@ rm -rf ~/4solr
 # You should now have some "live data" in Solr8! Enjoy!
 #
 ```
-
-#### Initial Installation of ETL pipelines on RTL VMs (Ubuntu)
-
-To install the pipelines on RTL VMs, from scratch, or to completely update the solr datastores,the following seems to work.
-Note that this procedure is a complete ground up rebuild of the Solr ETL pipelines, and during the time
-this is being executed the cores will be down.
-
-```bash
-# ssh to a server
-ssh cspace-prod.cspace.berkeley.edu
-sudo su - app_solr
-
-# assumes that Solr is up and running, see above
-# set up the solr etl
-
-git clone https://github.com/cspace-deployment/cspace-solr-ucb
-
-mkdir solrdatasources
-cspace-solr-ucb/utilities/redeploy-etl.sh
-
-# hmmm... the script expects to save an existing dir, remove it if we don't care.
-rm -rf solrdatasources.180409/
-#
-# OPTIONAL STEPS:
-#
-# To make the prod scripts into dev scripts:
-# ymmv! the following used to work (July 2019), but port number and hostnames are prone to change
-cd ~
-perl -i -pe 's/prod\-42.ist.berkeley.edu port=53/dev-42.ist.berkeley.edu port=51/' solrdatasources/*/*.sh
-perl -i -pe 's/prod\-42.ist.berkeley.edu port=53/dev-42.ist.berkeley.edu port=51/' solrdatasources/*/*.sh
-perl -i -pe 's/CONTACT=.*/CONTACT="jblowe\@berkeley.edu"/' solrdatasources/*/*.sh
-perl -i -pe 's/=5113/=5114/' solrdatasources/*/*.sh
-perl -i -pe 's/=5107/=5117/' solrdatasources/*/*.sh
-perl -i -pe 's/=5110/=5119/' solrdatasources/*/*.sh
-
-# setup pgpass, if it is not already set up.
-cat > .pgpass
-vi .pgpass
-chmod u+rw .pgpass
-ls -ltr .pgpass
-# try reloading a couple of cores. the small ones.
-nohup /home/app_solr/solrdatasources/bampfa/solrETL-public.sh bampfa >> /home/app_solr/logs/bampfa.solr_extract_public.log 2>&1 &
-nohup /home/app_solr/solrdatasources/botgarden/solrETL-public.sh botgarden >> /home/app_solr/logs/botgarden.solr_extract_public.log &
-wait
-# did they work?
-./checkstatus.sh -v
-
-# now load the solr cores; couple ways to do this:
-# Provided you have access to the Postgres server, you can run the refresh job (takes a couple hours):
-nohup one_job.sh >> /home/app_solr/refresh.log &
-#
-```
-
-#### Finding stuff in your Solr cores"
-
-Often it is useful to be able to check for stuff in one of the Solr cores.
-
-Locally, the "Solr admin panel" is a great tool. If solr is running locally, it should be available at:
-
-http://localhost:8983/solr/
-
-You can tunnel to it elsewhere, e.g.:
-
-ssh -L 10000:localhost:8983 me@blacklight-dev.ets.berkeley.edu
-
-and you will be able to see it at:
-
-http://localhost:10000/solr/
-
-If you want to see if your Solr cores are available and you have the Python Solr module
-properly installed, you can use `tS.py`. Try:
-
-`
-python tS.py
-`
-
-in this very directory and debug from there.
-
-For example, if you would like to run check to see if a list of PAHMA museum numbers actually exist, you 
-could make a file of the museum numbers, one per line, and try:
-
-`
-python tS.py pahma-public http://localhost:8983 'objmusno_s:"%s"' < /tmp/objmusno_s.txt > objmusno_s.txt 
-`
-
-Caveats:
-
-* You should read and understand these scripts before using them!
-* Mostly these expect the "standard" Ubuntu OS infrastructure at RTL
-* But they will mostly run on your Mac or local VM, perhaps with some tweaking.
-
 
 #### Differences between Dev and Prod deployments
 
