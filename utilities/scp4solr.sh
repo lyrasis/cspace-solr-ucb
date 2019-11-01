@@ -2,11 +2,10 @@
 #
 # this is one way to get the refresh files for your solr4 deployment.
 #
-# (see also wget4solr.sh and curl4solr.sh, which fetch publicly available extracts
+# (see also wget4solr.sh and curl4solr.sh, which fetch publicly available extracts)
 #
 # it presumes you have ssh access to either the prod or dev UCB CSpace servers with
 # your ssh keys set up for password-less login
-#
 #
 # usually, these are yesterday's version (i.e. one day old, in /tmp)
 #
