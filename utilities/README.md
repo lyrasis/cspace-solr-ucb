@@ -39,13 +39,21 @@ otherwise arrange to obtain them. Inasmuch as there is sensitive info in those i
 should be exercised in hosting them on your local system; in general it should not be necessary since
 you can get access to them by tunneling to one of the RTL servers.
 
+NB: if solr is *already* running, you'll need to
+kill or stop it in order to start it again so it will see the new cores.
+here's one way to do it:
 ```bash
-# NB: if solr is *already* running, you'll need to
-#     kill it in order to start it again so it will see the new cores.
+ps aux | grep solr
+kill <thatsolrprocess>
+```
+...But there are others. consult your friendly solr operator to find out how best to stop
+and eventually get rid of an existing solr server.
 
-# ps aux | grep solr
-# kill <thatsolrprocess>
-#
+It is possible that you'll need to co-exist with existing solr operations; such
+co-existence is feasible, probably not even that hard, but is beyond the scope of
+these instructions.
+
+```bash
 # 1. Obtain the code need (mainly bash scripts) from GitHub
 #
 # (you'll need to clone the repo with all the tools in it...)
