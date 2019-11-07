@@ -23,7 +23,7 @@ def run(solr_url, query_terms_file):
             tested += 1
             for term in query_terms:
                 try:
-                    url = '%s/select?q=text:%s' % (solr_url, term)
+                    url = '%s/select?q=text:%s&wt=xml' % (solr_url, term)
                     tree = ET.fromstring(requests.get(url).text)
                     num_found = tree.find('result')
                     num_found = int(num_found.attrib['numFound'])
