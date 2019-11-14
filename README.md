@@ -71,6 +71,16 @@ sudo su - app_solr
 # assumes that Solr is up and running, see above
 git clone https://github.com/cspace-deployment/cspace-solr-ucb
 cspace-solr-ucb/utilities/redeploy-etl.sh
+#
+# To simply update the ETL code for a single tenant ON PROD, providing that the updated code is
+# in GitHub already:
+#
+cd ~/cspace-solr-ucb
+git pull -v
+# checkout version A.B.C
+git checkout A.B.C
+cp -r datasources/pahma/* ~/solrdatasources/pahma
+#
 # OPTIONAL STEPS:
 #
 # To make the prod scripts into dev or qa scripts:
