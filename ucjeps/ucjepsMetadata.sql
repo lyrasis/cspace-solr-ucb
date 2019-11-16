@@ -90,7 +90,7 @@ select
         left outer join structureddategroup prevdetsdg on (prevdetsdg.id = hprevdet.id)
        where h1int.name=h1.name order by htig2.pos), '␥', '') previousdeterminations_ss,
     lng.localname as localname_s,
-    case when cocbd.item is null or cocbd.item = '' then null else cocbd.item end as briefdescription_txt,
+    case when cocbd.item is null or cocbd.item = '' then null else cocbd.item end as briefdescription_s,
     lg.vdepth as depth_s,
     lg.mindepth as mindepth_s,
     lg.maxdepth as maxdepth_s,
