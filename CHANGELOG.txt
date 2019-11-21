@@ -1,0 +1,27 @@
+CHANGELOG for the cspace_django_webapps
+
+OK, it is not a *real* change log, but a list of changes resulting from git log
+with some human annotation after the fact.
+
+This is version 5.3.1-rc1
+Thu Nov 21 06:32:31 PST 2019
+
+da222ed (HEAD -> master) CSW-184: add previousdeterminations_ss to both UCBG Solr cores
+bfd4b52 CSW-122: update README.md: remarks on deployment
+4f67543 CC-435: updates to ad hoc 'monitoring' code in app_webapps crontab
+ac97835 CSW-190: briefdescriptions should be _s not _txt
+7ed8931 (origin/master, origin/HEAD) CSW-122
+7117553 (tag: 5.3.0-rc1, tag: 5.3.0) CC-435: latest revisions to app_webapps cron jobs
+71fb1f8 CSW-181: revert 'magic' for object names, materials, etc. for pahma internal portal
+bd5359b CSW-123: this test script needs to request XML from Solr
+2a4a636 CSW-122: continue to improve README for Solr stuff
+1c9d8da CSW-122: improve solr deployment scripts
+91e84b6 CSW-122: helper scripts for -dev and -qa solr deployments
+4a37e76 CSW-122: refactor the two READMEs for Solr install and deploy
+d409995 CSW-122: improve README.md
+89ddc0a CSW-122: improve README.md, tweak solr etl deployment script
+52bb69b CSW-122: add existing Solr ETL pipeline code to this spiffy new repo
+23b87fc CSW-122: update .gitignore
+191dad1 CSW-122: update README.md for new repo
+32008ad CSW-3: add 'standard cspace license' to this new repo
+74e7fb1 Initial commit
