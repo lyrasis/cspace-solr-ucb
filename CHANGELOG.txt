@@ -3,14 +3,15 @@ CHANGELOG for the cspace_django_webapps
 OK, it is not a *real* change log, but a list of changes resulting from git log
 with some human annotation after the fact.
 
-This is version 5.3.1-rc1
-Thu Nov 21 06:32:31 PST 2019
+This is version 5.3.1-rc2
+Thu Nov 21 06:37:42 PST 2019
 
-da222ed (HEAD -> master) CSW-184: add previousdeterminations_ss to both UCBG Solr cores
+265fc27 (HEAD -> master) CSW-122: add the generated CHANGELOG.txt to GitHub
+da222ed (tag: 5.3.1-rc1, origin/master, origin/HEAD) CSW-184: add previousdeterminations_ss to both UCBG Solr cores
 bfd4b52 CSW-122: update README.md: remarks on deployment
 4f67543 CC-435: updates to ad hoc 'monitoring' code in app_webapps crontab
 ac97835 CSW-190: briefdescriptions should be _s not _txt
-7ed8931 (origin/master, origin/HEAD) CSW-122
+7ed8931 CSW-122
 7117553 (tag: 5.3.0-rc1, tag: 5.3.0) CC-435: latest revisions to app_webapps cron jobs
 71fb1f8 CSW-181: revert 'magic' for object names, materials, etc. for pahma internal portal
 bd5359b CSW-123: this test script needs to request XML from Solr
