@@ -71,9 +71,25 @@ array_to_string(array
     join misc mm ON (gc.id=mm.id AND mm.lifecyclestate <> 'deleted')
     where h2int.name = h1.name), '|', '') as grouptitle_ss,
 case when (tig.hybridflag = 'true') then 'yes' else 'no' end as hybridflag_s,
-case when (tc.taxonisnamedhybrid = 'true') then 'yes' else 'no' end as taxonisnamedhybrid_s
+case when (tc.taxonisnamedhybrid = 'true') then 'yes' else 'no' end as taxonisnamedhybrid_s,
 
-
+array_to_string(array
+      (SELECT
+	CASE WHEN (tig2.qualifier IS NOT NULL AND tig2.qualifier <>'') THEN  '' || tig2.qualifier || ' ' ELSE '' END
+  ||CASE WHEN (tig2.taxon IS NOT NULL AND tig2.taxon <>'' and tig2.taxon not like '%no name%') THEN (getdispl(tig2.taxon)
+	||CASE WHEN (tig2.identby IS NOT NULL AND tig2.identby <>'' and tig2.identby not like '%unknown%') THEN ', by ' || getdispl(tig2.identby) ELSE '' END
+	||CASE WHEN (tig2.institution IS NOT NULL AND tig2.institution <>'') THEN ', ' || getdispl(tig2.institution) ELSE '' END
+	||CASE WHEN (prevdetsdg.datedisplaydate IS NOT NULL AND prevdetsdg.datedisplaydate <>'' and prevdetsdg.datedisplaydate <>' ') THEN ', ' || prevdetsdg.datedisplaydate ELSE '' END
+	||CASE WHEN (tig2.identkind IS NOT NULL AND tig2.identkind <>'') THEN  ' (' || tig2.identkind || ')'ELSE '' END) ELSE '' END
+	||CASE WHEN (tig2.notes IS NOT NULL AND tig2.notes <>'') THEN  '. ' || tig2.notes ELSE '' END
+       from collectionobjects_common co1
+        inner join hierarchy h1int on co1.id = h1int.id
+        left outer join hierarchy htig2 on (co1.id = htig2.parentid and htig2.pos > 0
+        and htig2.name = 'collectionobjects_naturalhistory:taxonomicIdentGroupList')
+        left outer join taxonomicIdentGroup tig2 on (tig2.id = htig2.id)
+        left outer join hierarchy hprevdet on (tig2.id = hprevdet.parentid and hprevdet.name = 'identDateGroup')
+        left outer join structureddategroup prevdetsdg on (prevdetsdg.id = hprevdet.id)
+       where h1int.name=h1.name order by htig2.pos), '␥', '') previousdeterminations_ss
 
 from collectionobjects_common co
 inner join misc on (co.id = misc.id and misc.lifecyclestate <> 'deleted')

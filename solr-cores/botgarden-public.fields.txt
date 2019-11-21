@@ -13,6 +13,7 @@ specificEpithet_s
 cultivarEpithet_s
 type_s
 determination_s
+previousdeterminations_ss
 collector_s
 collectornumber_s
 collectiondate_s
