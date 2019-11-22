@@ -87,7 +87,17 @@ array_to_string(array
         left outer join taxonomicIdentGroup tig2 on (tig2.id = htig2.id)
         left outer join hierarchy hprevdet on (tig2.id = hprevdet.parentid and hprevdet.name = 'identDateGroup')
         left outer join structureddategroup prevdetsdg on (prevdetsdg.id = hprevdet.id)
-       where h1int.name=h1.name order by htig2.pos), '␥', '') previousdeterminations_ss
+       where h1int.name=h1.name order by htig2.pos), '␥', '') previousdeterminations_ss,
+
+array_to_string(array
+      (SELECT
+      CASE WHEN (tig3.taxon IS NOT NULL AND tig3.taxon <>'' and tig3.taxon not like '%no name%') THEN getdispl(tig3.taxon) ELSE '' END
+       from collectionobjects_common co2
+        inner join hierarchy h2int on co2.id = h2int.id
+        left outer join hierarchy htig3 on (co2.id = htig3.parentid
+        and htig3.name = 'collectionobjects_naturalhistory:taxonomicIdentGroupList')
+        left outer join taxonomicIdentGroup tig3 on (tig3.id = htig3.id)
+       where h2int.name=h1.name order by htig3.pos), '␥', '') alldeterminations_ss
 
 from collectionobjects_common co
 inner join misc on (co.id = misc.id and misc.lifecyclestate <> 'deleted')
