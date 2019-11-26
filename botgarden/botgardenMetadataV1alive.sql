@@ -99,7 +99,12 @@ array_to_string(array
         left outer join hierarchy htig3 on (co2.id = htig3.parentid
         and htig3.name = 'collectionobjects_naturalhistory:taxonomicIdentGroupList')
         left outer join taxonomicIdentGroup tig3 on (tig3.id = htig3.id)
-       where h2int.name=h1.name order by htig3.pos), '␥', '') alldeterminations_ss
+       where h2int.name=h1.name order by htig3.pos), '␥', '') as alldeterminations_ss,
+
+-- TODO sort out how to get 'habit' out of the database
+regexp_replace(pag.habitat, '^.*\)''(.*)''$', '\1') AS habit_s,
+case when cocbd.item is null or cocbd.item = '' then null else cocbd.item end as material_type_s,
+case when co.sex is null or co.sex = '' then null else co.sex end as sex_s
 
 from collectionobjects_common co
 inner join misc on (co.id = misc.id and misc.lifecyclestate <> 'deleted')
@@ -110,11 +115,20 @@ left outer join hierarchy hfcdg
         on (co.id = hfcdg.parentid
         and hfcdg.name = 'collectionobjects_common:fieldCollectionDateGroup')
 left outer join structureddategroup sdg on (sdg.id = hfcdg.id)
+
 left outer join hierarchy htig
         on (co.id = htig.parentid
         and htig.pos = 0
         and htig.name = 'collectionobjects_naturalhistory:taxonomicIdentGroupList')
 left outer join taxonomicIdentGroup tig on (tig.id = htig.id)
+
+-- TODO sort out how to get 'habit' out of the database: need to get JOIN through taxon_common somehow...
+left outer join hierarchy hpag
+        on (co.id = hpag.parentid
+        and hpag.pos = 0
+        and hpag.name = 'taxon_naturalhistory:plantAttributesGroupList')
+left outer join plantattributesgroup pag on (pag.id=hpag.id)
+
 left outer join hierarchy hlg
         on (co.id = hlg.parentid
         and hlg.pos = 0
@@ -133,3 +147,5 @@ left outer join collectionobjects_common_comments coc  on (co.id = coc.id and co
 
 left outer join taxon_common tc on (tig.taxon=tc.refname)
 left outer join taxon_naturalhistory tn on (tc.id=tn.id)
+
+left outer join collectionobjects_common_briefdescriptions cocbd on (co.id = cocbd.id and cocbd.pos = 0)
