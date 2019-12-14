@@ -39,7 +39,7 @@
 # run the tricoder upload job (with locks) weekdays 9am-6pm, 3 mins after the hour
 # clean up temp files that sometime get left behind.
 ##################################################################################
-3 7-22 * * 1-5 /home/app_webapps/batch_barcode/tricoderlock.sh > /dev/null 2>&1
+3 7-22 * * 1-5 cd /home/app_webapps/batch_barcode ; ./tricoderlock.sh > /dev/null 2>&1
 ##################################################################################
 # clean up untidy messes left by tricoder
 ##################################################################################
