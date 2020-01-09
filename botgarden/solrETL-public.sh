@@ -73,13 +73,13 @@ python3 fixfruits.py d7.csv > ${CORE}.metadata.csv
 # nb: at this time we're not doing this, instead we are obfuscating their
 # garden locations in a step further below...
 ##############################################################################
-#perl -i -ne '@x = split /\t/;print unless $x[57] =~ /Restricted/' d4.csv
+#perl -i -ne '@x = split /\t/;print unless $x[59] =~ /Restricted/' d4.csv
 ##############################################################################
 # up to here, both ${CORE} and internal extracts are the same.
 ##############################################################################
 # obfuscate locations of sensitive accesssions
 ##############################################################################
-perl -ne '@x = split /\t/;if ($x[44] =~ /Restricted/) {@x[24] = "Location Restricted" if  @x[24] ne "" ; @x[8]="Undisclosed"  if  @x[8] ne ""}; print join "\t",@x;' ${CORE}.metadata.csv > d8.csv
+perl -ne '@x = split /\t/;if ($x[58] =~ /Restricted/) {@x[38] = "Location Restricted" if  @x[38] ne "" ; @x[22]="Undisclosed"  if  @x[22] ne "";  @x[31]=""}; print join "\t",@x;' ${CORE}.metadata.csv > d8.csv
 ##############################################################################
 # add the blob csids
 ##############################################################################
