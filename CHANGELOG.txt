@@ -3,11 +3,18 @@ CHANGELOG for the cspace_django_webapps
 OK, it is not a *real* change log, but a list of changes resulting from git log
 with some human annotation after the fact.
 
-This is version 5.3.1-rc2
-Thu Nov 21 06:37:42 PST 2019
+This is version 5.3.1-rc3
+Thu Jan  9 15:32:13 PST 2020
 
-265fc27 (HEAD -> master) CSW-122: add the generated CHANGELOG.txt to GitHub
-da222ed (tag: 5.3.1-rc1, origin/master, origin/HEAD) CSW-184: add previousdeterminations_ss to both UCBG Solr cores
+f047e9c (HEAD -> master) CSW-215: restrict geolocation and garden location of certain accessions in botgarden-public Solr core
+024de72 CC-948: adjust cron for new tricoder location
+a7b7b91 (origin/master, origin/HEAD) CSW-192, CSW-193: update SQL to include habit, sex, and material type for botgarden
+fc5a692 CSW-147: display name is now used for analyst
+85ff72e CSW-184: add alldeterminations_ss to list of fields in Solr schema
+e035bad CSW-184: add alldeterminations_ss to both UCBG Solr cores
+f05af69 (tag: 5.3.1-rc2) revise change log and VERSION file for version 5.3.1-rc2
+265fc27 CSW-122: add the generated CHANGELOG.txt to GitHub
+da222ed (tag: 5.3.1-rc1) CSW-184: add previousdeterminations_ss to both UCBG Solr cores
 bfd4b52 CSW-122: update README.md: remarks on deployment
 4f67543 CC-435: updates to ad hoc 'monitoring' code in app_webapps crontab
 ac97835 CSW-190: briefdescriptions should be _s not _txt
