@@ -39,7 +39,7 @@ time perl -i -pe 's/[\r\n]/ /g;s/\@\@/\n/g' media.csv
 ##############################################################################
 # make a unique sequence number for id
 ##############################################################################
-perl -i -pe '$i++;print $i . "\t"' metadata.csv
+time perl -i -pe '$i++;print $i . "\t"' metadata.csv
 ##############################################################################
 # add the blobcsids to mix
 ##############################################################################
@@ -51,16 +51,16 @@ tail -n +2 d6.csv | perl fixdate.pl > d7.csv
 ##############################################################################
 # check latlongs
 ##############################################################################
-perl -ne '@x=split /\t/;print if abs($x[22])<90 && abs($x[23])<180;' d7.csv > d8.csv
-perl -ne '@x=split /\t/;print if !(abs($x[22])<90 && abs($x[23])<180);' d7.csv > counts.errors_in_latlong.csv
+time perl -ne '@x=split /\t/;print if abs($x[22])<90 && abs($x[23])<180;' d7.csv > d8.csv
+time perl -ne '@x=split /\t/;print if !(abs($x[22])<90 && abs($x[23])<180);' d7.csv > counts.errors_in_latlong.csv
 ##############################################################################
 # snag UCBG accession number and stuff it in the right field
 ##############################################################################
-perl -i -ne '@x=split /\t/;$x[49]="";($x[48]=~/U.?C.? Botanical Ga?r?de?n.*(\d\d+\.\d+)|(\d+\.\d+).*U.?C.? Botanical Ga?r?de?n/)&&($x[49]="$1$2");print join "\t",@x;' d8.csv
+time perl -i -ne '@x=split /\t/;$x[49]="";($x[48]=~/U.?C.? Botanical Ga?r?de?n.*(\d\d+\.\d+)|(\d+\.\d+).*U.?C.? Botanical Ga?r?de?n/)&&($x[49]="$1$2");print join "\t",@x;' d8.csv
 ##############################################################################
 # parse collector names
 ##############################################################################
-perl -i -ne '@x=split /\t/;$_=$x[8];unless (/Paccard/ || (!/ [^ ]+ [^ ]+ [^ ]+/ && ! /,.*,/ && ! / (and|with|\&) /)) {s/,? (and|with|\&) /|/g;s/, /|/g;s/,? ?\[(in company|with) ?(.*?)\]/|\2/;s/\|Jr/, Jr/g;s/\|?et al\.?//;s/\|\|/|/g;};s/ \& /|/ if /Paccard/;$x[8]=$_;print join "\t",@x;' d8.csv
+time perl -i -ne '@x=split /\t/;$_=$x[8];unless (/Paccard/ || (!/ [^ ]+ [^ ]+ [^ ]+/ && ! /,.*,/ && ! / (and|with|\&) /)) {s/,? (and|with|\&) /|/g;s/, /|/g;s/,? ?\[(in company|with) ?(.*?)\]/|\2/;s/\|Jr/, Jr/g;s/\|?et al\.?//;s/\|\|/|/g;};s/ \& /|/ if /Paccard/;$x[8]=$_;print join "\t",@x;' d8.csv
 ##############################################################################
 # recover & use our "special" solr-friendly header, which got buried
 # and name the first column 'id'; add the blob field name to the header.
@@ -75,7 +75,7 @@ perl -i -pe 's/\\/\//g;s/\t"/\t/g;s/"\t/\t/g;s/\"\"/"/g' 4solr.${TENANT}.${CORE}
 ##############################################################################
 cut -f3 4solr.${TENANT}.${CORE}.csv | sort | uniq -c | sort -rn |perl -ne 'print unless / 1 / ' > counts.duplicates.csv
 cut -c9- counts.duplicates.csv | perl -ne 'chomp; print "s/\\t$_\\t/\\t$_ (duplicate)\\t/;\n"' > fix_dups.sh
-perl -i -p fix_dups.sh 4solr.${TENANT}.${CORE}.csv
+time perl -i -p fix_dups.sh 4solr.${TENANT}.${CORE}.csv
 ##############################################################################
 # check if we have enough data to be worth refreshing...
 ##############################################################################
