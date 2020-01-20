@@ -99,7 +99,6 @@ array_to_string(array
         left outer join taxonomicIdentGroup tig3 on (tig3.id = htig3.id)
        where h2int.name=h1.name order by htig3.pos), '␥', '') alldeterminations_ss,
 
--- TODO sort out how to get 'habit' out of the database
 regexp_replace(pag.habitat, '^.*\)''(.*)''$', '\1') as habit_s,
 case when cocbd.item is null or cocbd.item = '' then null else cocbd.item end as material_type_s,
 case when co.sex is null or co.sex = '' then null else co.sex end as sex_s
@@ -125,9 +124,9 @@ left outer join hierarchy hlg
         and hlg.name = 'collectionobjects_naturalhistory:localityGroupList')
 left outer join localitygroup lg on (lg.id = hlg.id)
 
--- TODO sort out how to get 'habit' out of the database: need to get JOIN through taxon_common somehow...
+left outer join taxon_common tc3 on (tig.taxon=tc3.refname)
 left outer join hierarchy hpag
-        on (co.id = hpag.parentid
+        on (tc3.id = hpag.parentid
         and hpag.pos = 0
         and hpag.name = 'taxon_naturalhistory:plantAttributesGroupList')
 left outer join plantattributesgroup pag on (pag.id=hpag.id)
