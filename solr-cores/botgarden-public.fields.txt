@@ -58,3 +58,6 @@ commonname_s
 source_s
 grouptitle_ss
 reasearcher_s
+habit_s
+material_type_s
+sex_s
