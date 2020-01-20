@@ -1,45 +1,12 @@
 select  distinct
-        h1.name as id,
+        h1.name as metadata_id,
         /* coc.id as id2, */
-        coc.assoceventnametype,
-        coc.ownershipcategory,
-        coc.fieldcollectionnote,
-        coc.ownershipplace,
         coc.numberofobjects,
-        /* coc.ownershipexchangepricecurrency, */
-        /* coc.ownershipexchangepricevalue, */
-        coc.editionnumber,
         /* coc.computedcurrentlocation, */
-        coc.ownerspersonalexperience,
-        coc.contentdescription,
-        coc.physicaldescription,
-        coc.ageunit,
-        coc.fieldcollectionnumber,
-        coc.contentnote,
-        coc.ownershipexchangenote,
-        coc.objectnumber,
-        coc.ownershipexchangemethod,
-        coc.objectproductionnote,
-        coc.age,
         regexp_replace(coc.collection, '^.*\)''(.*)''$', '\1') AS collection,
         coc.collection AS collection_refname,
         coc.distinguishingfeatures,
-        coc.ownerscontributionnote,
-        coc.ownerspersonalresponse,
-        coc.objecthistorynote,
-        coc.copynumber,
-        coc.viewerspersonalexperience,
-        /* coc.phase, */
-        /* coc.fieldcollectionplace, */
-        coc.viewerscontributionnote,
-        coc.assoceventname,
-        coc.viewerspersonalresponse,
-        coc.viewersrole,
-        coc.assoceventnote,
         coc.recordstatus,
-        coc.agequalifier,
-        coc.ownershipaccess,
-        /* coc.sex, */
         cocf.hasbiblio,
         regexp_replace(cocf.doctype, '^.*\)''(.*)''$', '\1') AS doctype,
         cocf.doctype AS doctype_refname,
