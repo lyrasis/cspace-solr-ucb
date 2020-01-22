@@ -3,12 +3,18 @@ CHANGELOG for the cspace_django_webapps
 OK, it is not a *real* change log, but a list of changes resulting from git log
 with some human annotation after the fact.
 
-This is version 5.3.1-rc3
-Thu Jan  9 15:32:13 PST 2020
+This is version 5.3.0-rc2
+Wed Jan 22 08:01:57 PST 2020
 
-f047e9c (HEAD -> master) CSW-215: restrict geolocation and garden location of certain accessions in botgarden-public Solr core
+2f2f321 (HEAD -> master, origin/master, origin/HEAD) CSW-192, CSW-193: minor refactoring of UCBG Solr ETL pipeline script
+05f804a CSW-192, CSW-193: correctly extract 'habit' for UCBG portals
+bfc8344 CSW-192, CSW-193: add sex, materials, habit to UCBG public Solr core config
+750381a CSW-222: revise Solr ETL and core config for CineFiles demo
+5733e15 NOJIRA: log elapsed time of UCJEPS Solr pipeline parts
+70fdffa (tag: 5.3.1-rc3) revise change log and VERSION file for version 5.3.1-rc3
+f047e9c CSW-215: restrict geolocation and garden location of certain accessions in botgarden-public Solr core
 024de72 CC-948: adjust cron for new tricoder location
-a7b7b91 (origin/master, origin/HEAD) CSW-192, CSW-193: update SQL to include habit, sex, and material type for botgarden
+a7b7b91 CSW-192, CSW-193: update SQL to include habit, sex, and material type for botgarden
 fc5a692 CSW-147: display name is now used for analyst
 85ff72e CSW-184: add alldeterminations_ss to list of fields in Solr schema
 e035bad CSW-184: add alldeterminations_ss to both UCBG Solr cores
