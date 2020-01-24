@@ -3,10 +3,12 @@ CHANGELOG for the cspace_django_webapps
 OK, it is not a *real* change log, but a list of changes resulting from git log
 with some human annotation after the fact.
 
-This is version 5.3.0-rc3
-Wed Jan 22 10:32:18 PST 2020
+This is version 5.3.0-rc4
+Fri Jan 24 12:18:24 PST 2020
 
-34d0b02 (HEAD -> master, tag: 5.3.0-rc2, origin/master, origin/HEAD) revise change log and VERSION file for version 5.3.0-rc2
+cc581ff (HEAD -> master) CSW-226: revised Solr schema for CineFiles public collection
+b26bbbf (tag: 5.3.0-rc3, origin/master, origin/HEAD) revise change log and VERSION file for version 5.3.0-rc3
+34d0b02 (tag: 5.3.0-rc2) revise change log and VERSION file for version 5.3.0-rc2
 2f2f321 CSW-192, CSW-193: minor refactoring of UCBG Solr ETL pipeline script
 05f804a CSW-192, CSW-193: correctly extract 'habit' for UCBG portals
 bfc8344 CSW-192, CSW-193: add sex, materials, habit to UCBG public Solr core config
