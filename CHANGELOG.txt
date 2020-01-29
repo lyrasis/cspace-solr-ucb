@@ -3,10 +3,12 @@ CHANGELOG for the cspace_django_webapps
 OK, it is not a *real* change log, but a list of changes resulting from git log
 with some human annotation after the fact.
 
-This is version 5.3.0-rc5
-Fri Jan 24 12:18:53 PST 2020
+This is version 5.3.0-rc6
+Wed Jan 29 08:09:32 PST 2020
 
-3820268 (HEAD -> master, tag: 5.3.0-rc4, origin/master, origin/HEAD) revise change log and VERSION file for version 5.3.0-rc4
+a1c7df0 (HEAD -> master) CSW-226: revise CineFiles pipeline docs-to-film handling
+ee912b3 (tag: 5.3.0-rc5, origin/master, origin/HEAD) revise change log and VERSION file for version 5.3.0-rc5
+3820268 (tag: 5.3.0-rc4) revise change log and VERSION file for version 5.3.0-rc4
 cc581ff CSW-226: revised Solr schema for CineFiles public collection
 b26bbbf (tag: 5.3.0-rc3) revise change log and VERSION file for version 5.3.0-rc3
 34d0b02 (tag: 5.3.0-rc2) revise change log and VERSION file for version 5.3.0-rc2
