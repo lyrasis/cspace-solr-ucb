@@ -41,5 +41,5 @@ genre_ss
 title_ss
 prodco_id_ss
 film_updated_at_dt
-films_assoc_ss
+film_info_ss
 filmyear_ss
