@@ -19,6 +19,20 @@ title_variations
 prodco_id
 film_updated_at'''.split('\n')
 
+has = [
+    ('biblio_s', 'bibliography'),
+    ('bx_info_s', 'box info'),
+    ('cast_cr_s', 'cast credits'),
+    ('costinfo_s', 'cost info'),
+    ('dist_co_s', 'distribution co'),
+    ('filmog_s', 'filmography'),
+    ('illust_s', 'illustrations'),
+    ('prod_co_s', 'production co'),
+    ('tech_cr_s', 'tech credits')
+]
+
+has_labels = ['has ' + has[i][1] for i in range(len(has))]
+
 
 def open_file(filename, handle):
     try:
@@ -80,6 +94,12 @@ for line in METADATA:
     count['metadata'] += 1
 
     docid = line[0]
+    # format 'Has X' values as a single multi-valued field
+    if line[0] == 'doc_id':
+        has = 'has'
+    else:
+        has = '|'.join([has_labels[i] for i,l in enumerate(line[12:21]) if l == 't'])
+
     # insert list of blobs and pdfs as final columns
     try:
         objectcsid = link2[docid]
@@ -113,7 +133,7 @@ for line in METADATA:
     else:
         count['media matched'] += 1
 
-    outputfh.writerow(line + film_field_values + [film_info] + [objectcsid] + [','.join(mediablobs)] + [','.join(pdfblobs)])
+    outputfh.writerow(line + [has] + film_field_values + [film_info] + [objectcsid] + [','.join(mediablobs)] + [','.join(pdfblobs)])
 
 for s in sorted(count):
     print(f'{s}: {count[s]}')

@@ -54,7 +54,7 @@ do
     head -1 ${file}.csv > header4Solr.csv
     # special cases (nb: some tricky regexes in here, caveat lector!)
     perl -i -pe 's/\r//;s/\t/_s\t/g;s/$/_s/;s/_ss_s/_ss/g;s/updatedat_s/updated_at_dt/g' header4Solr.csv
-    perl -i -pe 's/filmyear_s/filmyear_ss/;s/film_info_s/film_info_ss/;s/director_s/director_ss/;s/prodco(.*?)_s/prodco\1_ss/g;s/subject_s/subject_ss/g;s/genre_s/genre_ss/;s/title_s/title_ss/g;s/language_s/language_ss/g;s/country_s/country_ss/;s/name_id_s/name_id_ss/;s/author_s/author_ss/;' header4Solr.csv
+    perl -i -pe 's/has_s/has_ss/;s/filmyear_s/filmyear_ss/;s/film_info_s/film_info_ss/;s/director_s/director_ss/;s/prodco(.*?)_s/prodco\1_ss/g;s/subject_s/subject_ss/g;s/genre_s/genre_ss/;s/title_s/title_ss/g;s/language_s/language_ss/g;s/country_s/country_ss/;s/name_id_s/name_id_ss/;s/author_s/author_ss/;' header4Solr.csv
     #perl -i -pe 's/\r//;s/^/d/;s/\t/_s\t/g;s/ddoc_id_s/id/;s/$/_s\tblob_ss/;s/_ss_s/_ss/;' header4Solr.csv
     # we want to use our "special" solr-friendly header.
     tail -n +2 ${file}.csv | grep -v " rows)" > d7.csv
