@@ -1,10 +1,10 @@
 SELECT cc.id, spd.datedisplaydate AS "objproddate_s",
 CASE
-        WHEN spd.dateearliestsingleera = '' THEN DATE(spd.dateearliestscalarvalue)+1||'T19:00:00Z'
-        WHEN spd.dateearliestsingleera = 'ce' THEN DATE(spd.dateearliestscalarvalue)+1||'T19:00:00Z'
-        WHEN spd.dateearliestsingleera IS NULL THEN DATE(spd.dateearliestscalarvalue)+1||'T19:00:00Z'
-        WHEN spd.dateearliestsingleera = 'bce' THEN '-'||DATE(spd.dateearliestscalarvalue)+1||'T19:00:00Z'
-        WHEN spd.dateearliestsingleera = 'bp' AND DATE_PART('year', spd.dateearliestscalarvalue) <= 1950
+        WHEN spd.dateearliestsingleera = '' THEN SUBSTRING(CAST((DATE(spd.dateearliestscalarvalue)+1) AS text),1,10)||'T19:00:00Z'
+        WHEN (spd.dateearliestsingleera = 'ce' OR spd.dateearliestsingleera = 'urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(ce)''CE'''  OR spd.dateearliestsingleera ='urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(ce)''AD/CE''') THEN SUBSTRING(CAST((DATE(spd.dateearliestscalarvalue)+1) AS text),1,10)||'T19:00:00Z'
+        WHEN spd.dateearliestsingleera IS NULL THEN SUBSTRING(CAST((DATE(spd.dateearliestscalarvalue)+1) AS text),1,10)||'T19:00:00Z'
+        WHEN (spd.dateearliestsingleera = 'bce' OR spd.dateearliestsingleera = 'urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(bce)''BC/BCE'''  OR spd.dateearliestsingleera ='urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(bce)''BCE''') THEN '-'||SUBSTRING(CAST((DATE(spd.dateearliestscalarvalue)+1) AS text),1,10)||'T19:00:00Z'
+        WHEN (spd.dateearliestsingleera = 'bp' OR spd.dateearliestsingleera = 'urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(bp)''BP''') AND DATE_PART('year', spd.dateearliestscalarvalue) <= 1950
                 THEN CASE
                         WHEN CHAR_LENGTH(CAST(1950-DATE_PART('year', spd.dateearliestscalarvalue) AS text)) = 4
                                 THEN (1950-DATE_PART('year', spd.dateearliestscalarvalue))||SUBSTRING(CAST(spd.dateearliestscalarvalue AS text),5,6)||'T19:00:00Z'
@@ -31,11 +31,11 @@ CASE
         ELSE DATE(spd.dateearliestscalarvalue)||'T19:00:00Z'
         END AS "objproddate_begin_dt",
 CASE
-        WHEN spd.datelatestera = '' THEN DATE(spd.datelatestscalarvalue)+1||'T19:00:00Z'
-        WHEN spd.datelatestera = 'ce' THEN DATE(spd.datelatestscalarvalue)+1||'T19:00:00Z'
-        WHEN spd.datelatestera IS NULL THEN DATE(spd.datelatestscalarvalue)+1||'T19:00:00Z'
-        WHEN spd.datelatestera = 'bce' THEN '-'||DATE(spd.datelatestscalarvalue)+1||'T19:00:00Z'
-        WHEN spd.datelatestera = 'bp' AND DATE_PART('year', spd.datelatestscalarvalue) <= 1950
+        WHEN spd.datelatestera = '' THEN SUBSTRING(CAST((DATE(spd.datelatestscalarvalue)+1) AS text),1,10)||'T19:00:00Z'
+        WHEN (spd.datelatestera = 'ce' OR spd.datelatestera='urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(ce)''CE'''  OR spd.datelatestera ='urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(ce)''AD/CE''') THEN SUBSTRING(CAST((DATE(spd.datelatestscalarvalue)+1) AS text),1,10)||'T19:00:00Z'
+        WHEN spd.datelatestera IS NULL THEN SUBSTRING(CAST((DATE(spd.datelatestscalarvalue)+1) AS text),1,10)||'T19:00:00Z'
+        WHEN (spd.datelatestera = 'bce' OR spd.datelatestera = 'urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(bce)''BC/BCE'''  OR spd.datelatestera ='urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(bce)''BCE''') THEN '-'||SUBSTRING(CAST((DATE(spd.datelatestscalarvalue)+1) AS text),1,10)||'T19:00:00Z'
+        WHEN (spd.datelatestera = 'bp' OR spd.datelatestera = 'urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(bp)''BP''') AND DATE_PART('year', spd.datelatestscalarvalue) <= 1950
                 THEN CASE
                         WHEN CHAR_LENGTH(CAST(1950-DATE_PART('year', spd.datelatestscalarvalue) AS text)) = 4
                                 THEN (1950-DATE_PART('year', spd.datelatestscalarvalue))||SUBSTRING(CAST(spd.datelatestscalarvalue AS text),5,6)||'T19:00:00Z'
@@ -64,4 +64,4 @@ CASE
 FROM collectionobjects_common cc
 JOIN hierarchy hpd ON (hpd.parentid=cc.id AND hpd.primarytype='structuredDateGroup' AND hpd.name='collectionobjects_common:objectProductionDateGroupList' AND (hpd.pos=0 or hpd.pos IS NULL))
 JOIN structureddategroup spd ON (spd.id=hpd.id)
-WHERE spd.datedisplaydate IS NOT NULL
+WHERE spd.datedisplaydate IS NOT NULL;

@@ -1,10 +1,10 @@
 SELECT cc.id, scd.datedisplaydate AS "objcolldate_s",
 CASE
         WHEN scd.dateearliestsingleera = '' THEN DATE(scd.dateearliestscalarvalue)+1||'T19:00:00Z'
-        WHEN scd.dateearliestsingleera = 'ce' THEN DATE(scd.dateearliestscalarvalue)+1||'T19:00:00Z'
+        WHEN (scd.dateearliestsingleera = 'ce' OR scd.dateearliestsingleera = 'urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(ce)''CE'''  OR scd.dateearliestsingleera ='urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(ce)''AD/CE''') THEN DATE(scd.dateearliestscalarvalue)+1||'T19:00:00Z'
         WHEN scd.dateearliestsingleera IS NULL THEN DATE(scd.dateearliestscalarvalue)+1||'T19:00:00Z'
-        WHEN scd.dateearliestsingleera = 'bce' THEN '-'||DATE(scd.dateearliestscalarvalue)+1||'T19:00:00Z'
-        WHEN scd.dateearliestsingleera = 'bp' AND DATE_PART('year', scd.dateearliestscalarvalue) <= 1950
+        WHEN (scd.dateearliestsingleera = 'bce' OR scd.dateearliestsingleera = 'urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(bce)''BC/BCE'''  OR scd.dateearliestsingleera ='urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(bce)''BCE''') THEN '-'||DATE(scd.dateearliestscalarvalue)+1||'T19:00:00Z'
+        WHEN (scd.dateearliestsingleera = 'bp' OR scd.dateearliestsingleera = 'urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(bp)''BP''') AND DATE_PART('year', scd.dateearliestscalarvalue) <= 1950
                 THEN CASE
                         WHEN CHAR_LENGTH(CAST(1950-DATE_PART('year', scd.dateearliestscalarvalue) AS text)) = 4
                                 THEN (1950-DATE_PART('year', scd.dateearliestscalarvalue))||SUBSTRING(CAST(scd.dateearliestscalarvalue AS text),5,6)||'T19:00:00Z'
@@ -32,10 +32,10 @@ CASE
         END AS "objcolldate_begin_dt",
 CASE
         WHEN scd.datelatestera = '' THEN DATE(scd.datelatestscalarvalue)+1||'T19:00:00Z'
-        WHEN scd.datelatestera = 'ce' THEN DATE(scd.datelatestscalarvalue)+1||'T19:00:00Z'
+        WHEN (scd.datelatestera = 'ce' OR scd.datelatestera='urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(ce)''CE'''  OR scd.datelatestera ='urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(ce)''AD/CE''') THEN DATE(scd.datelatestscalarvalue)+1||'T19:00:00Z'
         WHEN scd.datelatestera IS NULL THEN DATE(scd.datelatestscalarvalue)+1||'T19:00:00Z'
-        WHEN scd.datelatestera = 'bce' THEN '-'||DATE(scd.datelatestscalarvalue)+1||'T19:00:00Z'
-        WHEN scd.datelatestera = 'bp' AND DATE_PART('year', scd.datelatestscalarvalue) <= 1950
+        WHEN (scd.datelatestera = 'bce' OR scd.datelatestera = 'urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(bce)''BC/BCE'''  OR scd.datelatestera ='urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(bce)''BCE''') THEN '-'||DATE(scd.datelatestscalarvalue)+1||'T19:00:00Z'
+        WHEN (scd.datelatestera = 'bp' OR scd.datelatestera = 'urn:cspace:pahma.cspace.berkeley.edu:vocabularies:name(dateera):item:name(bp)''BP''') AND DATE_PART('year', scd.datelatestscalarvalue) <= 1950
                 THEN CASE
                         WHEN CHAR_LENGTH(CAST(1950-DATE_PART('year', scd.datelatestscalarvalue) AS text)) = 4
                                 THEN (1950-DATE_PART('year', scd.datelatestscalarvalue))||SUBSTRING(CAST(scd.datelatestscalarvalue AS text),5,6)||'T19:00:00Z'
@@ -64,4 +64,4 @@ CASE
 FROM collectionobjects_common cc
 JOIN hierarchy hcd ON (hcd.parentid=cc.id AND hcd.primarytype='structuredDateGroup' AND hcd.name='collectionobjects_pahma:pahmaFieldCollectionDateGroupList' AND (hcd.pos=0 or hcd.pos IS NULL))
 JOIN structureddategroup scd ON (scd.id=hcd.id)
-WHERE scd.datedisplaydate IS NOT NULL
+WHERE scd.datedisplaydate IS NOT NULL;
