@@ -31,7 +31,7 @@ has = [
     ('tech_cr_s', 'tech credits')
 ]
 
-has_labels = ['has ' + has[i][1] for i in range(len(has))]
+has_labels = [has[i][1] for i in range(len(has))]
 
 
 def open_file(filename, handle):

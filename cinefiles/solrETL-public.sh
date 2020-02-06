@@ -53,14 +53,19 @@ do
     # make the header
     head -1 ${file}.csv > header4Solr.csv
     # special cases (nb: some tricky regexes in here, caveat lector!)
-    perl -i -pe 's/\r//;s/\t/_s\t/g;s/$/_s/;s/_ss_s/_ss/g;s/updatedat_s/updated_at_dt/g' header4Solr.csv
+    perl -i -pe 's/\r//;s/\t/_s\t/g;s/$/_s/;s/_ss_s/_ss/g;s/updatedat_s/updated_at_dts/g' header4Solr.csv
     perl -i -pe 's/has_s/has_ss/;s/filmyear_s/filmyear_ss/;s/film_info_s/film_info_ss/;s/director_s/director_ss/;s/prodco(.*?)_s/prodco\1_ss/g;s/subject_s/subject_ss/g;s/genre_s/genre_ss/;s/title_s/title_ss/g;s/language_s/language_ss/g;s/country_s/country_ss/;s/name_id_s/name_id_ss/;s/author_s/author_ss/;' header4Solr.csv
+    if [ "$file" == "films" ]; then
+        perl -i -pe 's/film//g;s/\t/\tfilm_/g;' header4Solr.csv
+    fi
+    perl -i -pe 's/^.*?_id_s\t/id\t/' header4Solr.csv
     #perl -i -pe 's/\r//;s/^/d/;s/\t/_s\t/g;s/ddoc_id_s/id/;s/$/_s\tblob_ss/;s/_ss_s/_ss/;' header4Solr.csv
     # we want to use our "special" solr-friendly header.
     tail -n +2 ${file}.csv | grep -v " rows)" > d7.csv
     cat header4Solr.csv d7.csv > 4solr.${TENANT}.${file}.csv
-    perl -pe 's/\t/\n/g' header4Solr.csv | perl -ne 'chomp; next unless /_ss/; next if /blob/; print "f.$_.split=true&f.$_.separator=%7C&"' > uploadparms.${file}.txt
+    perl -pe 's/\t/\n/g' header4Solr.csv | perl -ne 'chomp; next unless /_(dt|s)s/; next if /blob/; print "f.$_.split=true&f.$_.separator=%7C&"' > uploadparms.${file}.txt
     cat header4Solr.csv
+    time python3 evaluate.py 4solr.${TENANT}.${file}.csv /dev/null > counts.${file}.csv &
 done
 
 wc -l *.csv
@@ -73,7 +78,7 @@ CSVFILE="4solr.${TENANT}.${CORE}.csv"
 MINIMUM=50000
 ROWS=`wc -l < ${CSVFILE}`
 if (( ${ROWS} < ${MINIMUM} )); then
-   echo "Only ${ROWS} rows in ${CSVFILE}; refresh aborted, core left untouched." | mail -s "PROBLEM with ${TENANT}-${CORE} nightly solr refresh" -- cspace-support@lists.berkeley.edu
+   echo "Only ${ROWS} rows in ${CSVFILE}; refresh aborted, core left untouched." | mail -s "PROBLEM with ${TENANT}-${CORE} nightly solr refresh" -- ${CONTACT}
 fi
 
 ##############################################################################
@@ -83,12 +88,10 @@ curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<delete
 curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<commit/>' -H 'Content-type:text/xml; charset=utf-8'
 
 #for file in films docs
-for file in public
+for file in public films
 do
-
     ss_string=`cat uploadparms.${file}.txt`
     time curl -X POST -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update/csv?commit=true&header=true&trim=true&separator=%09&${ss_string}f.grouptitle_ss.split=true&f.grouptitle_ss.separator=;&f.othernumbers_ss.split=true&f.othernumbers_ss.separator=;&f.blob_ss.split=true&f.blob_ss.separator=,&encapsulator=\\" -T 4solr.${TENANT}.${file}.csv -H 'Content-type:text/plain; charset=utf-8' &
-    time python3 evaluate.py 4solr.${TENANT}.${file}.csv /dev/null > counts.${file}.csv &
 done
 
 # get rid of intermediate files
