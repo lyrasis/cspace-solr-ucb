@@ -1,6 +1,6 @@
 SELECT
   cc.id,
-  STRING_AGG(DISTINCT gc.title, '␥') AS "grouptitle_ss"
+  regexp_replace(STRING_AGG(DISTINCT gc.title, '␥'),E'[\\t\\n\\r]+', ' ', 'g') AS "grouptitle_ss"
 FROM collectionobjects_common cc
 
   JOIN hierarchy h1 ON (cc.id = h1.id)
