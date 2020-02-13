@@ -38,10 +38,10 @@ cd
 rsync -a --exclude .git --exclude .gitignore --exclude solr-cores --exclude utilities ~/cspace-solr-ucb/ solrdatasources/
 
 # try to put botgarden's pickle file back; it takes hours to recreate from scratch.
-if [ ! -f ${BACKUPDIR}/botgarden/gbif/names.pickle} ];
+if [ ! -f ${BACKUPDIR}/botgarden/gbif/names.pickle ]
 then
     echo "${BACKUPDIR}/botgarden/gbif/names.pickle not found. UCBG refresh will try to rebuild it from scratch"
-    echo "which takes about 10 hours; consider finding a copy and putting it where it belongs"
+    echo "which takes about 8-10 hours; consider finding a copy and putting it where it belongs"
 else
     cp ${BACKUPDIR}/botgarden/gbif/names.pickle ${SOLRETLDIR}/botgarden/gbif
 fi
