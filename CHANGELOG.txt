@@ -3,11 +3,15 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 with some human annotation after the fact.
 
-This is version 5.4.0-rc1
-Wed Feb 12 10:15:22 PST 2020
+This is version 5.4.0-rc2
+Thu Feb 13 17:18:26 PST 2020
 
-642f0c2 (HEAD -> master) NOJIRA: fix undetected PAHMA solr bug: donor_ss was not being parsed as multivalued
-f37b15f (origin/master, origin/HEAD) CSW-227: further revisions to CineFiles Solr pipeline
+97aa042 (HEAD -> master) NOJIRA: fix undetected bug in UCBG solr etl regarding GBIF pickle extract
+a102abd NOJIRA: fix undetected PAHMA solr bug: donor_ss: previous fix was overcorrection
+4eae8e4 NOJIRA: fix undetected bug in part24.sql (PAHMA internal portal group title extract)
+15dc8d6 (tag: 5.4.0-rc1, origin/master, origin/HEAD) revise change log and VERSION file for version 5.4.0-rc1
+642f0c2 NOJIRA: fix undetected PAHMA solr bug: donor_ss was not being parsed as multivalued
+f37b15f CSW-227: further revisions to CineFiles Solr pipeline
 a818bb3 CSW-236: revise problem Solr ETL queries for PAHMA
 c86f254 CSW-229: format the CineFiles 'has X' values into a single Solr multivalue variable 'has_s'
 fc9a21a (tag: 5.3.0-rc7) revise change log and VERSION file for version 5.3.0-rc7
