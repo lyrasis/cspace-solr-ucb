@@ -26,6 +26,12 @@ ucjeps-public
 ucjeps-media
 "
 
+# if we have been given a core to recreate, just recreate that one
+if [ $# -ge 1 ]; then
+    SOLR_CORES="$1"
+    echo "Only recreating the one core ${SOLR_CORES}"
+fi
+
 function define_field_types()
 {
     # ====================
