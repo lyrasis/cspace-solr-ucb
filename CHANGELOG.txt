@@ -3,10 +3,15 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 with some human annotation after the fact.
 
-This is version 5.4.0-rc3
-Wed Feb 26 11:02:54 PST 2020
+This is version 5.4.0-rc4
+Fri Mar  6 08:34:11 PST 2020
 
-769bfcc (HEAD -> master, tag: 5.4.0-rc2, origin/master, origin/HEAD) revise change log and VERSION file for version 5.4.0-rc2
+48e216c (HEAD -> master) Merge branch 'master' of https://github.com/cspace-deployment/cspace-solr-ucb
+8c8ed6a CSW-263: initial attempt to fix pahma missing legacy doc problem
+b0983cf CSW-243: handle film fields a bit better in cinefiles solr core
+8fa9098 (origin/master, origin/HEAD) NOJIRA: the Solr core recreation script can now recreate just one core
+a5b9f76 (tag: 5.4.0-rc3) revise change log and VERSION file for version 5.4.0-rc3
+769bfcc (tag: 5.4.0-rc2) revise change log and VERSION file for version 5.4.0-rc2
 97aa042 NOJIRA: fix undetected bug in UCBG solr etl regarding GBIF pickle extract
 a102abd NOJIRA: fix undetected PAHMA solr bug: donor_ss: previous fix was overcorrection
 4eae8e4 NOJIRA: fix undetected bug in part24.sql (PAHMA internal portal group title extract)
