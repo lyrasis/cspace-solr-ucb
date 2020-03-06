@@ -79,7 +79,7 @@ with open(sys.argv[1], 'r') as MEDIA:
         if check(description, 'catalog card') or check(description, 'HSR Datasheet'): media_type = 'legacy documentation'
         if check(description, 'Index'): media_type = 'legacy documentation'
         ispublic = 'public'
-        if check(objectstatus, 'culturally'): ispublic = 'notpublic'
+        if check(objectstatus, 'culturally') and media_type != 'legacy documentation': ispublic = 'notpublic'
         # NB: the test 'burial' in context of use occurs below -- we only mask if the FCP is in North America
         if not (approvedforweb == 't'): ispublic = 'notpublic'
         if media_type == 'legacy documentation':
