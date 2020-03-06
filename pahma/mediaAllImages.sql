@@ -14,7 +14,7 @@ SELECT
   mc.contributor,
   mp.approvedforweb,
   cp.pahmatmslegacydepartment                             AS pahmatmslegacydepartment,
-  osl0.item                                               AS objectstatus,
+  STRING_AGG(osl0.item,'␥')                               AS objectstatus,
   mp.primarydisplay                                       AS primarydisplay,
   bc.mimetype                                             AS mimetype,
   c.data                                                  AS md5
@@ -30,6 +30,6 @@ FROM media_common mc
   JOIN collectionobjects_pahma cp ON (cc.id = cp.id)
   JOIN hierarchy h3 ON (mc.blobcsid = h3.name)
   LEFT OUTER JOIN blobs_common bc ON (h3.id = bc.id)
-  FULL OUTER JOIN collectionobjects_pahma_pahmaobjectstatuslist osl0 ON (cc.id = osl0.id AND osl0.pos = 0)
+  FULL OUTER JOIN collectionobjects_pahma_pahmaobjectstatuslist osl0 ON (cc.id = osl0.id)
   LEFT OUTER JOIN hierarchy h4 ON (bc.repositoryid = h4.parentid AND h4.primarytype = 'content')
   LEFT OUTER JOIN content c ON (h4.id = c.id)
