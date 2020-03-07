@@ -60,4 +60,4 @@ grouptitle_ss
 reasearcher_s
 habit_s
 sex_s
-material_type_s
+materialtype_s

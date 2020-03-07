@@ -37,6 +37,3 @@ subjectfive_s
 currentlocation_s
 century_s
 grouptitle_ss
-habit_s
-sex_s
-material_type_s

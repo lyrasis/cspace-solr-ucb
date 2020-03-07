@@ -102,7 +102,7 @@ array_to_string(array
        where h2int.name=h1.name order by htig3.pos), '␥', '') as alldeterminations_ss,
 
 regexp_replace(pag.habitat, '^.*\)''(.*)''$', '\1') AS habit_s,
-case when cocbd.item is null or cocbd.item = '' then null else cocbd.item end as material_type_s,
+case when cocbd.item is null or cocbd.item = '' then null else cocbd.item end as materialtype_s,
 case when co.sex is null or co.sex = '' then null else co.sex end as sex_s
 
 from collectionobjects_common co
