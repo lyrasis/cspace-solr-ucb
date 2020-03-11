@@ -3,11 +3,12 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 with some human annotation after the fact.
 
-This is version 5.4.0-rc5
-Fri Mar  6 17:32:58 PST 2020
+This is version 5.4.0
+Wed Mar 11 10:19:28 PDT 2020
 
-744c81f (HEAD -> master) CSW-195: make name for 'material_type' consistent
-2681b11 (origin/master, origin/HEAD) CSW-263: a version of pahma/mediaAllImages.sql that actually works
+4cf08ed (HEAD -> master, tag: 5.4.0-rc5, origin/master, origin/HEAD) revise change log and VERSION file for version 5.4.0-rc5
+744c81f CSW-195: make name for 'material_type' consistent
+2681b11 CSW-263: a version of pahma/mediaAllImages.sql that actually works
 03fd9b1 CSW-263: need to use all values of object status in checking pahma 'culturally affiliated'
 fcc56d6 (tag: 5.4.0-rc4) revise change log and VERSION file for version 5.4.0-rc4
 48e216c Merge branch 'master' of https://github.com/cspace-deployment/cspace-solr-ucb
