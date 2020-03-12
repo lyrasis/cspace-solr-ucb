@@ -113,8 +113,8 @@ for line in METADATA:
     if (filmids != []):
         count['films matched'] += 1
         # TODO: what delimiters to use to join multiple values
-        film_info = [' -- '.join(films[filmid][0]) for filmid in filmids if films[filmid][0] != '']
-        if filmids[0] == 'film_id': film_info = ['film_info']
+        associated_films = [' -- '.join(films[filmid][0]) for filmid in filmids if films[filmid][0] != '']
+        if filmids[0] == 'film_id': associated_films = ['film_info']
         film_facets = collections.defaultdict(set)
         film_field_values = []
         for filmid in filmids:
@@ -124,8 +124,8 @@ for line in METADATA:
             film_field_values.append('|'.join([f for f in film_facets[fld]]))
     else:
         count['films unmatched'] += 1
-        film_info = [] * 12
-    film_info = '|'.join(film_info)
+        associated_films = [] * 12
+    associated_films = '|'.join(associated_films)
 
     if (mediablobs == []):
         count['media unmatched'] += 1
@@ -133,7 +133,7 @@ for line in METADATA:
     else:
         count['media matched'] += 1
 
-    outputfh.writerow(line + [has] + film_field_values + [film_info] + [objectcsid] + [','.join(mediablobs)] + [','.join(pdfblobs)])
+    outputfh.writerow(line + [has] + film_field_values + [associated_films] + [objectcsid] + [','.join(mediablobs)] + [','.join(pdfblobs)])
 
 for s in sorted(count):
     print(f'{s}: {count[s]}')

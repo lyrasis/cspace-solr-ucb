@@ -13,11 +13,11 @@
 # BMU monitoring / report (i.e. send nightly emails)
 ##################################################################################
 # NB: BAM no longer uses the BMU: derivatives from Piction are pushed to CSpace
-10   5 * * * for t in botgarden cinefiles pahma ucjeps; do python /home/app_webapps/$t/uploadmedia/checkRuns.py /var/cspace/$t/bmu jobs summary | mail -s "recent $t BMU jobs" jblowe@berkeley.edu,rjaffe@berkeley.edu; done
-10   5 * * * python /home/app_webapps/pahma/uploadmedia/checkRuns.py /var/cspace/pahma/bmu jobs summary | mail -s "recent PAHMA BMU jobs" pahma-cspace-bmu@lists.berkeley.edu > /dev/null 2>&1
-10   5 * * * python /home/app_webapps/ucjeps/uploadmedia/checkRuns.py /var/cspace/ucjeps/bmu jobs summary | mail -s "recent UCJEPS BMU jobs" herb_cspace_reports@lists.berkeley.edu > /dev/null 2>&1
-10   5 * * * python /home/app_webapps/cinefiles/uploadmedia/checkRuns.py /var/cspace/cinefiles/bmu jobs summary | mail -s "recent Cinefiles BMU jobs" bampfacspaceuploader@lists.berkeley.edu > /dev/null 2>&1
-10   5 * * * python /home/app_webapps/botgarden/uploadmedia/checkRuns.py /var/cspace/botgarden/bmu jobs summary | mail -s "recent UCBG BMU jobs" loughran@berkeley.edu,hforbes@berkeley.edu > /dev/null 2>&1
+10   5 * * * for t in botgarden cinefiles pahma ucjeps; do python /var/www/$t/uploadmedia/checkRuns.py /var/cspace/$t/bmu jobs summary | mail -s "recent $t BMU jobs" jblowe@berkeley.edu,rjaffe@berkeley.edu; done
+10   5 * * * python /var/www/pahma/uploadmedia/checkRuns.py /var/cspace/pahma/bmu jobs summary | mail -s "recent PAHMA BMU jobs" pahma-cspace-bmu@lists.berkeley.edu > /dev/null 2>&1
+10   5 * * * python /var/www/ucjeps/uploadmedia/checkRuns.py /var/cspace/ucjeps/bmu jobs summary | mail -s "recent UCJEPS BMU jobs" herb_cspace_reports@lists.berkeley.edu > /dev/null 2>&1
+10   5 * * * python /var/www/cinefiles/uploadmedia/checkRuns.py /var/cspace/cinefiles/bmu jobs summary | mail -s "recent Cinefiles BMU jobs" bampfacspaceuploader@lists.berkeley.edu > /dev/null 2>&1
+10   5 * * * python /var/www/botgarden/uploadmedia/checkRuns.py /var/cspace/botgarden/bmu jobs summary | mail -s "recent UCBG BMU jobs" loughran@berkeley.edu,hforbes@berkeley.edu > /dev/null 2>&1
 ##################################################################################
 # run BMU batch jobs (nightly or twice a day depending)
 ##################################################################################
@@ -39,7 +39,7 @@
 # run the tricoder upload job (with locks) weekdays 9am-6pm, 3 mins after the hour
 # clean up temp files that sometime get left behind.
 ##################################################################################
-3 7-22 * * 1-5 cd /home/app_webapps/batch_barcode ; ./tricoderlock.sh > /dev/null 2>&1
+3 7-22 * * 1-5 cd /var/cspace/pahma/tricoder/batch_barcode ; ./tricoderlock.sh > /dev/null 2>&1
 ##################################################################################
 # clean up untidy messes left by tricoder
 ##################################################################################
