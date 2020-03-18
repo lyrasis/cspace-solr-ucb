@@ -36,7 +36,7 @@
 ##################################################################################
 1 5 * * * for t in bampfa botgarden cinefiles pahma ucjeps; do ~/bin/cleanBMUtempdir.sh /var/cspace/$t/bmu >> /var/cspace/monitor/${t}.imagedircleanup.log ; done
 ##################################################################################
-# run the tricoder upload job (with locks) weekdays 9am-6pm, 3 mins after the hour
+# run the tricoder upload job (with locks) weekdays 7am-10pm, 3 mins after the hour
 # clean up temp files that sometime get left behind.
 ##################################################################################
 3 7-22 * * 1-5 cd /var/cspace/pahma/tricoder/batch_barcode ; ./tricoderlock.sh > /dev/null 2>&1

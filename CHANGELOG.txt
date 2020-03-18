@@ -3,57 +3,59 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 with some human annotation after the fact.
 
-This is version 5.4.0
-Wed Mar 11 10:19:28 PDT 2020
+This is version 6.0.0-rc1
+Wed Mar 18 10:16:34 PDT 2020
 
-4cf08ed (HEAD -> master, tag: 5.4.0-rc5, origin/master, origin/HEAD) revise change log and VERSION file for version 5.4.0-rc5
+b2961c0 (HEAD -> master, origin/master, origin/HEAD) CSW-279, CSW-277: attempted fix for tricoder job not running; also: get pahma report script from new place
+7d11259 (tag: 5.4.0) revise change log and VERSION file for version 5.4.0
+4cf08ed revise change log and VERSION file for version 5.4.0-rc5
 744c81f CSW-195: make name for 'material_type' consistent
 2681b11 CSW-263: a version of pahma/mediaAllImages.sql that actually works
 03fd9b1 CSW-263: need to use all values of object status in checking pahma 'culturally affiliated'
-fcc56d6 (tag: 5.4.0-rc4) revise change log and VERSION file for version 5.4.0-rc4
+fcc56d6 revise change log and VERSION file for version 5.4.0-rc4
 48e216c Merge branch 'master' of https://github.com/cspace-deployment/cspace-solr-ucb
 8c8ed6a CSW-263: initial attempt to fix pahma missing legacy doc problem
 b0983cf CSW-243: handle film fields a bit better in cinefiles solr core
 8fa9098 NOJIRA: the Solr core recreation script can now recreate just one core
-a5b9f76 (tag: 5.4.0-rc3) revise change log and VERSION file for version 5.4.0-rc3
-769bfcc (tag: 5.4.0-rc2) revise change log and VERSION file for version 5.4.0-rc2
+a5b9f76 revise change log and VERSION file for version 5.4.0-rc3
+769bfcc revise change log and VERSION file for version 5.4.0-rc2
 97aa042 NOJIRA: fix undetected bug in UCBG solr etl regarding GBIF pickle extract
 a102abd NOJIRA: fix undetected PAHMA solr bug: donor_ss: previous fix was overcorrection
 4eae8e4 NOJIRA: fix undetected bug in part24.sql (PAHMA internal portal group title extract)
-15dc8d6 (tag: 5.4.0-rc1) revise change log and VERSION file for version 5.4.0-rc1
+15dc8d6 revise change log and VERSION file for version 5.4.0-rc1
 642f0c2 NOJIRA: fix undetected PAHMA solr bug: donor_ss was not being parsed as multivalued
 f37b15f CSW-227: further revisions to CineFiles Solr pipeline
 a818bb3 CSW-236: revise problem Solr ETL queries for PAHMA
 c86f254 CSW-229: format the CineFiles 'has X' values into a single Solr multivalue variable 'has_s'
-fc9a21a (tag: 5.3.0-rc7) revise change log and VERSION file for version 5.3.0-rc7
+fc9a21a revise change log and VERSION file for version 5.3.0-rc7
 08380b3 CSW-226: fix 'filmyear' spec in CineFiles Solr ETL
-d15ee87 (tag: 5.3.0-rc6) revise change log and VERSION file for version 5.3.0-rc6
+d15ee87 revise change log and VERSION file for version 5.3.0-rc6
 a1c7df0 CSW-226: revise CineFiles pipeline docs-to-film handling
-ee912b3 (tag: 5.3.0-rc5) revise change log and VERSION file for version 5.3.0-rc5
-3820268 (tag: 5.3.0-rc4) revise change log and VERSION file for version 5.3.0-rc4
+ee912b3 revise change log and VERSION file for version 5.3.0-rc5
+3820268 revise change log and VERSION file for version 5.3.0-rc4
 cc581ff CSW-226: revised Solr schema for CineFiles public collection
-b26bbbf (tag: 5.3.0-rc3) revise change log and VERSION file for version 5.3.0-rc3
-34d0b02 (tag: 5.3.0-rc2) revise change log and VERSION file for version 5.3.0-rc2
+b26bbbf revise change log and VERSION file for version 5.3.0-rc3
+34d0b02 revise change log and VERSION file for version 5.3.0-rc2
 2f2f321 CSW-192, CSW-193: minor refactoring of UCBG Solr ETL pipeline script
 05f804a CSW-192, CSW-193: correctly extract 'habit' for UCBG portals
 bfc8344 CSW-192, CSW-193: add sex, materials, habit to UCBG public Solr core config
 750381a CSW-222: revise Solr ETL and core config for CineFiles demo
 5733e15 NOJIRA: log elapsed time of UCJEPS Solr pipeline parts
-70fdffa (tag: 5.3.1-rc3) revise change log and VERSION file for version 5.3.1-rc3
+70fdffa revise change log and VERSION file for version 5.3.1-rc3
 f047e9c CSW-215: restrict geolocation and garden location of certain accessions in botgarden-public Solr core
 024de72 CC-948: adjust cron for new tricoder location
 a7b7b91 CSW-192, CSW-193: update SQL to include habit, sex, and material type for botgarden
 fc5a692 CSW-147: display name is now used for analyst
 85ff72e CSW-184: add alldeterminations_ss to list of fields in Solr schema
 e035bad CSW-184: add alldeterminations_ss to both UCBG Solr cores
-f05af69 (tag: 5.3.1-rc2) revise change log and VERSION file for version 5.3.1-rc2
+f05af69 revise change log and VERSION file for version 5.3.1-rc2
 265fc27 CSW-122: add the generated CHANGELOG.txt to GitHub
-da222ed (tag: 5.3.1-rc1) CSW-184: add previousdeterminations_ss to both UCBG Solr cores
+da222ed CSW-184: add previousdeterminations_ss to both UCBG Solr cores
 bfd4b52 CSW-122: update README.md: remarks on deployment
 4f67543 CC-435: updates to ad hoc 'monitoring' code in app_webapps crontab
 ac97835 CSW-190: briefdescriptions should be _s not _txt
 7ed8931 CSW-122
-7117553 (tag: 5.3.0-rc1, tag: 5.3.0) CC-435: latest revisions to app_webapps cron jobs
+7117553 (tag: 5.3.0) CC-435: latest revisions to app_webapps cron jobs
 71fb1f8 CSW-181: revert 'magic' for object names, materials, etc. for pahma internal portal
 bd5359b CSW-123: this test script needs to request XML from Solr
 2a4a636 CSW-122: continue to improve README for Solr stuff
