@@ -222,9 +222,6 @@ do
     echo "Updating config files..."
     echo "$SOLR_RELOAD_URL"
 
-    # Our custom solrconfig to mimic Solr 4 behavior that Blacklight needs
-    #cp ./solr7/solrconfig7.xml $SOLR_CONFIG_XML
-
     # Use english stop words for text_general fields (to behave like our Solr 4 instance did)
     #cp $STOPWORDS_EN_FILE $STOPWORDS_FILE
     SOLR_RELOAD_URL="http://localhost:$SOLR_PORT/solr/admin/cores?action=RELOAD&core=$SOLR_CORE"
