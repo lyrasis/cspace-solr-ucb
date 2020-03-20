@@ -40,8 +40,23 @@ def open_file(filename, handle):
         return csv.reader(f, delimiter=delim, quoting=csv.QUOTE_NONE, quotechar=chr(255))
     except:
         raise
-        print(f'couldn\'t open {handle} file {filename}')
-        sys.exit(1)
+
+
+def make_associated_films(films, filmids):
+    associated_films = []
+    for filmid in filmids:
+        if films[filmid][0] != '':
+            film_info = []
+            for i, e in enumerate(films[filmid][0]):
+                if e == '':
+                    e = 'No ' + films['film_id'][0][i].replace('film','') + ' known'
+                # make href to film using film id if this is the title
+                if i == 0:
+                    e = f'{films[filmid][1][0]}++{e}++'
+                film_info.append(e)
+            associated_films.append(' — '.join(film_info))
+
+    return associated_films
 
 
 MEDIA = open_file(sys.argv[1], 'media')
@@ -110,21 +125,22 @@ for line in METADATA:
     mediablobs = media[objectcsid]['image'] if 'image' in media[objectcsid] else []
     pdfblobs = media[objectcsid]['pdf'] if 'pdf' in media[objectcsid] else []
     filmids = link[docid]
+
     if (filmids != []):
         count['films matched'] += 1
-        # TODO: what delimiters to use to join multiple values
-        associated_films = [' -- '.join(films[filmid][0]) for filmid in filmids if films[filmid][0] != '']
+        associated_films = make_associated_films(films, filmids)
         if filmids[0] == 'film_id': associated_films = ['film_info']
         film_facets = collections.defaultdict(set)
-        film_field_values = []
         for filmid in filmids:
             for i, fld in enumerate(film_fields):
                 film_facets[fld].add(films[filmid][1][i])
+        film_field_values = []
         for i, fld in enumerate(film_fields):
             film_field_values.append('|'.join([f for f in film_facets[fld]]))
     else:
         count['films unmatched'] += 1
         associated_films = [] * 12
+        film_field_values = [''] * len(film_fields)
     associated_films = '|'.join(associated_films)
 
     if (mediablobs == []):
