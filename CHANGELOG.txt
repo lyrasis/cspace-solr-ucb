@@ -3,10 +3,14 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 with some human annotation after the fact.
 
-This is version 6.0.0-rc1
-Wed Mar 18 10:16:34 PDT 2020
+This is version 6.0.0-rc2
+Sat Mar 21 17:12:01 PDT 2020
 
-b2961c0 (HEAD -> master, origin/master, origin/HEAD) CSW-279, CSW-277: attempted fix for tricoder job not running; also: get pahma report script from new place
+7a1a83b (HEAD -> master) CSW-273: create cinfiles solr vars 'film_link_ss' and 'common_doctype_s'
+181e7b7 (origin/master, origin/HEAD) CSW-273: remove cruft
+381ee93 CSW-273: fix some dynamic field names, improve 'associated films' rendering
+a46e8f9 (tag: 6.0.0-rc1) revise change log and VERSION file for version 6.0.0-rc1
+b2961c0 CSW-279, CSW-277: attempted fix for tricoder job not running; also: get pahma report script from new place
 7d11259 (tag: 5.4.0) revise change log and VERSION file for version 5.4.0
 4cf08ed revise change log and VERSION file for version 5.4.0-rc5
 744c81f CSW-195: make name for 'material_type' consistent
