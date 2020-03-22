@@ -57,11 +57,11 @@ do
     perl -i -pe 's/has_s/has_ss/;s/filmyear_s/filmyear_ss/;s/film_info_s/film_info_ss/;s/director_s/director_ss/;s/prodco(.*?)_s/prodco\1_ss/g;s/subject_s/subject_ss/g;s/genre_s/genre_ss/;s/title_s/title_ss/g;s/language_s/language_ss/g;s/country_s/country_ss/;s/name_id_s/name_id_ss/;s/author_s/author_ss/;s/film_id_s/film_id_ss/;s/doc_count_s/doc_count_ss/;' header4Solr.csv
     if [ "$file" == "films" ]; then
         # yes, sigh, it is a bit turgid here too!
-        perl -i -pe 's/\ttitle/\ttitle_variations/;s/film//g;s/\t/\tfilm_/g;s/__/_/g;s/^/id\tcommon_doctype_s\t/;' header4Solr.csv
+        perl -i -pe 's/\ttitle/\ttitle_variations/;s/film//g;s/\t/\tfilm_/g;s/__/_/g;s/^/id\tcommon_doctype_s\t/;s/_id_ss/film_link_ss/;' header4Solr.csv
         perl -i -ne '@x=split /\t/;print "$x[0]\tfilm\t$_"' ${file}.csv
-    elif [ "$file" == "docs" ]; then
-        perl -i -pe 's/^id\t/id\tcommon_doctype_s\t/' header4Solr.csv
-        perl -i -pe 's/^(.*?)\t/\1\tdocument\t' ${file}.csv
+    elif [ "$file" == "public" ]; then
+        perl -i -pe 's/^doc_id_s\t/id\tcommon_doctype_s\t/' header4Solr.csv
+        perl -i -pe 's/^(.*?)\t/\1\tdocument\t/' ${file}.csv
     else
         perl -i -pe 's/^.*?_id_ss?\t/id\t/' header4Solr.csv
     fi
