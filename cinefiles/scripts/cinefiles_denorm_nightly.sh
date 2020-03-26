@@ -9,8 +9,8 @@
 # renamed in a single batch. Then, finally, one more batch file is
 # executed to create indexes.
 #
-# This script should be installed in /home/app_solr/scripts
-# SQL files go in /home/app_solr/scripts/sql/denorm_nightly
+# This script should be installed in /home/app_solr/solrdatasources/cinefiles/scripts
+# SQL files go in /home/app_solr/solrdatasources/cinefiles/scripts/sql/denorm_nightly
 # Log files go in /home/app_solr/logs
 
 export BASEDIR=/home/app_solr/solrdatasources/cinefiles
@@ -23,9 +23,10 @@ export PGPORT=5114
 export SQLDIR="$SCRIPTDIR/sql/denorm_nightly"
 export LOGDIR="/home/app_solr/logs"
 export LOGFILE="$LOGDIR/cinefiles.denorm_nightly.log.$(date +'%d')"
+export FOOFILE="$LOGDIR/cinefiles.solr_extract_public.log"
 export LOGLEVEL=3
 
-echo  "$(date): running cinefiles_denorm_nightly" >> $LOGDIR/cinefiles.denorm.run.log
+echo  "$(date): starting cinefiles_denorm_nightly" >> $FOOFILE
 
 [ -d "$LOGDIR" ] && [ -n "$LOGFILE" ] && [ "$LOGLEVEL" -gt 0 ] && echo "Starting cinefiles_denorm_nightly at $(date)." > "$LOGFILE"
 
@@ -83,9 +84,10 @@ do
 
    SECONDS=0
    result=$(psql -q -t -f "${SQLDIR}/${SQLFILE}")
+   echo "$result"
    duration=$SECONDS
-   trace "TIME: $(($duration / 60)) minutes and $(($duration % 60)) seconds elapsed."
-   trace "RESULT: $result"
+   trace "TIME:  $(echo "scale=2; $duration / 60" | bc -l)"
+   trace "RESULT: ${result}"
 
    if ! comparetables $result
    then
@@ -125,5 +127,7 @@ then
 else
    trace "SKIPPING $FILE"
 fi
+
+echo  "$(date): finished cinefiles_denorm_nightly" >> $FOOFILE
 
 trace "ALL DONE at `date`"
