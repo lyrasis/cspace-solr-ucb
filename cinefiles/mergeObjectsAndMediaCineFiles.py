@@ -3,6 +3,9 @@ import collections
 import csv
 
 count = collections.defaultdict(int)
+count['media: pdf'] = 0
+count['media: image'] = 0
+
 delim = '\t'
 film_fields = '''film_id
 film_name_id
@@ -53,19 +56,22 @@ def make_associated_films(films, filmids):
                 # make href to film using film id if this is the title
                 if i == 0:
                     e = f'{films[filmid][1][0]}++{e}++'
+                elif i == 3:
+                    year = e
                 film_info.append(e)
-            associated_films.append(' — '.join(film_info))
+            associated_films.append((year, ' — '.join(film_info)))
 
-    return associated_films
+    return [e[1] for e in sorted(associated_films, key=lambda x: x[0])]
 
 
 MEDIA = open_file(sys.argv[1], 'media')
 media = collections.defaultdict(dict)
 for line in MEDIA:
-    count['media'] += 1
+    count['media (images, pdfs)'] += 1
     (objectcsid, objectnumber, mediacsid, description, filename, creatorrefname, creator, blobcsid, copyrightstatement,
      identificationnumber, rightsholderrefname, rightsholder, contributor, mimetype, md5) = line
     type = 'pdf' if mimetype == 'application/pdf' else 'image'
+    count[f'media: {type}'] += 1
     if type not in media[objectcsid]:
         media[objectcsid][type] = []
     media[objectcsid][type].append(blobcsid)
@@ -127,7 +133,7 @@ for line in METADATA:
     filmids = link[docid]
 
     if (filmids != []):
-        count['films matched'] += 1
+        count['documents matched one or more films'] += 1
         associated_films = make_associated_films(films, filmids)
         if filmids[0] == 'film_id': associated_films = ['film_info']
         film_facets = collections.defaultdict(set)
@@ -136,18 +142,21 @@ for line in METADATA:
                 film_facets[fld].add(films[filmid][1][i])
         film_field_values = []
         for i, fld in enumerate(film_fields):
-            film_field_values.append('|'.join([f for f in film_facets[fld]]))
+            uniques = set()
+            for facets_values in film_facets[fld]:
+                [uniques.add(f) for f in facets_values.split('|') if f != '']
+            film_field_values.append('|'.join(sorted(uniques)))
     else:
-        count['films unmatched'] += 1
+        count['documents did not match a film'] += 1
         associated_films = [] * 12
         film_field_values = [''] * len(film_fields)
     associated_films = '|'.join(associated_films)
 
     if (mediablobs == []):
-        count['media unmatched'] += 1
+        count['media did not match a document'] += 1
 
     else:
-        count['media matched'] += 1
+        count['media matched a document'] += 1
 
     outputfh.writerow(line + [has] + film_field_values + [associated_films] + [objectcsid] + [','.join(mediablobs)] + [','.join(pdfblobs)])
 

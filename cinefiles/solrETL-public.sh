@@ -23,15 +23,13 @@ CONTACT="cspace-support@lists.berkeley.edu"
 ##############################################################################
 # extract metadata and media info from CSpace
 ##############################################################################
-# NB: unlike the other ETL processes, we're still using the default | delimiter here
-##############################################################################
 time psql -R"@@" -F $'\t' -A -U $USERNAME -d "$CONNECTSTRING" --pset footer -c "select * from cinefiles_denorm.doclist_view"  -o d1a.csv
 time psql -R"@@" -F $'\t' -A -U $USERNAME -d "$CONNECTSTRING" --pset footer -c "select * from cinefiles_denorm.filmlist_view" -o d1b.csv
 time psql -R"@@" -F $'\t' -A -U $USERNAME -d "$CONNECTSTRING" --pset footer -c "select * from cinefiles_denorm.filmdocs" -o d1c.csv
 time psql -R"@@" -F $'\t' -A -U $USERNAME -d "$CONNECTSTRING" --pset footer -f metadata_public.sql -o d1d.csv
 # some fix up required, alas: data from cspace is dirty: contain csv delimiters, newlines, etc. that's why we used @@ as temporary record separator
-time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1a.csv > docs.csv
-time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1b.csv > films.csv
+time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1a.csv | python computeTimeIntegersCineFiles.py docs.csv
+time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1b.csv | python computeTimeIntegersCineFiles.py films.csv
 time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1c.csv > link.csv
 time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1d.csv > metadata.csv
 rm d1?.csv
@@ -53,7 +51,7 @@ do
     # make the header
     head -1 ${file}.csv > header4Solr.csv
     # special cases (nb: some tricky regexes in here, caveat lector!)
-    perl -i -pe 's/\r//;s/\t/_s\t/g;s/$/_s/;s/_ss_s/_ss/g;s/updatedat_s/updated_at_dts/g' header4Solr.csv
+    perl -i -pe 's/\r//;s/\t/_s\t/g;s/$/_s/;s/_ss_s/_ss/g;s/updatedat_s/updated_at_dts/g;s/_i_s/_i/g;' header4Solr.csv
     perl -i -pe 's/has_s/has_ss/;s/filmyear_s/filmyear_ss/;s/film_info_s/film_info_ss/;s/director_s/director_ss/;s/prodco(.*?)_s/prodco\1_ss/g;s/subject_s/subject_ss/g;s/genre_s/genre_ss/;s/title_s/title_ss/g;s/language_s/language_ss/g;s/country_s/country_ss/;s/name_id_s/name_id_ss/;s/author_s/author_ss/;s/film_id_s/film_id_ss/;s/doc_count_s/doc_count_ss/;' header4Solr.csv
     if [ "$file" == "films" ]; then
         # yes, sigh, it is a bit turgid here too!
@@ -65,7 +63,6 @@ do
     else
         perl -i -pe 's/^.*?_id_ss?\t/id\t/' header4Solr.csv
     fi
-    #perl -i -pe 's/\r//;s/^/d/;s/\t/_s\t/g;s/ddoc_id_s/id/;s/$/_s\tblob_ss/;s/_ss_s/_ss/;' header4Solr.csv
     # we want to use our "special" solr-friendly header.
     tail -n +2 ${file}.csv | grep -v " rows)" > d7.csv
     cat header4Solr.csv d7.csv > 4solr.${TENANT}.${file}.csv

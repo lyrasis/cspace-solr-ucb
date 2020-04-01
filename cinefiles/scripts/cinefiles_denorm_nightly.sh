@@ -17,8 +17,8 @@ export BASEDIR=/home/app_solr/solrdatasources/cinefiles
 export SCRIPTDIR=$BASEDIR/scripts
 export PGUSER=nuxeo_cinefiles
 export PGDATABASE=cinefiles_domain_cinefiles
-export PGHOST=dba-postgres-dev-42.ist.berkeley.edu
-export PGPORT=5114
+export PGHOST=dba-postgres-prod-42.ist.berkeley.edu
+export PGPORT=5313
 
 export SQLDIR="$SCRIPTDIR/sql/denorm_nightly"
 export LOGDIR="/home/app_solr/logs"
@@ -93,7 +93,7 @@ do
    then
       update_status=$((update_status+1))
       STATUSMSG="Table counts DO NOT agree for $SQLFILE. (Status: $update_status)"
-      log $STATUSMSG
+      trace "$STATUSMSG"
    else
       trace "Table counts DO agree for $SQLFILE. (Status: $update_status)"
    fi
@@ -107,11 +107,12 @@ then
    psql -q -t -f "${SQLDIR}/checkalltables.sql" > "${LOGDIR}/checkalltables.out" 2>&1
    trace "RENAMING TEMP TABLES (STATUS: $update_status)"
    result=$(psql -q -t -f "${SQLDIR}/rename_all.sql")
-   log "RENAMED ALL FILES (STATUS: $update_status)"
+   trace "RENAMED ALL FILES (STATUS: $update_status)"
    trace "CREATING INDEXES"
    result=$(psql -q -t -f "${SQLDIR}/create_indexes.sql")
 else
    trace "BAILING"
+   trace "$STATUSMSG (STATUS: $update_status)"
    notify "$STATUSMSG (STATUS: $update_status)"
    exit_msg "$STATUSMSG (STATUS: $update_status)"
 fi
