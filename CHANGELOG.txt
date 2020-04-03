@@ -1,13 +1,18 @@
 CHANGELOG for cspace-solr-ucb
 
 OK, it is not a *real* change log, but a list of changes resulting from git log
-with some human annotation after the fact.
+sometimes with some human annotation after the fact.
 
-This is version 6.0.0-rc2
-Sat Mar 21 17:12:01 PDT 2020
+This is version 6.0.0
+Fri Apr  3 12:46:02 PDT 2020
 
-7a1a83b (HEAD -> master) CSW-273: create cinfiles solr vars 'film_link_ss' and 'common_doctype_s'
-181e7b7 (origin/master, origin/HEAD) CSW-273: remove cruft
+36bf9c9 (HEAD -> master) CSW-286: getting started on finding the missing botgarden accessions
+d9c0926 (tag: 6.0.0-rc3, origin/master, origin/HEAD) CSW-273: order 'related films' by year; improve 'nightly denorm script'
+a130c11 CSW-289: minor refactoring of cinefiles 'legacy' sql denormalizing apparatus
+b3ce8b6 CSW-289: add cinefiles 'legacy' sql denormalizsing apparatus to solr ETL
+1eb606e (tag: 6.0.0-rc2) revise change log and VERSION file for version 6.0.0-rc2
+7a1a83b CSW-273: create cinfiles solr vars 'film_link_ss' and 'common_doctype_s'
+181e7b7 CSW-273: remove cruft
 381ee93 CSW-273: fix some dynamic field names, improve 'associated films' rendering
 a46e8f9 (tag: 6.0.0-rc1) revise change log and VERSION file for version 6.0.0-rc1
 b2961c0 CSW-279, CSW-277: attempted fix for tricoder job not running; also: get pahma report script from new place
