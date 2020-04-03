@@ -121,7 +121,7 @@ left outer join hierarchy htig
         and htig.name = 'collectionobjects_naturalhistory:taxonomicIdentGroupList')
 left outer join taxonomicIdentGroup tig on (tig.id = htig.id)
 
-    left outer join taxon_common tc3 on (tig.taxon=tc3.refname)
+left outer join taxon_common tc3 on (tig.taxon=tc3.refname)
 left outer join hierarchy hpag
         on (tc3.id = hpag.parentid
         and hpag.pos = 0
