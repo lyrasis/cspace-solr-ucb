@@ -32,7 +32,7 @@ echo  "$(date): starting cinefiles_denorm_nightly" >> $FOOFILE
 
 function notify
 {
-   echo "NOTIFY: $1" | mail -s "cinefiles denorm" jblowe@berkeley.edu
+   echo "NOTIFY: $1" | mail -s "cinefiles denorm" cspace-support@lists.berkeley.edu
 }
 
 function log
