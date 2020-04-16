@@ -144,6 +144,7 @@ function copy_fields()
     # Copy fields
     # ====================
 
+    echo "Making copyFields for $1 $2 ..."
     curl -S -X POST -H 'Content-type:application/json' --data-binary "{
       \"add-copy-field\":{
         \"source\": \"$1\",
@@ -157,7 +158,6 @@ function create_copy_fields()
     while read field_name
     do
       txt_field_name=${field_name/_*/_txt}
-      echo "Making copyFields for $field_name $txt_field_name ..."
       copy_fields $field_name $txt_field_name
     done < $1
     }
@@ -206,6 +206,11 @@ function define_special_fields()
                 "objmusno_s",
                 "dest": [ "objmusno_s_lower" ]}
         }' $SOLR_CORE_URL/schema
+    elif [[ "$1" = "cinefiles-public" ]]; then
+        # these two fields are needed to 'bridge' the content displayed
+        # for the title field (common_title_ss) in BL
+        copy_fields "doctitle_ss" "common_title_ss"
+        copy_fields "film_title_ss" "common_title_ss"
     fi
 }
 
