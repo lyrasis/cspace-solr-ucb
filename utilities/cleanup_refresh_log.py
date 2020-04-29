@@ -6,9 +6,9 @@ parses refresh.log, the log of solr core refreshes kept under app_solr, to make 
 easily parseable by solr-core-stats.ipynb
 '''
 
-with open(sys.argv[2], "wb") as out:
+with open(sys.argv[2], "w") as out:
     writer = csv.writer(out, delimiter="\t")
-    with open(sys.argv[1], "rb") as original:
+    with open(sys.argv[1], "r") as original:
         reader = csv.reader(original, delimiter=",")
         for i, row in enumerate(reader):
             if len(row) != 3 or not 'rows' in row[2]: continue
