@@ -45,10 +45,6 @@
 ##################################################################################
 1 5 * * * cd /tmp ; ls /tmp | perl -ne "print if /^\d+$/" | xargs rm > /dev/null 2>&1
 ##################################################################################
-# update BAMPFA's materialized view for Piction
-##################################################################################
-#0 18 * * * foo=`psql -d "host=dba-postgres-prod-42.ist.berkeley.edu dbname=piction_transit port=5415 sslmode=prefer" -U "piction" -c "refresh materialized view piction.bampfa_metadata_mv" 2>&1` ; if [[ $foo != "REFRESH MATERIALIZED VIEW" ]] ; then echo "$foo" | mail -s "PROBLEM with Piction mv update status on Prod" cspace-app-logs@lists.berkeley.edu ; fi
-##################################################################################
 # keep a set of the BMU log files
 ##################################################################################
 5 6 * * *  for t in bampfa botgarden cinefiles pahma ucjeps; do cp -p /var/cspace/$t/bmu/*.csv /var/cspace/monitor/image_upload_cache_${t}/ > /dev/null 2>&1 ; cp -p /var/cspace/$t/bmu/*.trace.log /var/cspace//monitor/image_upload_cache_${t}/ > /dev/null 2>&1 ; done
