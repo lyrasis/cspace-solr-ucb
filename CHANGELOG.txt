@@ -3,18 +3,29 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.0
-Fri Apr  3 12:46:02 PDT 2020
+This is version 6.0.1-rc1
+Thu Apr 30 16:36:02 PDT 2020
 
-36bf9c9 (HEAD -> master) CSW-286: getting started on finding the missing botgarden accessions
-d9c0926 (tag: 6.0.0-rc3, origin/master, origin/HEAD) CSW-273: order 'related films' by year; improve 'nightly denorm script'
+6fa4c03 (HEAD -> master) CSW-310: protects pahma csv solr extract  against whitespace like tabs and newlines
+85acf39 CC-586: PAHMA internal portal: exclude deleted exhibits and deleted related objects
+836597c (origin/master, origin/HEAD) NOJIRA: get rid of 3 defunct piction files per confirmation from richard m.
+1d97929 CC-1121: cinefiles denorm script needs to point to the correct new db server
+397c126 NOJIRA: helper script for solr analytics needs a python3 tweak
+4d2f3c1 CC-1121: cinefiles denorm script needs to point to the new db server
+1cbec3d CC-1121: remove cruft in app_webapps crontab: piction view refresh is no longer done here
+e0473f5 CC-1121: update Solr ETL pipeline scripts for new db server
+eabdc4b CSW-306: add two copyfield statements to cinefiles-public solr core creation
+f90fa37 CSW-304: use correct email address for cinefiles refresh notifications
+5acca70 (tag: 6.0.0) revise change log and VERSION file for version 6.0.0
+36bf9c9 CSW-286: getting started on finding the missing botgarden accessions
+d9c0926 CSW-273: order 'related films' by year; improve 'nightly denorm script'
 a130c11 CSW-289: minor refactoring of cinefiles 'legacy' sql denormalizing apparatus
 b3ce8b6 CSW-289: add cinefiles 'legacy' sql denormalizsing apparatus to solr ETL
-1eb606e (tag: 6.0.0-rc2) revise change log and VERSION file for version 6.0.0-rc2
+1eb606e revise change log and VERSION file for version 6.0.0-rc2
 7a1a83b CSW-273: create cinfiles solr vars 'film_link_ss' and 'common_doctype_s'
 181e7b7 CSW-273: remove cruft
 381ee93 CSW-273: fix some dynamic field names, improve 'associated films' rendering
-a46e8f9 (tag: 6.0.0-rc1) revise change log and VERSION file for version 6.0.0-rc1
+a46e8f9 revise change log and VERSION file for version 6.0.0-rc1
 b2961c0 CSW-279, CSW-277: attempted fix for tricoder job not running; also: get pahma report script from new place
 7d11259 (tag: 5.4.0) revise change log and VERSION file for version 5.4.0
 4cf08ed revise change log and VERSION file for version 5.4.0-rc5
