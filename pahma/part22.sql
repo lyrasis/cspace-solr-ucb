@@ -1,18 +1,17 @@
 SELECT
+  hcc.name,
   cc.id,
+  cc.objectnumber,
   STRING_AGG(DISTINCT ec.exhibitionnumber, '␥') AS "exhibitionnumber_ss",
-  STRING_AGG(DISTINCT ec.title, '␥')  AS "exhibitiontitle_ss"
+  STRING_AGG(DISTINCT ec.title, '␥') AS "exhibitiontitle_ss"
+  -- mrc.lifecyclestate
 FROM collectionobjects_common cc
-  LEFT OUTER JOIN collectionobjects_pahma cp ON (cc.id = cp.id)
-  LEFT OUTER JOIN collectionobjects_anthropology ca ON (cc.id = ca.id)
-
-  JOIN hierarchy h1 ON (cc.id = h1.id)
-  JOIN relations_common rc ON (h1.name = rc.subjectcsid AND rc.objectdocumenttype = 'Exhibition')
-  JOIN hierarchy h2 ON (rc.objectcsid = h2.name)
-  LEFT OUTER JOIN exhibitions_common ec ON (h2.id = ec.id)
-  LEFT OUTER JOIN hierarchy hn ON (cc.id = hn.parentid AND hn.name = 'collectionobjects_common:objectNameList' AND (hn.pos = 0 OR hn.pos IS NULL))
-  LEFT OUTER JOIN objectnamegroup ong ON (ong.id = hn.id)
-  LEFT OUTER JOIN exhibitionobjectgroup eog ON (eog.exhibitionobjectnumber = cc.objectnumber)
-
-GROUP BY cc.id
--- GROUP BY ec.exhibitionnumber, ec.title, cc.objectnumber
+  JOIN hierarchy hcc ON (cc.id = hcc.id)
+  JOIN relations_common rc ON (hcc.name = rc.subjectcsid AND rc.objectdocumenttype = 'Exhibition')
+  JOIN misc mrc on (rc.id = mrc.id and mrc.lifecyclestate != 'deleted')
+  JOIN hierarchy hec ON (rc.objectcsid = hec.name)
+  LEFT OUTER JOIN exhibitions_common ec ON (hec.id = ec.id)
+  LEFT OUTER JOIN misc mec ON (ec.id = mec.id and mec.lifecyclestate != 'deleted')
+  /* where hcc.name in ( '084a31f0-7abe-4e0c-b255-a35d472b44e4', '51db2add-8187-42d0-835d-91e296500a6e', '46f0b51e-f54b-4e75-8a53-bdaef9d40bc1', 'b6fffc9f-5bd1-4cc9-a8ae-92817fbb54e2')*/
+GROUP BY hcc.name, cc.id, mrc.lifecyclestate
+;
