@@ -8,7 +8,7 @@ SELECT
   cc.numberofobjects          AS "objcount_s",
   cp.inventorycount           AS "objcountnote_s",
   cp.portfolioseries          AS "objkeelingser_s",
-  cp.pahmafieldlocverbatim    AS "objfcpverbatim_s"
+  regexp_replace(cp.pahmafieldlocverbatim, E'[\\t\\n\\r]+', ' ', 'g') AS "objfcpverbatim_s"
 FROM collectionobjects_common cc
   JOIN hierarchy h1 ON (h1.id = cc.id)
   LEFT OUTER JOIN collectionobjects_pahma cp ON (cp.id = cc.id)
