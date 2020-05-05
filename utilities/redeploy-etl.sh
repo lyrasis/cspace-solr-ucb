@@ -3,23 +3,23 @@
 #
 # check to see we are plausibly able to do something...
 cd
-SOLRETLDIR=solrdatasources
-SOLR_REPO=cspace-solr-ucb
-if [ ! -d $SOLR_REPO ];
+SOLRETLDIR=~/solrdatasources
+SOLR_REPO=~/cspace-solr-ucb
+if [ ! -d ${SOLR_REPO} ];
 then
-   echo "Solr repo $SOLR_REPO not found in this directory. Please clone from GitHub."
+   echo "Solr repo ${SOLR_REPO} not found in this directory. Please clone from GitHub."
    exit 1
 fi
-if [ ! -d $SOLRETLDIR ];
+if [ ! -d ${SOLRETLDIR} ];
 then
    echo "Solr ETL directory $SOLRETLDIR not found. Assuming this is a fresh install"
 else
     # make a backup of the current ETL directory just in case
     YYMMDD=`date +%y%m%d`
     BACKUPDIR=${SOLRETLDIR}.${YYMMDD}
-    if [ -d $BACKUPDIR ];
+    if [ -d ${BACKUPDIR} ];
     then
-       echo "Backup ETL directory $BACKUPDIR already exists. Please move or remove it and try again"
+       echo "Backup ETL directory ${BACKUPDIR} already exists. Please move or remove it and try again"
        exit 1
     fi
     mv ${SOLRETLDIR} ${BACKUPDIR}
@@ -32,10 +32,9 @@ cd ${SOLR_REPO}
 git pull -v
 cp utilities/o*.sh ~
 cp utilities/checkstatus.sh ~
-cp utilities/redeploy-etl.sh ~
 
 cd
-rsync -a --exclude .git --exclude .gitignore --exclude solr-cores --exclude utilities ~/cspace-solr-ucb/ solrdatasources/
+rsync -a --exclude .git --exclude .gitignore --exclude solr-cores --exclude utilities ${SOLR_REPO}/ ${SOLRETLDIR}/
 
 # try to put botgarden's pickle file back; it takes hours to recreate from scratch.
 if [ ! -f ${BACKUPDIR}/botgarden/gbif/names.pickle ]
