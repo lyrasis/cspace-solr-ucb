@@ -3,12 +3,16 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.1-rc1
-Thu Apr 30 16:36:02 PDT 2020
+This is version 6.0.1-rc2
+Tue May  5 15:53:34 PDT 2020
 
-6fa4c03 (HEAD -> master) CSW-310: protects pahma csv solr extract  against whitespace like tabs and newlines
+295e252 (HEAD -> master) CSW-310: refactor solr etl deployment and bampfa nightly script a bit
+1d4dcda CSW-310: refactor solr etl scripts a bit for robustness
+ecd9727 CSW-588: update pahma solr etl part22.sql eliminate deleted exhibitions
+5d4a3b1 (tag: 6.0.1-rc1, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.1-rc1
+6fa4c03 CSW-310: protects pahma csv solr extract  against whitespace like tabs and newlines
 85acf39 CC-586: PAHMA internal portal: exclude deleted exhibits and deleted related objects
-836597c (origin/master, origin/HEAD) NOJIRA: get rid of 3 defunct piction files per confirmation from richard m.
+836597c NOJIRA: get rid of 3 defunct piction files per confirmation from richard m.
 1d97929 CC-1121: cinefiles denorm script needs to point to the correct new db server
 397c126 NOJIRA: helper script for solr analytics needs a python3 tweak
 4d2f3c1 CC-1121: cinefiles denorm script needs to point to the new db server
