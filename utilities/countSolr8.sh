@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-for t in bampfa botgarden pahma ucjeps
+for t in bampfa botgarden cinefiles pahma ucjeps
 do
     echo "$t ============================================================================"
     for d in public internal propagations locations media
