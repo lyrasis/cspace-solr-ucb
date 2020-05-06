@@ -18,7 +18,7 @@
 if [ $# -ne 1 ]; then
     echo "Usage: ./scp4solr.sh <server>"
     echo
-    echo "e.g. ./scp4solr.sh myusername@cspace-dev.cspace.berkeley.edu"
+    echo "e.g. ./scp4solr.sh myusername@webapps.cspace.berkeley.edu"
     exit
 fi
 
