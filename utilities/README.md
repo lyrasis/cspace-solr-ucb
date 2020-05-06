@@ -168,104 +168,123 @@ cron job to run the refreshes (`one_job.sh`) is commented out in the `crontab`
 Here are the diffs one can expect between the pipeline files as committed to GitHub and as deployed on Dev.
 
 ```
-diff -r ~/cspace-solr-ucb solrdatasources | grep -v Only > diffs
+$ diff -r ~/cspace-solr-ucb solrdatasources | grep -v Only > diffs
+$ cat diffs
 
 diff -r /home/app_solr/cspace-solr-ucb/bampfa/bampfa_collectionitems_vw.sh solrdatasources/bampfa/bampfa_collectionitems_vw.sh
 8c8
-< SERVER="dba-postgres-prod-42.ist.berkeley.edu port=5313 sslmode=prefer"
+< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
 ---
-> SERVER="dba-postgres-dev-42.ist.berkeley.edu port=5114 sslmode=prefer"
-20c20
-< mail -a ${TENANT}_collectionitems_vw.tab.gz -s "${TENANT}_collectionitems_vw.csv.gz" -- osanchez@berkeley.edu < /dev/null
+> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
+12c12
+< CONTACT="osanchez@berkeley.edu"
 ---
-> mail -a ${TENANT}_collectionitems_vw.tab.gz -s "${TENANT}_collectionitems_vw.csv.gz" -- jblowe@berkeley.edu < /dev/null
+> CONTACT="jblowe@berkeley.edu"
 diff -r /home/app_solr/cspace-solr-ucb/bampfa/bampfa_website_extract.sh solrdatasources/bampfa/bampfa_website_extract.sh
-7c7
-< SERVER="dba-postgres-prod-42.ist.berkeley.edu port=5313 sslmode=prefer"
----
-> SERVER="dba-postgres-dev-42.ist.berkeley.edu port=5114 sslmode=prefer"
-37c37
-< echo "https://webapps.cspace.berkeley.edu/${TENANT}_website_objects_extract.tab" | mail -s "new ${TENANT} website extract available" -- aharris@berkeley.edu
----
-> echo "https://webapps.cspace.berkeley.edu/${TENANT}_website_objects_extract.tab" | mail -s "new ${TENANT} website extract available" -- jblowe@berkeley.edu
-diff -r /home/app_solr/cspace-solr-ucb/bampfa/piction_extract.sh solrdatasources/bampfa/piction_extract.sh
 8c8
-< SERVER="dba-postgres-prod-42.ist.berkeley.edu port=5415 sslmode=prefer"
+< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
 ---
-> SERVER="dba-postgres-dev-42.ist.berkeley.edu port=5415 sslmode=prefer"
-15c15
-< #time psql -A -d "host=dba-postgres-prod-42.ist.berkeley.edu dbname=piction_transit port=5415 sslmode=prefer" -U "piction"  -c "select * from piction.bampfa_metadata_mv" -o ${TENANT}_pictionview_vw.tab
+> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
+12c12
+< CONTACT="osanchez@berkeley.edu"
 ---
-> #time psql -A -d "host=dba-postgres-dev-42.ist.berkeley.edu dbname=piction_transit port=5415 sslmode=prefer" -U "piction"  -c "select * from piction.bampfa_metadata_mv" -o ${TENANT}_pictionview_vw.tab
-21c21
-< mail -a ${TENANT}_pictionview_vw.tab.gz -s "${TENANT}_pictionview_vw.csv.gz" -- cspace-piction-view@lists.berkeley.edu < /dev/null
----
-> mail -a ${TENANT}_pictionview_vw.tab.gz -s "${TENANT}_pictionview_vw.csv.gz" -- jblowe@berkeley.edu < /dev/null
+> CONTACT="jblowe@berkeley.edu"
 diff -r /home/app_solr/cspace-solr-ucb/bampfa/solrETL-internal.sh solrdatasources/bampfa/solrETL-internal.sh
-10c10
-< SERVER="dba-postgres-prod-42.ist.berkeley.edu port=5313 sslmode=prefer"
+11c11
+< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
 ---
-> SERVER="dba-postgres-dev-42.ist.berkeley.edu port=5114 sslmode=prefer"
+> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
+54c54
+---
 diff -r /home/app_solr/cspace-solr-ucb/bampfa/solrETL-public.sh solrdatasources/bampfa/solrETL-public.sh
-20c20
-< SERVER="dba-postgres-prod-42.ist.berkeley.edu port=5313 sslmode=prefer"
+21c21
+< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
 ---
-> SERVER="dba-postgres-dev-42.ist.berkeley.edu port=5114 sslmode=prefer"
+> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
+66c66
+---
 diff -r /home/app_solr/cspace-solr-ucb/botgarden/solrETL-internal.sh solrdatasources/botgarden/solrETL-internal.sh
-19c19
-< SERVER="dba-postgres-prod-42.ist.berkeley.edu port=5313 sslmode=prefer"
+46c46
 ---
-> SERVER="dba-postgres-dev-42.ist.berkeley.edu port=5114 sslmode=prefer"
 diff -r /home/app_solr/cspace-solr-ucb/botgarden/solrETL-propagations.sh solrdatasources/botgarden/solrETL-propagations.sh
-19c19
-< SERVER="dba-postgres-prod-42.ist.berkeley.edu port=5313 sslmode=prefer"
+20c20
+< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
 ---
-> SERVER="dba-postgres-dev-42.ist.berkeley.edu port=5114 sslmode=prefer"
+> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
+58c58
+---
+70c70
+---
 diff -r /home/app_solr/cspace-solr-ucb/botgarden/solrETL-public.sh solrdatasources/botgarden/solrETL-public.sh
-19c19
-< SERVER="dba-postgres-prod-42.ist.berkeley.edu port=5313 sslmode=prefer"
+20c20
+< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
 ---
-> SERVER="dba-postgres-dev-42.ist.berkeley.edu port=5114 sslmode=prefer"
+> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
+102c102
+---
+diff -r /home/app_solr/cspace-solr-ucb/cinefiles/scripts/cinefiles_denorm_nightly.sh solrdatasources/cinefiles/scripts/cinefiles_denorm_nightly.sh
+20,21c20,21
+< export PGHOST=dba-postgres-prod-45.ist.berkeley.edu
+< export PGPORT=5313
+---
+> export PGHOST=dba-postgres-dev-45.ist.berkeley.edu
+> export PGPORT=5114
 diff -r /home/app_solr/cspace-solr-ucb/cinefiles/solrETL-public.sh solrdatasources/cinefiles/solrETL-public.sh
-17c17
-< SERVER="dba-postgres-prod-42.ist.berkeley.edu port=5313 sslmode=prefer"
+18c18
+< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
 ---
-> SERVER="dba-postgres-dev-42.ist.berkeley.edu port=5114 sslmode=prefer"
+> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
+22c22
+< CONTACT="cspace-support@lists.berkeley.edu"
+---
+> CONTACT="jblowe@berkeley.edu"
+diff -r /home/app_solr/cspace-solr-ucb/pahma/solrETL-internal.sh solrdatasources/pahma/solrETL-internal.sh
+46c46
+---
 diff -r /home/app_solr/cspace-solr-ucb/pahma/solrETL-locations.sh solrdatasources/pahma/solrETL-locations.sh
-25c25
-< HOSTNAME="dba-postgres-prod-42.ist.berkeley.edu port=5307 sslmode=prefer"
+17c17
+< HOSTNAME="dba-postgres-prod-45.ist.berkeley.edu port=5307 sslmode=prefer"
 ---
-> HOSTNAME="dba-postgres-dev-42.ist.berkeley.edu port=5117 sslmode=prefer"
+> HOSTNAME="dba-postgres-dev-45.ist.berkeley.edu port=5117 sslmode=prefer"
+65c65
+---
 diff -r /home/app_solr/cspace-solr-ucb/pahma/solrETL-osteology.sh solrdatasources/pahma/solrETL-osteology.sh
-15c15
-< HOSTNAME="dba-postgres-prod-42.ist.berkeley.edu port=5307 sslmode=prefer"
+16c16
+< HOSTNAME="dba-postgres-prod-45.ist.berkeley.edu port=5307 sslmode=prefer"
 ---
-> HOSTNAME="dba-postgres-dev-42.ist.berkeley.edu port=5117 sslmode=prefer"
+> HOSTNAME="dba-postgres-dev-45.ist.berkeley.edu port=5117 sslmode=prefer"
+55c55
+---
 diff -r /home/app_solr/cspace-solr-ucb/pahma/solrETL-public.sh solrdatasources/pahma/solrETL-public.sh
-24c24
-< SERVER="dba-postgres-prod-42.ist.berkeley.edu port=5307 sslmode=prefer"
+25c25
+< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5307 sslmode=prefer"
 ---
-> SERVER="dba-postgres-dev-42.ist.berkeley.edu port=5117 sslmode=prefer"
-28c28
+> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5117 sslmode=prefer"
+29c29
 < CONTACT="mtblack@berkeley.edu"
 ---
 > CONTACT="jblowe@berkeley.edu"
+172c172
+---
 diff -r /home/app_solr/cspace-solr-ucb/ucjeps/solrETL-media.sh solrdatasources/ucjeps/solrETL-media.sh
-10c10
-< SERVER="dba-postgres-prod-42.ist.berkeley.edu port=5310 sslmode=prefer"
+11c11
+< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5310 sslmode=prefer"
 ---
-> SERVER="dba-postgres-dev-42.ist.berkeley.edu port=5119 sslmode=prefer"
+> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5119 sslmode=prefer"
+34c34
+---
 diff -r /home/app_solr/cspace-solr-ucb/ucjeps/solrETL-public.sh solrdatasources/ucjeps/solrETL-public.sh
-19c19
-< SERVER="dba-postgres-prod-42.ist.berkeley.edu port=5310 sslmode=prefer"
+20c20
+< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5310 sslmode=prefer"
 ---
-> SERVER="dba-postgres-dev-42.ist.berkeley.edu port=5119 sslmode=prefer"
-23c23
+> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5119 sslmode=prefer"
+24c24
 < CONTACT="ucjeps-it@berkeley.edu"
 ---
 > CONTACT="jblowe@berkeley.edu"
+88c88
+---
 ```
-
 
 #### Installing solr8 as a service on UCB VMs
 

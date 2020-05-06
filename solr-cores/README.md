@@ -33,6 +33,10 @@ user@blacklight-dev:~$ sudo /bin/systemctl stop solr.service
 # delete and recreate all 12 ucb cores
 cd ~/cspace-solr-ucb/solr-cores/
 nohup time ./makesolrcores.sh > cores.log 2> /dev/null &
+
+# recreate a single core
+cd ~/cspace-solr-ucb/solr-cores/
+./makesolrcores.sh cinefiles-public
 ```
 
 After this finishes, you'll need to reload all the cores with fresh data.
