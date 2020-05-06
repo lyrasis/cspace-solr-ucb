@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # redeploy the Solr ETL from github
 #

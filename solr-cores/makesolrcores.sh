@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # drop and then recreate all UCB Solr cores based on the content of this script
 # and the default configuration available in solr default configsets
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # run the 'legacy denormalizing' script first, to populate the 'cinefiles_denorm' db schema used by the portal
 cd /home/app_solr/solrdatasources/cinefiles/scripts/ ; /bin/bash -l -c './cinefiles_denorm_nightly.sh' ; cd
 # now run the regular pipeline that populates solr

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # extract the current set of cURL commands that will refresh
 # the Solr cores from the extracted .csv files.

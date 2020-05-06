@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # get all publicly available cores from publicly available sources
 #
