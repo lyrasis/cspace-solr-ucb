@@ -1,7 +1,7 @@
 ##################################################################################
 #
-# CRON TABLE (crontab) for CSpace Tricoder and BMU-related jobs
-# Also: Piction interfact maintenance, UCJEPS CCH, Cinefiles QC
+# CRON TABLE (crontab) for CSpace Tricoder- and BMU-related jobs
+# Also: UCJEPS CCH, PAHMA hierarchy "denorm"
 # BAMPFA Drupal extract push, and other monitoring tasks
 #
 # m h  dom mon dow   command

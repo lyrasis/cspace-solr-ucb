@@ -7,24 +7,25 @@
 #
 # run all solr ETL
 #
-# currently runs under app user app_solr on cspace-prod and (optionally) cspace-dev
+# currently runs under app user app_solr on webapps-prod and (optionally) webapps-dev
 #
-# 1. run the 13 solr4 updates
-# 2. monitor solr datastore contents (email contents)
-# 3. export and mail BAMPFA and Piction view results museum staff
+# 1. run the 13 solr etl pipeline scripts, in parallel
+# 2. monitor solr datastore contents (i.e. email cspace-support, etc. if needed)
 #
 # some notes:
 #
-# in most cases, the jobs must be order wrt to each other: the 'internal' cores
-# often require data generated for the 'public' cores, etc.
+# in most cases, the jobs for each tenant must be ordered wrt to each other:
+# the 'internal' cores often require data generated for the 'public' cores, etc.
 #
-# in general, the refreshes for a particular tenant must be run sequentially, i.e.
+# thus, the refreshes for a particular tenant must be run sequentially, i.e.
 # not in parallel: they may overwrite files or otherwise conflict. there are no
 # such conflicts between tenants, except for system resources such as cpu and
 # memory.
 #
 # therefore, this version of one-job.sh runs the refresh for all 5 tenants in
 # parallel, and waits for them all to finish.
+#
+# then does a bit of tidying up: solr optimize, check status of runs, etc.
 ##################################################################################
 echo 'starting solr refresh' `date` >> refresh.log
 ./oj.bampfa.sh &
