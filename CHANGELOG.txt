@@ -3,13 +3,23 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.1-rc2
-Tue May  5 15:53:34 PDT 2020
+This is version 6.0.1
+Thu May  7 13:44:52 PDT 2020
 
-295e252 (HEAD -> master) CSW-310: refactor solr etl deployment and bampfa nightly script a bit
+a04c066 (HEAD -> master, origin/master, origin/HEAD) CSW-316: cinfiles: films no longer required to match a document to be included in solr
+59b0a31 CSW-310: correct minor blemishes in these helper scripts
+36ffb54 nightly solr optimize script now keeps runtimes
+95e82f8 CSW-310: minor improvements to pahma 'museum number search verification script'
+7e9064b CSW-310: ensure that cinefiles 'nightly denorm' is handled in Dev and QA solr etl config
+cfd3707 CSW-310: update internal documentation in these scripts
+42ba2f5 CSW-310: add new cinefiles solr core to cores being counted
+399bdd1 CSW-310: update README.mds for both solr core maintenance and regular pipeline scripts
+c484f21 CSW-310: add bash shebang line for all these solr pipeline-related scripts
+16d68fd (tag: 6.0.1-rc2) revise change log and VERSION file for version 6.0.1-rc2
+295e252 CSW-310: refactor solr etl deployment and bampfa nightly script a bit
 1d4dcda CSW-310: refactor solr etl scripts a bit for robustness
 ecd9727 CSW-588: update pahma solr etl part22.sql eliminate deleted exhibitions
-5d4a3b1 (tag: 6.0.1-rc1, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.1-rc1
+5d4a3b1 (tag: 6.0.1-rc1) revise change log and VERSION file for version 6.0.1-rc1
 6fa4c03 CSW-310: protects pahma csv solr extract  against whitespace like tabs and newlines
 85acf39 CC-586: PAHMA internal portal: exclude deleted exhibits and deleted related objects
 836597c NOJIRA: get rid of 3 defunct piction files per confirmation from richard m.
