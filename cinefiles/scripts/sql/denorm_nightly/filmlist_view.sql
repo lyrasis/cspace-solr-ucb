@@ -66,7 +66,6 @@ CREATE TABLE cinefiles_denorm.filmlist_viewtmp AS
       LEFT OUTER JOIN cinefiles_denorm.filmprodcoidstring fpids
          ON (wc.shortidentifier=fpids.filmid)
       INNER JOIN collectionspace_core core on wc.id=core.id
-   WHERE fdc.doccount IS NOT NULL
    ORDER BY wc.shortidentifier;
 
 GRANT SELECT ON cinefiles_denorm.filmlist_viewtmp TO GROUP reporters_cinefiles;
