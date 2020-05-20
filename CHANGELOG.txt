@@ -3,10 +3,12 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.2
-Wed May 20 08:57:34 PDT 2020
+This is version 6.0.3
+Wed May 20 10:23:20 PDT 2020
 
-cd512f1 (HEAD -> master, tag: 6.0.2-rc1, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.2-rc1
+9d3d30e (HEAD -> master) CSW-320: use today's db hostnames, not the expected ones
+59fd04b (tag: 6.0.2, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.2
+cd512f1 (tag: 6.0.2-rc1) revise change log and VERSION file for version 6.0.2-rc1
 646b53f CSW-320: use proper delimiter for all multivalued Solr fields, including blob_ss
 92e9a84 (tag: 6.0.1) revise change log and VERSION file for version 6.0.1
 a04c066 CSW-316: cinfiles: films no longer required to match a document to be included in solr
