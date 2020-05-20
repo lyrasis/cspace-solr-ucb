@@ -3,10 +3,12 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.1
-Thu May  7 13:44:52 PDT 2020
+This is version 6.0.2-rc1
+Wed May 20 08:05:46 PDT 2020
 
-a04c066 (HEAD -> master, origin/master, origin/HEAD) CSW-316: cinfiles: films no longer required to match a document to be included in solr
+646b53f (HEAD -> master) CSW-320: use proper delimiter for all multivalued Solr fields, including blob_ss
+92e9a84 (tag: 6.0.1, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.1
+a04c066 CSW-316: cinfiles: films no longer required to match a document to be included in solr
 59b0a31 CSW-310: correct minor blemishes in these helper scripts
 36ffb54 nightly solr optimize script now keeps runtimes
 95e82f8 CSW-310: minor improvements to pahma 'museum number search verification script'
