@@ -110,7 +110,7 @@ curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<commit
 ##############################################################################
 head -1 4solr.${TENANT}.${CORE}.csv | perl -pe 's/[\t\r]/\n/g' | perl -ne 'chomp; next unless /_(dt|s|i)s/; print "f.$_.split=true&f.$_.separator=%7C&"' > uploadparms.${CORE}.txt
 ss_string=`cat uploadparms.${CORE}.txt`
-time curl -X POST -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update/csv?commit=true&header=true&separator=%09&${ss_string}f.blob_ss.split=true&f.blob_ss.separator=,&encapsulator=\\" -T 4solr.${TENANT}.${CORE}.csv -H 'Content-type:text/plain; charset=utf-8' &
+time curl -X POST -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update/csv?commit=true&header=true&separator=%09&${ss_string}encapsulator=\\" -T 4solr.${TENANT}.${CORE}.csv -H 'Content-type:text/plain; charset=utf-8' &
 ##############################################################################
 # while that's running, clean up, generate some stats
 ##############################################################################

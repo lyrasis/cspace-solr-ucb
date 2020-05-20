@@ -15,7 +15,7 @@ while (<MEDIA>) {
   #print "$blobcsid $objectcsid\n";
   # eliminate non-public images from public portal
   next if ($approvedforweb eq 'no') && ($runtype eq 'public');
-  $media{$objectcsid} .= $blobcsid . ',';
+  $media{$objectcsid} .= $blobcsid . '|';
 }
 
 open METADATA,$ARGV[1] || die "couldn't open metadata file $ARGV[1]";
@@ -34,7 +34,7 @@ while (<METADATA>) {
   else {
     $count{'unmatched'}++;
   }
-  $mediablobs =~ s/,$//; # get rid of trailing comma
+  $mediablobs =~ s/\|$//; # get rid of trailing delimiter
   print $_ . $delim . $mediablobs . "\n";
 }
 

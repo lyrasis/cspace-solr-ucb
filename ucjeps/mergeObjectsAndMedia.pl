@@ -11,7 +11,7 @@ while (<MEDIA>) {
   s/\r//g;
   my ($objectcsid, $objectnumber, $mediacsid, $description, $filename, $creatorrefname, $creator, $blobcsid, $copyrightstatement, $identificationnumber, $rightsholderrefname, $rightsholder, $contributor, $approvedforweb, $imageType) = split /$delim/;
   #print "$blobcsid $objectcsid\n";
-  $media{$objectcsid} .= $blobcsid . ',';
+  $media{$objectcsid} .= $blobcsid . '|';
 }
 
 open METADATA,$ARGV[1] || die "couldn't open metadata file $ARGV[1]";
@@ -28,7 +28,7 @@ while (<METADATA>) {
   else {
     $count{'unmatched'}++;
   }
-  $mediablobs =~ s/,$//; # get rid of trailing comma
+  $mediablobs =~ s/\|$//; # get rid of trailing delimiter
   print $_ . $delim . $mediablobs . "\n";
 }
 
