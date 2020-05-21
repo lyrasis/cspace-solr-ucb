@@ -17,7 +17,7 @@ export BASEDIR=/home/app_solr/solrdatasources/cinefiles
 export SCRIPTDIR=$BASEDIR/scripts
 export PGUSER=nuxeo_cinefiles
 export PGDATABASE=cinefiles_domain_cinefiles
-export PGHOST=dba-postgres-prod-45.ist.berkeley.edu
+export PGHOST=dba-postgres-prod-42.ist.berkeley.edu
 export PGPORT=5313
 
 export SQLDIR="$SCRIPTDIR/sql/denorm_nightly"
