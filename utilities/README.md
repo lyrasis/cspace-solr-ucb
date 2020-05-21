@@ -290,7 +290,41 @@ diff -r /home/app_solr/cspace-solr-ucb/ucjeps/solrETL-public.sh solrdatasources/
 
 Check with Ops
 
-####  Testing queries
+#### Additional first time installation considerations
+
+
+- ucbg needs the gbif pickle file and 'requests'. get a copy from prod_
+```
+pip3 install requests
+cd ~/solrdatasources/botgarden/gbif/
+wget https://webapps.cspace.berkeley.edu/names.pickle
+
+rm logs/*
+nohup /home/app_solr/one_job.sh >> /home/app_solr/refresh.log &
+```
+- to refresh the dev cores from recent production extracts
+```
+cd ~/4solr/
+./curl4solr.sh
+
+curl -O https://webapps.cspace.berkeley.edu/allcurls.sh
+chmod +x allcurls.sh
+gunzip *.gz &
+nohup time ./allcurls.sh
+```
+- perhaps the following, too?
+```
+less bin/solr.cmd
+less bin/init.d/solr
+ulimit -n
+cat /etc/security/limits.d/solr.conf
+apt install haveged
+man haveged
+sysctl kernel.random.entropy_avail
+cat /etc/security/limits.d/solr.conf
+```
+
+####  Testing Solr queries
 
 Certain search terms are supposed to handled specially. For example:
 
