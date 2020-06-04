@@ -2,10 +2,18 @@
 #
 # redeploy the Solr ETL from github
 #
-# check to see we are plausibly able to do something...
+if [[ $# -ne 1 ]] ;
+then
+  echo
+  echo "Usage: $0 <version>"
+  echo
+  exit 1
+fi
+
 cd
 SOLRETLDIR=~/solrdatasources
 SOLR_REPO=~/cspace-solr-ucb
+# check to see we are plausibly able to do something...
 if [ ! -d ${SOLR_REPO} ];
 then
    echo "Solr repo ${SOLR_REPO} not found in this directory. Please clone from GitHub."
@@ -30,7 +38,9 @@ mkdir ${SOLRETLDIR}
 
 # deploy fresh code from github
 cd ${SOLR_REPO}
+git checkout master
 git pull -v
+git checkout $1
 cp utilities/o*.sh ~
 cp utilities/checkstatus.sh ~
 
