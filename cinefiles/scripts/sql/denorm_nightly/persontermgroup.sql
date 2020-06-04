@@ -30,7 +30,6 @@ UPDATE cinefiles_denorm.persontermgroup
 WHERE length(coalesce(trim(surname), '')) = 0;
 
 GRANT SELECT ON cinefiles_denorm.persontermgroup TO GROUP reporters_cinefiles;
-GRANT SELECT ON cinefiles_denorm.persontermgroup TO GROUP cinereaders;
 GRANT SELECT ON cinefiles_denorm.persontermgroup TO reader_cinefiles;
 
 SELECT COUNT(1) FROM persontermgroup;

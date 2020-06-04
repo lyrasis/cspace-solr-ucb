@@ -24,7 +24,6 @@ CREATE TABLE cinefiles_denorm.personlisttmp AS
    ORDER BY personname;
 
 GRANT SELECT ON cinefiles_denorm.personlisttmp TO GROUP reporters_cinefiles;
-GRANT SELECT ON cinefiles_denorm.personlisttmp TO GROUP cinereaders;
 GRANT SELECT ON cinefiles_denorm.personlisttmp TO reader_cinefiles;
 
 SELECT COUNT(1) from cinefiles_denorm.personlist;

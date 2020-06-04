@@ -31,7 +31,6 @@ CREATE TABLE cinefiles_denorm.filmgenrestmp AS
    ORDER BY film_id, wcg.pos;
 
 GRANT SELECT ON cinefiles_denorm.filmgenrestmp TO GROUP reporters_cinefiles;
-GRANT SELECT ON cinefiles_denorm.filmgenrestmp TO GROUP cinereaders;
 GRANT SELECT ON cinefiles_denorm.filmgenrestmp TO reader_cinefiles;
 
 SELECT COUNT(1) FROM cinefiles_denorm.filmgenres;

@@ -34,7 +34,6 @@ CREATE TABLE cinefiles_denorm.filmdocstmp AS
    ORDER BY wc.shortidentifier, cast(co.objectnumber AS bigint);
 
 GRANT SELECT ON cinefiles_denorm.filmdocstmp TO GROUP reporters_cinefiles;
-GRANT SELECT ON cinefiles_denorm.filmdocstmp TO GROUP cinereaders;
 GRANT SELECT ON cinefiles_denorm.filmdocstmp TO reader_cinefiles;
 
 SELECT COUNT(1) FROM cinefiles_denorm.filmdocs;

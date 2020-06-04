@@ -22,7 +22,6 @@ CREATE TABLE cinefiles_denorm.docauthoridstringtmp AS
    ORDER BY cast(co.objectnumber AS bigint);
 
 GRANT SELECT ON cinefiles_denorm.docauthoridstringtmp TO GROUP reporters_cinefiles;
-GRANT SELECT ON cinefiles_denorm.docauthoridstringtmp TO GROUP cinereaders;
 GRANT SELECT ON cinefiles_denorm.docauthoridstringtmp TO reader_cinefiles;
 
 SELECT COUNT(1) FROM cinefiles_denorm.docauthoridstring;

@@ -29,7 +29,6 @@ CREATE TABLE cinefiles_denorm.filmdoccounttmp AS
       ORDER BY wc.shortidentifier;
 
 GRANT SELECT ON cinefiles_denorm.filmdoccounttmp TO GROUP reporters_cinefiles;
-GRANT SELECT ON cinefiles_denorm.filmdoccounttmp TO GROUP cinereaders;
 GRANT SELECT ON cinefiles_denorm.filmdoccounttmp TO reader_cinefiles;
 
 SELECT COUNT(1) FROM cinefiles_denorm.filmdoccount;

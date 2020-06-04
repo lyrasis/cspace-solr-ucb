@@ -22,7 +22,6 @@ CREATE TABLE cinefiles_denorm.filmsubjectstringtmp AS
    ORDER BY wc.shortidentifier;
 
 GRANT SELECT ON cinefiles_denorm.filmsubjectstringtmp TO GROUP reporters_cinefiles;
-GRANT SELECT ON cinefiles_denorm.filmsubjectstringtmp TO GROUP cinereaders;
 GRANT SELECT ON cinefiles_denorm.filmsubjectstringtmp TO reader_cinefiles;
 
 SELECT COUNT(1) FROM cinefiles_denorm.filmsubjectstring;
