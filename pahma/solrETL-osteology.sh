@@ -37,8 +37,6 @@ cut -f1,3- o4.csv > o5.csv
 grep -P "^id\t" o5.csv > header4Solr.csv
 grep -v -P "^id\t" o5.csv > o6.csv
 cat header4Solr.csv o6.csv > o7.csv
-# hack to fix inventorydate_dt
-perl -i -pe 's/([\d\-]+) ([\d:]+)/\1T\2Z/' o7.csv
 ##############################################################################
 # count the types and tokens in the final file
 ##############################################################################

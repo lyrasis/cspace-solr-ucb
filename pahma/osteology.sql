@@ -99,7 +99,7 @@ SELECT
   ost.int_cuneif_2_l                 AS "int_cuneif_2_l_s",
   ost.int_cuneif_2_r                 AS "int_cuneif_2_r_s",
   REGEXP_REPLACE(ost.inventoryanalyst, '^.*\)''(.*)''$', '\1') AS "inventoryanalyst_s",
-  ost.inventorydate                  AS "inventorydate_dt",
+  TO_CHAR(ost.inventorydate at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS "inventorydate_dt",
   ost.inventoryid                    AS "inventoryid_s",
   ost.inventoryiscomplete            AS "inventoryiscomplete_b",
   ost.ischium_l                      AS "ischium_l_s",
