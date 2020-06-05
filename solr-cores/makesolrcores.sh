@@ -159,7 +159,7 @@ function create_copy_fields()
     echo "Reading field definition for copyFields from $1"
     while read field_name
     do
-      txt_field_name=${field_name/_*/_txt}
+      txt_field_name=${field_name%_*}_txt
       copy_fields $field_name $txt_field_name
     done < $1
     }
