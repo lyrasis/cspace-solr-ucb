@@ -3,12 +3,14 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.4-rc1
-Thu Jun  4 12:20:07 PDT 2020
+This is version 6.0.4-rc2
+Fri Jun  5 08:52:30 PDT 2020
 
-5d3e467 (HEAD -> master) CSW-319: revise cinefiles solr fields to include all film-related fields
+9728939 (HEAD -> master) CSW-319: solr core schema maintenance script needs a better regex
+dde51d1 (tag: 6.0.4-rc1, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.4-rc1
+5d3e467 CSW-319: revise cinefiles solr fields to include all film-related fields
 668f02d CSW-321: solr pipeline deploy script now takes a parameter: version to deploy
-aba42d0 (origin/master, origin/HEAD) CSW-329: fix format of inventory date in pahma osteology solr pipeline
+aba42d0 CSW-329: fix format of inventory date in pahma osteology solr pipeline
 96d8db9 CSW-328: get rid of obsolete 'cinereaders' GRANT from cinefiles denorm sql
 0fad8f6 CSW-320:  use today's db hostname in cinefiles denorm script
 91c04dc CSW-321: switch2*.sh should run correctly from anywhere
