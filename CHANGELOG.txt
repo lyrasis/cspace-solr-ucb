@@ -3,11 +3,14 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.4-rc2
-Fri Jun  5 08:52:30 PDT 2020
+This is version 6.0.4-rc3
+Wed Jul  8 12:47:18 PDT 2020
 
-9728939 (HEAD -> master) CSW-319: solr core schema maintenance script needs a better regex
-dde51d1 (tag: 6.0.4-rc1, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.4-rc1
+05fa89d (HEAD -> master) CC-154: use new prod 'prod-45' hostname in solr pipelines
+947a141 CSW-337: include last row in link2 file (newline was getting lost)
+ac0549f (tag: 6.0.4-rc2, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.4-rc2
+9728939 CSW-319: solr core schema maintenance script needs a better regex
+dde51d1 (tag: 6.0.4-rc1) revise change log and VERSION file for version 6.0.4-rc1
 5d3e467 CSW-319: revise cinefiles solr fields to include all film-related fields
 668f02d CSW-321: solr pipeline deploy script now takes a parameter: version to deploy
 aba42d0 CSW-329: fix format of inventory date in pahma osteology solr pipeline
