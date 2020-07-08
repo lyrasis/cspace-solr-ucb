@@ -81,14 +81,14 @@ link = collections.defaultdict(list)
 for line in LINK:
     count['link'] += 1
     (filmid, docid) = line[:2]
-    link[docid].append(filmid)
+    link[docid.strip()].append(filmid.strip())
 
 LINK2 = open_file(sys.argv[3], 'link2')
 link2 = {}
 for line in LINK2:
     count['link2'] += 1
     (csid, docid) = line[:2]
-    link2[docid] = csid
+    link2[docid.strip()] = csid
 
 FILMS = open_file(sys.argv[4], 'films')
 films = collections.defaultdict(tuple)
