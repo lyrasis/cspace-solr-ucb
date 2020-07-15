@@ -3,12 +3,13 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.4-rc3
-Wed Jul  8 12:47:18 PDT 2020
+This is version 6.0.4
+Wed Jul 15 12:01:29 PDT 2020
 
-05fa89d (HEAD -> master) CC-154: use new prod 'prod-45' hostname in solr pipelines
+ea64ce2 (HEAD -> master, tag: 6.0.4-rc3, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.4-rc3
+05fa89d CC-154: use new prod 'prod-45' hostname in solr pipelines
 947a141 CSW-337: include last row in link2 file (newline was getting lost)
-ac0549f (tag: 6.0.4-rc2, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.4-rc2
+ac0549f (tag: 6.0.4-rc2) revise change log and VERSION file for version 6.0.4-rc2
 9728939 CSW-319: solr core schema maintenance script needs a better regex
 dde51d1 (tag: 6.0.4-rc1) revise change log and VERSION file for version 6.0.4-rc1
 5d3e467 CSW-319: revise cinefiles solr fields to include all film-related fields
