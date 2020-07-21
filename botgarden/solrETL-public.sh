@@ -38,7 +38,7 @@ time perl -ne 'print unless /\(\d+ rows\)/' d2.csv > d3.csv
 ##############################################################################
 # count the number of columns in each row, solr wants them all to be the same
 ##############################################################################
-time python3 evaluate.py d3.csv d4.csv > counts.${CORE}.csv
+time python3 evaluate.py d3.csv d4.csv > counts.${CORE}.rawdata.csv
 ##############################################################################
 # check latlongs
 ##############################################################################
