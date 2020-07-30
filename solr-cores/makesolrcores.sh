@@ -42,7 +42,7 @@ function define_field_types()
     echo "Defining new types, redefining others..."
 
     echo "  alphaOnlySort..."
-    curl -S -X POST -H 'Content-type:application/json' --data-binary '{
+    curl -s -S -X POST -H 'Content-type:application/json' --data-binary '{
       "add-field-type" : {
          "name":"alphaOnlySort",
          "class":"solr.TextField",
@@ -73,7 +73,7 @@ function define_field_types()
 
     #return 0
     echo "  text_general..."
-    curl -S -X POST -H 'Content-type:application/json' --data-binary '{
+    curl -s -S -X POST -H 'Content-type:application/json' --data-binary '{
         "replace-field-type": {
             "name": "text_general",
             "class": "solr.TextField",
@@ -97,15 +97,14 @@ function define_field_types()
             "queryAnalyzer": {
                 "tokenizer": {
                     "class": "solr.ClassicTokenizerFactory"},
-                "filters": [{
-                    "class": "solr.SynonymFilterFactory",
-                    "expand": "true",
-                    "synonyms": "synonyms.txt",
-                    "ignoreCase": "true"},
+                "filters": [
                     {
                         "class": "solr.StopFilterFactory",
                         "words": "lang/stopwords_en.txt",
                         "ignoreCase": "true"},
+                    {
+                        "class": "solr.ManagedSynonymGraphFilterFactory",
+                        "managed": "english"},
                     {
                         "class": "solr.ASCIIFoldingFilterFactory"},
                     {
@@ -129,7 +128,7 @@ function define_fields()
     # Notice that we map "text" to "text_en" rather than to "text_general"
     # because Solr 4's "text" field behaved like "text_en" due to the
     # use of the SnowballFilter.
-    curl -S -X POST -H 'Content-type:application/json' --data-binary '{
+    curl -s -S -X POST -H 'Content-type:application/json' --data-binary '{
       "add-field":{
         "name":"text",
         "type":"text_general",
@@ -147,7 +146,7 @@ function copy_fields()
     # ====================
 
     echo "Making copyFields for $1 $2 ..."
-    curl -S -X POST -H 'Content-type:application/json' --data-binary "{
+    curl -s -S -X POST -H 'Content-type:application/json' --data-binary "{
       \"add-copy-field\":{
         \"source\": \"$1\",
         \"dest\": [ \"$2\" ]}
@@ -164,6 +163,23 @@ function create_copy_fields()
     done < $1
     }
 
+function create_synonyms()
+    {
+    if [[ -f $1 ]]
+    then
+      echo "Reading synonyms from $1"
+      while read synonyms
+      do
+        [[ ${synonyms} = \#* ]] && continue
+        [[ ${synonyms} = '' ]] && continue
+        echo "Making synonyms for $1: ${synonyms}..."
+        curl -s -S -X PUT -H 'Content-type:application/json' --data-binary "${synonyms}" $SOLR_CORE_URL/schema/analysis/synonyms/english
+      done < $1
+    else
+      echo "No synonyms file found: $1"
+    fi
+    }
+
 function define_dynamic_fields()
 {
     # right now this is a NOOP:
@@ -173,7 +189,7 @@ function define_dynamic_fields()
     # Dynamic fields
     # ====================
     echo "Defining dynamic fields..."
-    curl -S -X POST -H 'Content-type:application/json' --data-binary '{
+    curl -s -S -X POST -H 'Content-type:application/json' --data-binary '{
       "add-dynamic-field":{
         "name":"*_txt",
         "type":"text_general",
@@ -191,19 +207,19 @@ function define_special_fields()
     echo "Defining special fields for $1..."
 
     if [[ "$1" = "pahma-public" || "$1" == "pahma-internal" ]]; then
-        curl -S -X POST -H 'Content-type:application/json' --data-binary '{
+        curl -s -S -X POST -H 'Content-type:application/json' --data-binary '{
             "add-field":{
                 "name":"objname_sort",
                 "type":"alphaOnlySort",
                 "stored":false,
                 "indexed":true}
         }' $SOLR_CORE_URL/schema
-        curl -S -X POST -H 'Content-type:application/json' --data-binary '{
+        curl -s -S -X POST -H 'Content-type:application/json' --data-binary '{
             "add-copy-field":{"source":
                 "objname_s",
                 "dest": [ "objname_sort" ]}
         }' $SOLR_CORE_URL/schema
-        curl -S -X POST -H 'Content-type:application/json' --data-binary '{
+        curl -s -S -X POST -H 'Content-type:application/json' --data-binary '{
             "add-copy-field":{"source":
                 "objmusno_s",
                 "dest": [ "objmusno_s_lower" ]}
@@ -238,6 +254,7 @@ do
     define_dynamic_fields
     define_special_fields ${SOLR_CORE}
     create_copy_fields ${SOLR_CORE}.fields.txt
+    create_synonyms ${SOLR_CORE}.synonyms.txt
 
     # add all these to the 'catch-all' field
     copy_fields '*_s'   'text'
@@ -245,12 +262,12 @@ do
     copy_fields '*_txt' 'text'
 
     echo "Reloading core ${SOLR_CORE}..."
-    curl -S "$SOLR_RELOAD_URL"
+    curl -s -S "$SOLR_RELOAD_URL"
 done
 
 # ====================
 # Use this to export all the *actual* fields defined in the code
 # *after* importing data
 #
-# curl -S $SOLR_CORE_URL/admin/luke?numTerms=0 > luke7.xml
+# curl -s -S $SOLR_CORE_URL/admin/luke?numTerms=0 > luke7.xml
 # ====================
