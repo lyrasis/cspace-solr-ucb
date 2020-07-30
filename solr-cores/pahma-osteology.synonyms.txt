@@ -1,0 +1,22 @@
+# PAHMA synonyms
+# they have to be single words, I'm pretty sure...
+# case-insentive, I'm pretty sure
+# "index time" only (lookit up in the Solr documentation
+# in YAML: each set of synonyms is a list
+
+# all terms are equivalent to each other in searches and
+# will return the same document set
+['Femur', 'femora', 'femurs']
+['Tibia', 'tibiae', 'tibias']
+['Fibula', 'fibulae', 'fibulas']
+['Humerus', 'humeri', 'humeruses']
+['Radius', 'radii', 'radiuses']
+['Ulna', 'ulnae', 'ulnas']
+['Cranium', 'crania']
+['Mandible', 'mandibulae', 'mandibles']
+['Vertebra', 'vertebrae', 'vertebras']
+
+# Synonym mappings can be used for spelling correction too
+# in this case, the error is mapped to the correction using a dictionary
+# "query time" only. don't use to correct the data!
+{'pheobe': 'phoebe'}
