@@ -18,6 +18,7 @@ HOSTNAME="dba-postgres-prod-45.ist.berkeley.edu port=5307 sslmode=prefer"
 USERNAME="reporter_pahma"
 DATABASE="pahma_domain_pahma"
 CONNECTSTRING="host=$HOSTNAME dbname=$DATABASE"
+CONTACT="mtblack@berkeley.edu"
 ##############################################################################
 # extract locations, past and present, from CSpace
 ##############################################################################
@@ -50,37 +51,13 @@ perl -i -pe 's/^/id\t/' header4Solr.csv
 cat header4Solr.csv m4.csv > m6.csv
 rm m3.sort.csv m4.csv
 ##############################################################################
-# count the types and tokens in the final file
+# check the final file
 ##############################################################################
-time python evaluate.py m6.csv 4solr.${TENANT}.${CORE}.csv > counts.${CORE}.csv
-##############################################################################
-# check if we have enough data to be worth refreshing...
-##############################################################################
-CSVFILE="4solr.${TENANT}.${CORE}.csv"
-# this value is an approximate lower bound on the number of rows there should
-# be, based on data as of 2019-09-11. It may need to be periodically adjusted.
-MINIMUM=3700000
-ROWS=`wc -l < ${CSVFILE}`
-if (( ${ROWS} < ${MINIMUM} )); then
-   echo "Only ${ROWS} rows in ${CSVFILE}; refresh aborted, core left untouched." | mail -s "PROBLEM with ${TENANT}-${CORE} nightly solr refresh" -- cspace-support@lists.berkeley.edu
-   exit 1
-fi
-##############################################################################
-# OK, we are good to go! clear out the existing data
-##############################################################################
-curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<delete><query>*:*</query></delete>' -H 'Content-type:text/xml; charset=utf-8'
-curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<commit/>' -H 'Content-type:text/xml; charset=utf-8'
-##############################################################################
-# this POSTs the csv to the Solr / update endpoint
-# note, among other things, the overriding of the encapsulator with \
-##############################################################################
-time curl -X POST -s -S "http://localhost:8983/solr/pahma-${CORE}/update/csv?commit=true&header=true&trim=true&separator=%09&encapsulator=\\" -T 4solr.pahma.${CORE}.csv -H 'Content-type:text/plain; charset=utf-8' &
-# count blobs
-cut -f67 4solr.${TENANT}.${CORE}.csv | grep -v 'blob_ss' |perl -pe 's/\r//' |  grep . | wc -l > counts.${CORE}.blobs.csv &
-cut -f67 4solr.${TENANT}.${CORE}.csv | perl -pe 's/\r//;s/,/\n/g' | grep -v 'blob_ss' | grep . | wc -l >> counts.${CORE}.blobs.csv &
-wait
-cp counts.${CORE}.blobs.csv /tmp/${TENANT}.counts.${CORE}.csv
+time python ../common/evaluate.py m6.csv 4solr.${TENANT}.${CORE}.csv > /dev/null
+###############################################################################
+## OK, we are good to go! clear out the existing data and reload
+###############################################################################
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  3700000 67
 # get rid of intermediate files
-rm m6.csv
-gzip -f 4solr.${TENANT}.${CORE}.csv
+rm m6.csv header4Solr.csv
 date

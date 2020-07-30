@@ -14,8 +14,6 @@ cd /home/app_solr/solrdatasources/pahma
 # specially, and the scripts need to run in order: public > internal > locations
 # the public script, which runs first, *can* 'stash' last night's files...
 ##############################################################################
-mv 4solr.*.csv.gz /tmp
-##############################################################################
 # while most of this script is already tenant specific, many of the specific commands
 # are shared between the different scripts; having them be as similar as possible
 # eases maintainance. ergo, the TENANT parameter
@@ -98,14 +96,14 @@ cat header4Solr.csv d8.csv | perl -pe 's/␥/|/g' > internal.csv
 time perl -pe 's/\r//g;s/\\/\//g;s/\t"/\t/g;s/"\t/\t/g;s/\"\"/"/g' restricted.csv > d6a.csv &
 time perl -pe 's/\r//g;s/\\/\//g;s/\t"/\t/g;s/"\t/\t/g;s/\"\"/"/g' internal.csv > d6b.csv &
 wait
-time python3 evaluate.py d6a.csv temp.${CORE}.csv > counts.${CORE}.rawdata.csv &
-time python3 evaluate.py d6b.csv temp.internal.csv > counts.internal.rawdata.csv &
+time python3 ../common/evaluate.py d6a.csv temp.${CORE}.csv > ${TENANT}.counts.${CORE}.rawdata.csv &
+time python3 ../common/evaluate.py d6b.csv temp.internal.csv > ${TENANT}.counts.internal.rawdata.csv &
 wait
 ##############################################################################
 # check latlongs for ${CORE} datastore
 ##############################################################################
 perl -ne '@y=split /\t/;$x=$y[$ENV{"FCPCOL"}];print if     $x =~ /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/ || $x =~ /_p/ || $x eq "" ;' temp.${CORE}.csv >d6a.csv &
-perl -ne '@y=split /\t/;$x=$y[$ENV{"FCPCOL"}];print unless $x =~ /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/ || $x =~ /_p/ || $x eq "" ;' temp.${CORE}.csv > counts.latlong_errors.csv &
+perl -ne '@y=split /\t/;$x=$y[$ENV{"FCPCOL"}];print unless $x =~ /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/ || $x =~ /_p/ || $x eq "" ;' temp.${CORE}.csv > ${TENANT}.counts.latlong_errors.csv &
 ##############################################################################
 # check latlongs for internal datastore
 ##############################################################################
@@ -147,61 +145,25 @@ time grep -v -P "^id\t" d7.csv > d8.csv &
 wait
 cat header4Solr.csv d8.csv | perl -pe 's/␥/|/g' > d9.csv
 ##############################################################################
-# compute _i values for _dt values (to support BL date range searching
+# compute _i values for _dt values (to support BL date range searching)
 ##############################################################################
-time python3 computeTimeIntegersPAHMA.py d9.csv 4solr.${TENANT}.${CORE}.csv > counts.date_hacks.csv
+time python3 computeTimeIntegersPAHMA.py d9.csv 4solr.${TENANT}.${CORE}.csv > ${TENANT}.counts.date_hacks.csv &
 #
 time grep -P "^id\t" d6b.csv > header4Solr.csv &
 time grep -v -P "^id\t" d6b.csv > d8.csv &
 wait
 cat header4Solr.csv d8.csv | perl -pe 's/␥/|/g' > d9.csv
 ##############################################################################
-# compute _i values for _dt values (to support BL date range searching
+# compute _i values for _dt values (to support BL date range searching)
 ##############################################################################
 time python3 computeTimeIntegers.py d9.csv 4solr.${TENANT}.internal.csv
-wc -l *.csv
 ##############################################################################
-# check if we have enough data to be worth refreshing...
+# OK, we are good to go! clear out the existing data and reload
 ##############################################################################
-CSVFILE="4solr.${TENANT}.${CORE}.csv"
-# this value is an approximate lower bound on the number of rows there should
-# be, based on data as of 2019-09-11. It may need to be periodically adjusted.
-MINIMUM=740000
-ROWS=`wc -l < ${CSVFILE}`
-if (( ${ROWS} < ${MINIMUM} )); then
-   echo "Only ${ROWS} rows in ${CSVFILE}; refresh aborted, core left untouched." | mail -s "PROBLEM with ${TENANT}-${CORE} nightly solr refresh" -- cspace-support@lists.berkeley.edu
-   exit 1
-fi
-##############################################################################
-# OK, we are good to go! clear out the existing data
-##############################################################################
-curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<delete><query>*:*</query></delete>' -H 'Content-type:text/xml; charset=utf-8'
-curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<commit/>' -H 'Content-type:text/xml; charset=utf-8'
-##############################################################################
-# this POSTs the csv to the Solr / update endpoint
-# note, among other things, the overriding of the encapsulator with \
-##############################################################################
-head -1 4solr.${TENANT}.${CORE}.csv | perl -pe 's/[\t\r]/\n/g' | perl -ne 'chomp; next unless /_(dt|s|i)s/; print "f.$_.split=true&f.$_.separator=%7C&"' > uploadparms.${CORE}.txt
-ss_string=`cat uploadparms.${CORE}.txt`
-time curl -X POST -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update/csv?commit=true&header=true&separator=%09&${ss_string}f.blob_ss.split=true&f.blob_ss.separator=,&encapsulator=\\" -T 4solr.${TENANT}.${CORE}.csv -H 'Content-type:text/plain; charset=utf-8' &
-##############################################################################
-# while that's running, clean up, generate some stats, mail reports
-##############################################################################
-time python3 evaluate.py 4solr.${TENANT}.${CORE}.csv /dev/null > counts.${CORE}.final.csv &
-time python3 evaluate.py 4solr.${TENANT}.internal.csv /dev/null > counts.internal.final.csv &
-wait
-cp counts.${CORE}.final.csv /tmp/${TENANT}.counts.${CORE}.csv
-cp counts.internal.final.csv /tmp/${TENANT}.counts.internal.csv
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  740000 51
 # send the errors off to be dealt with
-tar -czf counts.tgz counts*.csv
+tar -czf counts.tgz ${TENANT}.counts.*.csv
 ./make_error_report.sh | mail -A counts.tgz -s "PAHMA Solr Counts and Refresh Errors `date`" ${CONTACT}
-# count blobs
-cut -f51 4solr.${TENANT}.${CORE}.csv | grep -v 'blob_ss' |perl -pe 's/\r//' |  grep . | wc -l > counts.${CORE}.blobs.csv
-cut -f51 4solr.${TENANT}.${CORE}.csv | perl -pe 's/\r//;s/,/\n/g;s/\|/\n/g;' | grep -v 'blob_ss' | grep . | wc -l >> counts.${CORE}.blobs.csv
-cp counts.${CORE}.blobs.csv /tmp/${TENANT}.counts.${CORE}.blobs.csv
-cat counts.${CORE}.blobs.csv
 # get rid of intermediate files
-rm d?.csv d6?.csv m?.csv part*.csv temp.*.csv basic*.csv errors*.csv header4Solr.csv
-# zip up .csvs, save a bit of space on backups
-gzip -f *.csv &
+rm d?.csv d6?.csv part*.csv temp.*.csv basic*.csv header4Solr.csv
 date

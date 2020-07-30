@@ -30,42 +30,14 @@ cd /home/app_solr/solrdatasources/pahma
 ##############################################################################
 TENANT=$1
 CORE=internal
+CONTACT="mtblack@berkeley.edu"
 ##############################################################################
 # gunzip the csv file for the internal store, prepared by the solrETL-public.sh
 ##############################################################################
 gunzip -f 4solr.${TENANT}.${CORE}.csv.gz
 ##############################################################################
-# check if we have enough data to be worth refreshing...
+# OK, we are good to go! clear out the existing data and reload
 ##############################################################################
-CSVFILE="4solr.${TENANT}.${CORE}.csv"
-# this value is an approximate lower bound on the number of rows there should
-# be, based on data as of 2019-09-11. It may need to be periodically adjusted.
-MINIMUM=750000
-ROWS=`wc -l < ${CSVFILE}`
-if (( ${ROWS} < ${MINIMUM} )); then
-   echo "Only ${ROWS} rows in ${CSVFILE}; refresh aborted, core left untouched." | mail -s "PROBLEM with ${TENANT}-${CORE} nightly solr refresh" -- cspace-support@lists.berkeley.edu
-   exit 1
-fi
-##############################################################################
-# OK, we are good to go! clear out the existing data
-##############################################################################
-curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<delete><query>*:*</query></delete>' -H 'Content-type:text/xml; charset=utf-8'
-curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<commit/>' -H 'Content-type:text/xml; charset=utf-8'
-##############################################################################
-# this POSTs the csv to the Solr / update endpoint
-# note, among other things, the overriding of the encapsulator with \
-##############################################################################
-head -1 4solr.${TENANT}.${CORE}.csv | perl -pe 's/[\t\r]/\n/g' | perl -ne 'chomp; next unless /_(dt|s|i)s/; print "f.$_.split=true&f.$_.separator=%7C&"' > uploadparms.${CORE}.txt
-ss_string=`cat uploadparms.${CORE}.txt`
-time curl -X POST -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update/csv?commit=true&header=true&separator=%09&${ss_string}f.blob_ss.split=true&f.blob_ss.separator=,&encapsulator=\\" -T 4solr.${TENANT}.${CORE}.csv -H 'Content-type:text/plain; charset=utf-8' &
-##############################################################################
-# wrap things up: make a gzipped version of what was loaded
-##############################################################################
-# count blobs
-cut -f59 4solr.${TENANT}.${CORE}.csv | grep -v 'blob_ss' |perl -pe 's/\r//' |  grep . | wc -l > counts.${CORE}.blobs.csv
-cut -f59 4solr.${TENANT}.${CORE}.csv | perl -pe 's/\r//;s/,/\n/g;s/\|/\n/g;' | grep -v 'blob_ss' | grep . | wc -l >> counts.${CORE}.blobs.csv
-wait
-cp counts.${CORE}.blobs.csv /tmp/${TENANT}.counts.${CORE}.blobs.csv
-cat counts.${CORE}.blobs.csv
-gzip -f 4solr.*.csv
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT} 75000 59
+# no cleanup done here!
 date

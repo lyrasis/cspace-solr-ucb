@@ -30,7 +30,7 @@ time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1.csv | perl -ne 'next if / rows/; pri
 ##############################################################################
 # count the types and tokens in the sql output, check cell counts
 ##############################################################################
-time python3 evaluate.py d3.csv metadata.csv > counts.${CORE}.rawdata.csv
+time python3 ../common/evaluate.py d3.csv metadata.csv > ${TENANT}.counts.${CORE}.rawdata.csv
 ##############################################################################
 # get media
 ##############################################################################
@@ -52,7 +52,7 @@ tail -n +2 d6.csv | perl fixdate.pl > d7.csv
 # check latlongs
 ##############################################################################
 time perl -ne '@x=split /\t/;print if abs($x[22])<90 && abs($x[23])<180;' d7.csv > d8.csv
-time perl -ne '@x=split /\t/;print if !(abs($x[22])<90 && abs($x[23])<180);' d7.csv > counts.errors_in_latlong.csv
+time perl -ne '@x=split /\t/;print if !(abs($x[22])<90 && abs($x[23])<180);' d7.csv > ${TENANT}.counts.errors_in_latlong.csv
 ##############################################################################
 # snag UCBG accession number and stuff it in the right field
 ##############################################################################
@@ -73,51 +73,20 @@ perl -i -pe 's/\\/\//g;s/\t"/\t/g;s/"\t/\t/g;s/\"\"/"/g' 4solr.${TENANT}.${CORE}
 ##############################################################################
 # mark duplicate accession numbers
 ##############################################################################
-cut -f3 4solr.${TENANT}.${CORE}.csv | sort | uniq -c | sort -rn |perl -ne 'print unless / 1 / ' > counts.duplicates.csv
+cut -f3 4solr.${TENANT}.${CORE}.csv | sort | uniq -c | sort -rn |perl -ne 'print unless / 1 / ' > ${TENANT}.counts.duplicates.csv
 cut -c9- counts.duplicates.csv | perl -ne 'chomp; print "s/\\t$_\\t/\\t$_ (duplicate)\\t/;\n"' > fix_dups.sh
 time perl -i -p fix_dups.sh 4solr.${TENANT}.${CORE}.csv
 ##############################################################################
-# check if we have enough data to be worth refreshing...
+# OK, we are good to go! clear out the existing data and reload
 ##############################################################################
-CSVFILE="4solr.${TENANT}.${CORE}.csv"
-# this value is an approximate lower bound on the number of rows there should
-# be, based on data as of 2019-09-11. It may need to be periodically adjusted.
-MINIMUM=750000
-ROWS=`wc -l < ${CSVFILE}`
-if (( ${ROWS} < ${MINIMUM} )); then
-   echo "Only ${ROWS} rows in ${CSVFILE}; refresh aborted, core left untouched." | mail -s "PROBLEM with ${TENANT}-${CORE} nightly solr refresh" -- cspace-support@lists.berkeley.edu
-   exit 1
-fi
-##############################################################################
-# OK, we are good to go! clear out the existing data
-##############################################################################
-curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<delete><query>*:*</query></delete>' -H 'Content-type:text/xml; charset=utf-8'
-curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<commit/>' -H 'Content-type:text/xml; charset=utf-8'
-##############################################################################
-# load the csv file into Solr using the csv DIH
-##############################################################################
-head -1 4solr.${TENANT}.${CORE}.csv | perl -pe 's/[\t\r]/\n/g' | perl -ne 'chomp; next unless /_(dt|s|i)s/; print "f.$_.split=true&f.$_.separator=%7C&"' > uploadparms.${CORE}.txt
-ss_string=`cat uploadparms.${CORE}.txt`
-time curl -X POST -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update/csv?commit=true&header=true&separator=%09&${ss_string}encapsulator=\\" -T 4solr.${TENANT}.${CORE}.csv -H 'Content-type:text/plain; charset=utf-8' &
-##############################################################################
-# while that's running, clean up, generate some stats, mail reports
-##############################################################################
-time python3 evaluate.py 4solr.${TENANT}.${CORE}.csv /dev/null > counts.${CORE}.final.csv
-cp counts.${CORE}.final.csv /tmp/${TENANT}.counts.${CORE}.csv
-wc -l *.csv
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  750000 67
 # send the errors off to be dealt with
-tar -czf counts.tgz counts.*.csv
+tar -czf counts.tgz ${TENANT}.counts.*.csv
 ./make_error_report.sh | mail -A counts.tgz -s "UCJEPS Solr Refresh Counts and Errors `date`" ${CONTACT}
 # get rid of intermediate files
-rm d?.csv m?.csv metadata.csv media.csv
-# count blobs
-cut -f67 4solr.${TENANT}.${CORE}.csv | grep -v 'blob_ss' |perl -pe 's/\r//' |  grep . | wc -l > counts.${CORE}.blobs.csv
-cut -f67 4solr.${TENANT}.${CORE}.csv | perl -pe 's/\r//;s/,/\n/g;s/\|/\n/g;' | grep -v 'blob_ss' | grep . | wc -l >> counts.${CORE}.blobs.csv
-cp counts.${CORE}.blobs.csv /tmp/${TENANT}.counts.${CORE}.blobs.csv
-cat counts.${CORE}.blobs.csv
-# zip up .csvs, save a bit of space on backups
-gzip -f *.csv
+rm d?.csv metadata.csv media.csv
 wait
 # hack to zap latlong errors and load the records anyway.
 ./zapCoords.sh
+rm header4Solr.csv
 date

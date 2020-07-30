@@ -2,13 +2,6 @@
 date
 cd /home/app_solr/solrdatasources/cinefiles
 ##############################################################################
-# move the current set of extracts to temp (thereby saving the previous run, just in case)
-# note that in the case where there are several nightly scripts, e.g. public and internal,
-# the one to run first will "clear out" the previous night's data.
-# NB: at the moment CineFiles has only a public solr core.
-##############################################################################
-mv 4solr.*.csv.gz /tmp
-##############################################################################
 # while most of this script is already tenant specific, many of the commands
 # are shared between the different scripts; having them be as similar as possible
 # eases maintainance. ergo, the TENANT parameter
@@ -35,7 +28,7 @@ time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1d.csv > metadata.csv
 rm d1?.csv
 time psql -R"@@" -F $'\t' --pset footer -A -U $USERNAME -d "$CONNECTSTRING" -f media_public.sql -o m1.csv
 time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' m1.csv > 4solr.${TENANT}.media.csv
-time python3 evaluate.py 4solr.${TENANT}.media.csv /dev/null > counts.media.csv &
+time python3 ../common/evaluate.py 4solr.${TENANT}.media.csv /dev/null > ${TENANT}.counts.media.csv &
 
 # special cases
 cut -f1,25 metadata.csv > csids+docids.csv
@@ -66,47 +59,15 @@ do
     # we want to use our "special" solr-friendly header.
     tail -n +2 ${file}.csv | grep -v " rows)" > d7.csv
     cat header4Solr.csv d7.csv > 4solr.${TENANT}.${file}.csv
-    perl -pe 's/\t/\n/g' header4Solr.csv | perl -ne 'chomp; next unless /_(dt|s)s/; next if /blob/; print "f.$_.split=true&f.$_.separator=%7C&"' > uploadparms.${file}.txt
     cat header4Solr.csv
-    time python3 evaluate.py 4solr.${TENANT}.${file}.csv /dev/null > counts.${file}.csv &
+    time python3 ../common/evaluate.py 4solr.${TENANT}.${file}.csv /dev/null > ${TENANT}.counts.${file}.csv &
 done
-
-wc -l *.csv
-##############################################################################
-# check if we have enough data to be worth refreshing...
-##############################################################################
-CSVFILE="4solr.${TENANT}.${CORE}.csv"
-# this value is an approximate lower bound on the number of rows there should
-# be, based on data as of 2019-09-11. It may need to be periodically adjusted.
-MINIMUM=50000
-ROWS=`wc -l < ${CSVFILE}`
-if (( ${ROWS} < ${MINIMUM} )); then
-   echo "Only ${ROWS} rows in ${CSVFILE}; refresh aborted, core left untouched." | mail -s "PROBLEM with ${TENANT}-${CORE} nightly solr refresh" -- ${CONTACT}
-fi
-
-##############################################################################
-# OK, we are good to go! clear out the existing data
-##############################################################################
-curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<delete><query>*:*</query></delete>' -H 'Content-type:text/xml; charset=utf-8'
-curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<commit/>' -H 'Content-type:text/xml; charset=utf-8'
-
-#for file in films docs
-for file in public films
-do
-    ss_string=`cat uploadparms.${file}.txt`
-    time curl -X POST -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update/csv?commit=true&header=true&trim=true&separator=%09&${ss_string}f.grouptitle_ss.split=true&f.grouptitle_ss.separator=;&f.othernumbers_ss.split=true&f.othernumbers_ss.separator=;&f.blob_ss.split=true&f.blob_ss.separator=,&encapsulator=\\" -T 4solr.${TENANT}.${file}.csv -H 'Content-type:text/plain; charset=utf-8' &
-done
-
-# get rid of intermediate files
-# count blobs
-cut -f51 4solr.${TENANT}.${CORE}.csv | grep -v 'blob_ss' |perl -pe 's/\r//' |  grep . | wc -l > counts.${CORE}.blobs.csv
-cut -f51 4solr.${TENANT}.${CORE}.csv | perl -pe 's/\r//;s/,/\n/g;s/\|/\n/g;' | grep -v 'blob_ss' | grep . | wc -l >> counts.${CORE}.blobs.csv &
 wait
-cp counts.${CORE}.blobs.csv /tmp/${TENANT}.counts.${CORE}.blobs.csv
-# rm d?.csv m?.csv b?.csv media.csv docs.csv films.csv header4Solr.csv
-rm d?.csv m?.csv b?.csv header4Solr.csv
-cat counts.${CORE}.blobs.csv
-# zip up .csvs, save a bit of space on backups
-gzip -f *.csv
-#
+##############################################################################
+# OK, we are good to go! clear out the existing data and reload
+##############################################################################
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  50000 51
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  30000  0 films
+# tidy up a bit
+rm d?.csv header4Solr.csv
 date
