@@ -9,30 +9,35 @@ Tools (mainly shell scripts) to:
 
 Currently there are 7 tools, some mature, but mostly unripe, raw, and needy:
 
-* scp4solr.sh -- attempts to scp (copy via ssh) the available nightly solr extracts
-* curl4solr.sh --  attempts to cURL the available nightly solr public extracts from the Production server
-* make_curls.sh -- script to extract the latest cURL commands to do the POSTing to Solr. creates allcurls.sh
+* scp4solr.sh -- attempts to scp (copy via ssh) the available nightly solr extracts. Includes the `internal` extracts!
+* curl4solr.sh --  attempts to cURL the available nightly solr public extracts from the Production server.
+* wget4solr.sh --  attempts to `wget` the available nightly solr public extracts from the Production server.
+* make_curls.sh -- script to extract the latest cURL commands from the Solr ETL logs to do the POSTing to
+  Solr. Creates `allcurls.sh`. MUST BE RUN ON AND RTL SERVER where `~app_solr/logs exists`!
 * allcurls.sh -- (EXAMPLE ONLY!) clears out and refreshes all UCB solr cores (provide you have the input files!)
 * checkstatus.sh -- *on UCB managed servers only* this script checks the ETL logs and counts records in all the solr cores
-* countSolr8.sh -- if your Solr8 server is running, this script will count the records in the UCB cores
-* tS.py -- a script to test your "solrpy" module and connectivity to Solr
+* checkcores.sh -- pings the admin interface (via cURL and HTTP) to obtain counts for all the solr cores
+  on localhost:8983.
+* countSolr8.sh -- if your Solr8 server is running, this script will count the records in the UCB cores.
+* tS.py -- a toy script to test your "solrpy" module and connectivity to Solr.
+  you'll have to read it to figure out how to use it.
 
 #### Suggestions for "local installs" of Solr
 
-e.g. on your Macbook or Ubuntu labtop, for development. Sorry, no help for Windows here!
+e.g. on your Macbook or Ubuntu laptop, for development. Sorry, no help for Windows here!
 
 (for installs on RTL servers, consult Ops.)
 
 The essence:
 
-* Install Solr8
+* Install Solr8 (either the "bonehead" easy way, or as a service)
 * Start the Solr8 server
-* Configure for UCB solr datastores using the scripts provided.
+* Configure for UCB solr datastores using the scripts provided
 * Obtain the latest data extracts from UCB servers
 * Unzip and load the extracts
 * Verify Solr8 server works
 
-NB: in general, you won't be running the Solr ETL pipelines locally, that's why we copy the
+NB: in general, you won't be running the _Solr ETL pipelines_ themselves locally, that's why we copy the
 'extracts' that are published on webapps.cspace.berkeley.edu. Only the public extracts are available.
 If you want to have the *-internal cores populated, you'll need to scp them from webapps.cspace.b.e or
 otherwise arrange to obtain them. Inasmuch as there is sensitive info in those internal cores, caution
@@ -45,6 +50,13 @@ here's one way to do it:
 ```bash
 ps aux | grep solr
 kill <thatsolrprocess>
+```
+
+or, if you have already started solr in a way similar to what is suggested here:
+
+```bash
+cd ~/solr8
+bin/solr stop
 ```
 ...But there are others. consult your friendly solr operator to find out how best to stop
 and eventually get rid of an existing solr server.
@@ -62,10 +74,12 @@ these instructions.
 cd ~
 git clone https://github.com/cspace-deployment/cspace-solr-ucb
 
-# 2. Get solr8
+# 2. Get solr8 (google 'install solr8')
 wget ....
 gunzip ...
-mv solr8-.... solr8
+# the rest of the instructions assume you've moved or symlinked the
+# solr directory to 'solr8'
+mv solr8-.... ~/solr8
 
 # try it out
 cd ~/solr8
@@ -73,7 +87,7 @@ bin/solr start
 
 # 3. You should now be able to see the Solr8 admin console in your browser:
 #
-#    http://localhost:8983/solr/
+#    visit http://localhost:8983/solr/
 #
 # 4. update the cores and schema for ucb
 #
@@ -81,11 +95,13 @@ bin/solr start
 #
 cd ~
 git clone https://github.com/cspace-deployment/cspace-solr-ucb
-cd ~/cspace-solr-ucb/solr-cores
-# you'll need to edit the SOLR_CMD in makesolrcores.sh to match where you put solr
-./makesolrcores.sh ~/cspace-solr-ucb
+cd ~/cspace-solr-ucb/solr-cores/utilities
+# IMPORTANT! you'll need to edit the SOLR_CMD in makesolrcores.sh to match where you put solr
+vi makesolrcores.sh
+# now run it. may take a minute or two.
+./makesolrcores.sh
 #
-#    http://localhost:8983/solr/
+#    visit http://localhost:8983/solr/
 #
 #    You should have a bunch of empty solr cores named things like "bampfa-public", "pahma-internal", etc.
 #
@@ -96,9 +112,8 @@ cd ~/cspace-solr-ucb/solr-cores
 # 5. if you want to populate your cores using 'nightly exracts', then...
 #
 # first, make a directory to keep things neat and tidy:
-cd ~
-mkdir 4solr
-cd 4solr
+mkdir ~/4solr
+cd ~/4solr
 #
 # then, there are several ways to get the files:
 #
@@ -109,24 +124,24 @@ cd 4solr
 # or, if you have ssh access to either Dev or Prod, you can scp them:
 ~/cspace-solr-ucb/utilities/scp4solr.sh mylogin@webapps.cspace.berkeley.edu
 #
-# NB: this script makes *a lot* of assumptions!
+# NB: this last script makes *a lot* of assumptions!
 # * You must be able to connect to the CSpace production or development servers,
-#   cspace-(prod,dev).cspace.berkeley.edu
+#   webapps-(prod,dev).cspace.berkeley.edu
 #   via secure connection, i.e. ssh.
 #   to check if you can get in, try "ssh mylogin@cspace-prod.cspace.berkeley.edu". if this does not
 #   work, debug that issue first before proceeding.
 # * If you're off-campus, you will probably need a VPN connection. The only evidence of this
 #   might be that invoking the script does nothing -- just hangs.
 #   You don't need to use the script. You can simply try the following:
-#       scp <your-dev-login>@cspace-prod.cspace.berkeley.edu:/tmp/4solr*.gz .
-# * You may not have credentials for Prod (only dev). In this case, try:
-#       scp <your-dev-login>@cspace-dev.cspace.berkeley.edu:/tmp/4solr*.gz .
+#       scp <your-prod-login>@webapps.cspace.berkeley.edu:/tmp/4solr*.gz .
+# * You may not have credentials for Prod. In this case, try:
+#       scp <your-dev-login>@webapps-dev.cspace.berkeley.edu:/tmp/4solr*.gz .
 #   (this will get you whatever is on Dev, which may not be the latest versions)
 # * In any case, if you have to do the scp by hand, you'll also need to uncompress the files by hand:
 #       gunzip -f 4solr*.gz
 # * Be patient: it may take a while -- 10-20 minutes -- to download all the files. They're a bit big.
 #
-# 6. execute the script to load all the .csv dump files (take 15 mins or so...some biggish datasources!)
+# 6. execute the script to load all the .csv dump files
 #
 #    this script cleans out each solr core and then loads the dump file.
 #    all the work is done via HTTP
@@ -134,9 +149,11 @@ cd 4solr
 # IMPORTANT!! the specifics of the cURLs to refresh the solr cores change frequently
 # make sure you get the right ones -- you may need to recreate the allcurls.sh
 # script on Production using the make_curls.sh script...
+# the script in GitHub is only an example of the recent setup.
 #
-nohup ~/cspace-solr-ucb/utilities/allcurls.sh
-# (takes a while, well over an hour. ergo the nohup...)
+cp ~/cspace-solr-ucb/utilities/allcurls.sh.example .
+nohup time allcurls.sh
+# (takes a while, sometimes even an hour ...some biggish datasources! ergo the nohup...)
 #
 #    as noted above, you can check the contents of your Solr cores in the admin console or via
 #    a script, as described in 4. above.
@@ -149,7 +166,7 @@ rm -rf ~/4solr
 #
 ```
 
-#### Differences between Dev and Prod deployments
+#### Differences between Dev, QA and Prod deployments on RTL servers
 
 There are only a few differences between the "pipeline code" as deployed on Dev and as deployed on Prod. (The
 files committed on GitHub are set up for Production; they need some minor edits when deployed on Dev.)
@@ -165,125 +182,26 @@ Later it may be prudent to put the production data back...
 * There is no need (in general) to run the Solr refresh scripts nightly: nothing changes much on Dev! Therefore, the
 cron job to run the refreshes (`one_job.sh`) is commented out in the `crontab`
 
-Here are the diffs one can expect between the pipeline files as committed to GitHub and as deployed on Dev.
+To edit the "standard" production configuration as represented in GitHub for Dev or QA
+use one of the two convenient scripts:
+
+```bash
+~/cspace-solr-ucb/utilities/switch2dev.sh
+~/cspace-solr-ucb/utilities/switch2qa.sh
+```
+
+These scripts, if they have been kept up to date, change:
+* The hostname as needed
+* The postgres port numbers as needed.
+* The contact info (for notification emails) so emails are sent to a Dev
+  (so museum folks are not pestered with emails from Dev or QA activity)
+
+Here's a way to find the diffs one can expect between the pipeline files as committed to GitHub and as deployed on Dev.
 
 ```
+# ~app_solr@webapps(-dev/-qa).cspace.berkeley.edu
 $ diff -r ~/cspace-solr-ucb solrdatasources | grep -v Only > diffs
-$ cat diffs
-
-diff -r /home/app_solr/cspace-solr-ucb/bampfa/bampfa_collectionitems_vw.sh solrdatasources/bampfa/bampfa_collectionitems_vw.sh
-8c8
-< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
----
-> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
-12c12
-< CONTACT="osanchez@berkeley.edu"
----
-> CONTACT="jblowe@berkeley.edu"
-diff -r /home/app_solr/cspace-solr-ucb/bampfa/bampfa_website_extract.sh solrdatasources/bampfa/bampfa_website_extract.sh
-8c8
-< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
----
-> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
-12c12
-< CONTACT="osanchez@berkeley.edu"
----
-> CONTACT="jblowe@berkeley.edu"
-diff -r /home/app_solr/cspace-solr-ucb/bampfa/solrETL-internal.sh solrdatasources/bampfa/solrETL-internal.sh
-11c11
-< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
----
-> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
-54c54
----
-diff -r /home/app_solr/cspace-solr-ucb/bampfa/solrETL-public.sh solrdatasources/bampfa/solrETL-public.sh
-21c21
-< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
----
-> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
-66c66
----
-diff -r /home/app_solr/cspace-solr-ucb/botgarden/solrETL-internal.sh solrdatasources/botgarden/solrETL-internal.sh
-46c46
----
-diff -r /home/app_solr/cspace-solr-ucb/botgarden/solrETL-propagations.sh solrdatasources/botgarden/solrETL-propagations.sh
-20c20
-< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
----
-> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
-58c58
----
-70c70
----
-diff -r /home/app_solr/cspace-solr-ucb/botgarden/solrETL-public.sh solrdatasources/botgarden/solrETL-public.sh
-20c20
-< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
----
-> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
-102c102
----
-diff -r /home/app_solr/cspace-solr-ucb/cinefiles/scripts/cinefiles_denorm_nightly.sh solrdatasources/cinefiles/scripts/cinefiles_denorm_nightly.sh
-20,21c20,21
-< export PGHOST=dba-postgres-prod-45.ist.berkeley.edu
-< export PGPORT=5313
----
-> export PGHOST=dba-postgres-dev-45.ist.berkeley.edu
-> export PGPORT=5114
-diff -r /home/app_solr/cspace-solr-ucb/cinefiles/solrETL-public.sh solrdatasources/cinefiles/solrETL-public.sh
-18c18
-< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
----
-> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5114 sslmode=prefer"
-22c22
-< CONTACT="cspace-support@lists.berkeley.edu"
----
-> CONTACT="jblowe@berkeley.edu"
-diff -r /home/app_solr/cspace-solr-ucb/pahma/solrETL-internal.sh solrdatasources/pahma/solrETL-internal.sh
-46c46
----
-diff -r /home/app_solr/cspace-solr-ucb/pahma/solrETL-locations.sh solrdatasources/pahma/solrETL-locations.sh
-17c17
-< HOSTNAME="dba-postgres-prod-45.ist.berkeley.edu port=5307 sslmode=prefer"
----
-> HOSTNAME="dba-postgres-dev-45.ist.berkeley.edu port=5117 sslmode=prefer"
-65c65
----
-diff -r /home/app_solr/cspace-solr-ucb/pahma/solrETL-osteology.sh solrdatasources/pahma/solrETL-osteology.sh
-16c16
-< HOSTNAME="dba-postgres-prod-45.ist.berkeley.edu port=5307 sslmode=prefer"
----
-> HOSTNAME="dba-postgres-dev-45.ist.berkeley.edu port=5117 sslmode=prefer"
-55c55
----
-diff -r /home/app_solr/cspace-solr-ucb/pahma/solrETL-public.sh solrdatasources/pahma/solrETL-public.sh
-25c25
-< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5307 sslmode=prefer"
----
-> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5117 sslmode=prefer"
-29c29
-< CONTACT="mtblack@berkeley.edu"
----
-> CONTACT="jblowe@berkeley.edu"
-172c172
----
-diff -r /home/app_solr/cspace-solr-ucb/ucjeps/solrETL-media.sh solrdatasources/ucjeps/solrETL-media.sh
-11c11
-< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5310 sslmode=prefer"
----
-> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5119 sslmode=prefer"
-34c34
----
-diff -r /home/app_solr/cspace-solr-ucb/ucjeps/solrETL-public.sh solrdatasources/ucjeps/solrETL-public.sh
-20c20
-< SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5310 sslmode=prefer"
----
-> SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5119 sslmode=prefer"
-24c24
-< CONTACT="ucjeps-it@berkeley.edu"
----
-> CONTACT="jblowe@berkeley.edu"
-88c88
----
+$ less diffs
 ```
 
 #### Installing solr8 as a service on UCB VMs
@@ -292,15 +210,20 @@ Check with Ops
 
 #### Additional first time installation considerations
 
-
-- ucbg needs the gbif pickle file and 'requests'. get a copy from prod_
+- UCBG needs the gbif pickle file and 'requests'. get a copy from prod_
 ```
 pip3 install requests
 cd ~/solrdatasources/botgarden/gbif/
+# a usuable though perhaps outdated pickle file is kept on prod
 wget https://webapps.cspace.berkeley.edu/names.pickle
-
+```
+- log cleanup? (we usually don't...)
+```
+# might want to clear out the Solr ETL logs from time to time...
 rm logs/*
-nohup /home/app_solr/one_job.sh >> /home/app_solr/refresh.log &
+```
+- run the 'nightly solr refresh' (i.e. pipelines) manually
+```nohup /home/app_solr/one_job.sh >> /home/app_solr/refresh.log &
 ```
 - to refresh the dev cores from recent production extracts
 ```
@@ -336,23 +259,35 @@ There's a script and a test file for that! Here's how it works:
 
 ```
 $ python query-test-cases.py https://webapps-dev.cspace.berkeley.edu/solr/pahma-public query-test-cases.pahma.txt 
-Métraux vs Metraux: 886 OK
-Luiseño vs Luiseno: 377 OK
-Diegueño vs Diegueno: 486 OK
-Kantō vs Kanto: 255 OK
-Kyūshū vs Kyushu: 78 OK
+# test cases for Solr stemming, character and case folding, and synonyms
+# format: data as it appears in the database, a tab, query term that should match it.
+# accented characters and ligatures
+Métraux vs Metraux: 980 OK
+Luiseño vs Luiseno: 380 OK
+Diegueño vs Diegueno: 518 OK
+Kantō vs Kanto: 275 OK
+Kyūshū vs Kyushu: 77 OK
 Kończyce vs Konczyce: 1 OK
 Vértesszőlős vs Vertesszolos: 1 OK
 Gårslev vs Garslev: 2 OK
 Røros vs Roros: 1 OK
-Appliqué vs Applique: 765 OK
-Æ vs AE: 3570 OK
-Basket vs Baskets: 14273 OK
-Femur vs Femurs: 1365 OK
-Filipino vs Filipinos: 2527 OK
-Comb vs Combs: 601 OK
-MacKinley vs McKinley: 0 does not equal 605
-Eskimo vs Eskimaux: 6054 does not equal 0
-Humerus vs Humeri: 1282 OK
+Appliqué vs Applique: 785 OK
+Æ vs AE: 3579 OK
+# plurals and singulars
+Basket vs Baskets: 14692 OK
+Femur vs Femurs: 1336 OK
+Filipino vs Filipinos: 2720 OK
+Comb vs Combs: 608 OK
+# cases which probably have to be handled as special cases (i.e. synonyms)
+ox vs oxen: 74 does not equal 39
+fox vs vixen: 322 does not equal 0
+cañon vs canon: 238 OK
+cañon vs canyon: 238 does not equal 8122
+# other spelling variations (handled using Solr synonyms filter)
+MacKinley vs McKinley: 0 does not equal 792
+Eskimo vs Eskimaux: 6102 does not equal 0
+Humerus vs Humeri: 1196 does not equal 162
+
+End of run. Pairs tested: 22, successes 16, failures 6
 ```
 
