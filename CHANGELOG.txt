@@ -3,11 +3,24 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.5-rc1
-Wed Jul 22 09:12:06 PDT 2020
+This is version 6.0.5-rc2
+Thu Jul 30 17:13:42 PDT 2020
 
-3e4b255 (HEAD -> master) CCW-317: bulletproof the botgarden solr pipeline a bit against bad data
-89fde6a (tag: 6.0.4, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.4
+9422a56 (HEAD -> master) CSW-352: update ucjeps solr pipeline helper for invalid lat/longs
+3871aca CSW-352, CSW-239: use last successful extract on solr post failure, refactor all pipelines to use same
+b7e8a5a CSW-352: new shared code directory for solr pipelines
+e3d3d26 CSW-352: repair and tidy up solr pipeline utility scripts
+b53a63e CSW-352: update the 'cURL' help script for solr pipelines
+bfcebfb CSW-351: handle solr synonyms as managed resource
+c6a2f66 CSW-351: another (usable) version of pahma synonym file
+b4bc34c CSW-239: need to import these two python modules for pahma pipeline
+bce2766 CSW-239: update solr pipeline README.md
+ffad928 CSW-239: use common delimiter for all 'blob merge' pipeline processes
+5a94285 CSW-239: first remove unneeded files
+1b098d1 CSW-351: new (usable) versions of pahma synonym files
+88039ef (tag: 6.0.5-rc1, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.5-rc1
+3e4b255 CCW-317: bulletproof the botgarden solr pipeline a bit against bad data
+89fde6a (tag: 6.0.4) revise change log and VERSION file for version 6.0.4
 ea64ce2 (tag: 6.0.4-rc3) revise change log and VERSION file for version 6.0.4-rc3
 05fa89d CC-154: use new prod 'prod-45' hostname in solr pipelines
 947a141 CSW-337: include last row in link2 file (newline was getting lost)
