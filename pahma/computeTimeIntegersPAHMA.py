@@ -1,3 +1,4 @@
+import sys, csv
 from datetime import datetime
 from fix_fields import fix_materials, fix_name, fix_proper_name, fix_culture
 
