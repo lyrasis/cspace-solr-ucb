@@ -25,9 +25,15 @@ fi
 # check if we have enough data to be worth refreshing...
 ##############################################################################
 CSVFILE="4solr.${TENANT}.${FILE_PART}.csv"
+if [[ ! -e ${CSVFILE} ]]; then
+  MSG="Could not find ${CSVFILE} in this directory; refresh aborted, core left untouched."
+  notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refresh failed: ${CSVFILE} missing"
+  exit 1
+fi
 ROWS=`wc -l < ${CSVFILE}`
 if (( ${ROWS} < ${MINIMUM} )); then
-   echo "Only ${ROWS} rows in ${CSVFILE}; refresh aborted, core left untouched." | mail -s "PROBLEM with ${TENANT}-${CORE} nightly solr refresh" -- cspace-support@lists.berkeley.edu
+   MSG="Only ${ROWS} rows in ${CSVFILE}; refresh aborted, core left untouched."
+   notify "${MSG}" "PROBLEM with ${TENANT}-${CORE} nightly solr refresh: not enough rows"
    exit 1
 fi
 ##############################################################################
