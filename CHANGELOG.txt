@@ -3,13 +3,16 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.5-rc3
-Fri Jul 31 11:16:41 PDT 2020
+This is version 6.0.5-rc4
+Fri Aug 21 15:41:22 PDT 2020
 
-094a038 (HEAD -> master) CSW-352: update 'config fixer' scripts for -dev and -qa solr pipelines
+cbff269 (HEAD -> master) NOJIRA: remove cruft in ucjeps-public solr etl
+e506b9c CSW-350: include PAHMA FPC fields in '@' node handling
+5e3b20a (tag: 6.0.5-rc3, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.5-rc3
+094a038 CSW-352: update 'config fixer' scripts for -dev and -qa solr pipelines
 40499cf CSW-239: detect solr pipeline error when extract file does not exist
 a68e313 CSW-239: need to import these two python modules for pahma pipeline
-7a3f9e5 (tag: 6.0.5-rc2, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.5-rc2
+7a3f9e5 (tag: 6.0.5-rc2) revise change log and VERSION file for version 6.0.5-rc2
 9422a56 CSW-352: update ucjeps solr pipeline helper for invalid lat/longs
 3871aca CSW-352, CSW-239: use last successful extract on solr post failure, refactor all pipelines to use same
 b7e8a5a CSW-352: new shared code directory for solr pipelines
