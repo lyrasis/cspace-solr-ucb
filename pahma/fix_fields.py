@@ -31,3 +31,7 @@ def fix_proper_name(field):
 
 def fix_culture(field):
     return field.replace('@', '').replace('Cultural and Chronological Periods|', '')
+
+
+def fix_fcp(field):
+    return field.replace('@', '')

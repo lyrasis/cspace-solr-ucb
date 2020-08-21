@@ -1,6 +1,6 @@
 import sys, csv
 from datetime import datetime
-from fix_fields import fix_materials, fix_name, fix_proper_name, fix_culture
+from fix_fields import fix_materials, fix_name, fix_proper_name, fix_culture, fix_fcp
 
 delim = '\t'
 
@@ -8,6 +8,7 @@ object_name_column = 10
 object_materials_column = 17
 name_columns = [27, 29, 43]
 culture_columns = [36, 37]
+fcp_columns = [38, 41]
 #    27	objcollector_ss
 #    29	anonymousdonor_ss
 #    43	objmaker_ss
@@ -60,6 +61,8 @@ with open(sys.argv[2], 'w') as f2:
                     row[object_name_column] = fix_name(row[object_name_column])
                     for n in culture_columns:
                         row[n] = fix_culture(row[n])
+                    for n in fcp_columns:
+                        row[n] = fix_fcp(row[n])
 
                     # "proper name reversal": save this for eventualities
                     # for n in name_columns:
