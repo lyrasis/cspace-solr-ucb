@@ -3,12 +3,17 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.5-rc4
-Fri Aug 21 15:41:22 PDT 2020
+This is version 6.0.5-rc5
+Thu Sep 24 14:54:33 PDT 2020
 
-cbff269 (HEAD -> master) NOJIRA: remove cruft in ucjeps-public solr etl
+02b85a6 (HEAD -> master) CSW-363: add computeTimeIntegers.py helper script back into pahma solr pipeline
+2a65626 CSW-363: handle new pahma object status value in solr pipeline
+5a8ea11 CSW-352: general "solr POSTer script" needs correct if expression
+0d18fe4 CSW-239: use correct bash logic when deciding whether to zap solr core
+a99e908 (tag: 6.0.5-rc4, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.5-rc4
+cbff269 NOJIRA: remove cruft in ucjeps-public solr etl
 e506b9c CSW-350: include PAHMA FPC fields in '@' node handling
-5e3b20a (tag: 6.0.5-rc3, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.5-rc3
+5e3b20a (tag: 6.0.5-rc3) revise change log and VERSION file for version 6.0.5-rc3
 094a038 CSW-352: update 'config fixer' scripts for -dev and -qa solr pipelines
 40499cf CSW-239: detect solr pipeline error when extract file does not exist
 a68e313 CSW-239: need to import these two python modules for pahma pipeline
