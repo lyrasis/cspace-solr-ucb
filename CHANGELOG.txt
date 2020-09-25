@@ -3,14 +3,17 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.5-rc5
-Thu Sep 24 14:54:33 PDT 2020
+This is version 6.0.5-rc6
+Fri Sep 25 13:52:37 PDT 2020
 
-02b85a6 (HEAD -> master) CSW-363: add computeTimeIntegers.py helper script back into pahma solr pipeline
+75af0bf (HEAD -> master) CSW-363: for now, object status is not to be included in either PAHMA solr core
+d267470 CSW-239: fix typo in solr pipeline common script post_to_solr.sh
+05d6b16 (tag: 6.0.5-rc5, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.5-rc5
+02b85a6 CSW-363: add computeTimeIntegers.py helper script back into pahma solr pipeline
 2a65626 CSW-363: handle new pahma object status value in solr pipeline
 5a8ea11 CSW-352: general "solr POSTer script" needs correct if expression
 0d18fe4 CSW-239: use correct bash logic when deciding whether to zap solr core
-a99e908 (tag: 6.0.5-rc4, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.5-rc4
+a99e908 (tag: 6.0.5-rc4) revise change log and VERSION file for version 6.0.5-rc4
 cbff269 NOJIRA: remove cruft in ucjeps-public solr etl
 e506b9c CSW-350: include PAHMA FPC fields in '@' node handling
 5e3b20a (tag: 6.0.5-rc3) revise change log and VERSION file for version 6.0.5-rc3
