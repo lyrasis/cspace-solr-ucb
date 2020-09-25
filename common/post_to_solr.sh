@@ -43,7 +43,7 @@ time python3 ../common/evaluate.py 4solr.${TENANT}.${FILE_PART}.csv /dev/null > 
 # zap the existing core, if the file we are loading is the CORE file.
 # (we might be loading several into this core)
 if [ "${FILE_PART}" == "${CORE}" ]; then
-  echo "this file is 4solr.${TENANT}.${FILE_PART}.csv, ergo, we zap solr/${TENANT}-${CORE} first...
+  echo "this file is 4solr.${TENANT}.${FILE_PART}.csv, ergo, we zap solr/${TENANT}-${CORE} first..."
   curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<delete><query>*:*</query></delete>' -H 'Content-type:text/xml; charset=utf-8'
   curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<commit/>' -H 'Content-type:text/xml; charset=utf-8'
 else
