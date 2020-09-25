@@ -99,8 +99,24 @@ ls -ltr .pgpass
 
 #### Testing the Solr ETL pipelines
 
+To redeploy all pipeline code on any of the 3 RTL server (-dev, -qa, -prod):
+
 ```bash
-# try reloading a couple of cores 'by hand'. the small ones: takes like 1/2 for both or these, alas
+ssh ... to the server
+sudo su - app_solr
+cspace-solr-ucb/utilities/redeploy-etl.sh 6.0.5-rc6
+cspace-solr-ucb/utilities/switch2dev.sh
+# to run all pipelines (a couple hours on dev)
+nohup ./one_job.sh &
+```
+Tidy up after youself: the redeploy move the current deploy directory out of the
+way and you may wish to get rid of the old versions from time to time, e.g.:
+```bash
+rm -rf solrdatasources.20200924
+```
+To run individual pipelines, invoke the appropriate `solrETL-*sh` script, e.g.:
+```bash
+# try reloading a couple of cores 'by hand'. the small ones: takes a few minutes for each
 nohup /home/app_solr/solrdatasources/bampfa/solrETL-public.sh bampfa >> /home/app_solr/logs/bampfa.solr_extract_public.log 2>&1 &
 nohup /home/app_solr/solrdatasources/botgarden/solrETL-public.sh botgarden >> /home/app_solr/logs/botgarden.solr_extract_public.log &
 # did they work?
@@ -109,7 +125,6 @@ nohup /home/app_solr/solrdatasources/botgarden/solrETL-public.sh botgarden >> /h
 # now load the solr cores; couple ways to do this:
 # Provided you have access to the Postgres server, you can run the refresh job (takes a few hours):
 nohup one_job.sh >> /home/app_solr/refresh.log &
-
 ```
 
 #### Finding stuff in your Solr cores"
