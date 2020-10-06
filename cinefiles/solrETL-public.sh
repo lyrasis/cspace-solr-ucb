@@ -66,7 +66,7 @@ wait
 ##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
-../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  50000 51
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  50000 48
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  30000  0 films
 # tidy up a bit
 rm d?.csv header4Solr.csv
