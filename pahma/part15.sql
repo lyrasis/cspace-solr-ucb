@@ -19,6 +19,7 @@ FROM collectionobjects_common cc
   JOIN relations_common rca ON (h1.name = rca.subjectcsid AND rca.objectdocumenttype = 'Acquisition')
   JOIN hierarchy hac ON (hac.name = rca.objectcsid AND (hac.pos = 0 OR hac.pos IS NULL))
   JOIN acquisitions_common ac ON (hac.id = ac.id)
+  JOIN misc ON (ac.id = misc.id and misc.lifecyclestate <> 'deleted')
   LEFT OUTER JOIN hierarchy h2 ON (ac.id = h2.parentid AND h2.name = 'acquisitions_pahma:acquisitionDonorGroupList')
   LEFT OUTER JOIN acquisitiondonorgroup adg ON (adg.id = h2.id)
   LEFT OUTER JOIN hierarchy had1 ON (ac.id = had1.parentid AND had1.primarytype = 'structuredDateGroup' AND
