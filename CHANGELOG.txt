@@ -3,11 +3,13 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.5-rc8
-Tue Oct  6 15:17:08 PDT 2020
+This is version 6.0.5-rc9
+Wed Oct 14 13:46:42 PDT 2020
 
-f0d0a57 (HEAD -> master) CSW-352: use correct .csv column for counting cinefiles blobs
-803e069 (tag: 6.0.5-rc7, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.5-rc7
+24f12c1 (HEAD -> master) CSW-370: deleted accession numbers were being included in the pahma solr cores
+3d5db28 (tag: 6.0.5-rc8, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.5-rc8
+f0d0a57 CSW-352: use correct .csv column for counting cinefiles blobs
+803e069 (tag: 6.0.5-rc7) revise change log and VERSION file for version 6.0.5-rc7
 75aa783 CSW-363: update README.md
 1bcd4e6 (tag: 6.0.5-rc6) revise change log and VERSION file for version 6.0.5-rc6
 75af0bf CSW-363: for now, object status is not to be included in either PAHMA solr core
