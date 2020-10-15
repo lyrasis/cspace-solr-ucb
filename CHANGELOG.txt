@@ -3,11 +3,13 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.5-rc9
-Wed Oct 14 13:46:42 PDT 2020
+This is version 6.0.5-rc10
+Thu Oct 15 09:30:02 PDT 2020
 
-24f12c1 (HEAD -> master) CSW-370: deleted accession numbers were being included in the pahma solr cores
-3d5db28 (tag: 6.0.5-rc8, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.5-rc8
+42847e4 (HEAD -> master) CSW-360: handle Null in botgarden phenology ('flowering') fields
+4f7d04d (tag: 6.0.5-rc9, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.5-rc9
+24f12c1 CSW-370: deleted accession numbers were being included in the pahma solr cores
+3d5db28 (tag: 6.0.5-rc8) revise change log and VERSION file for version 6.0.5-rc8
 f0d0a57 CSW-352: use correct .csv column for counting cinefiles blobs
 803e069 (tag: 6.0.5-rc7) revise change log and VERSION file for version 6.0.5-rc7
 75aa783 CSW-363: update README.md
