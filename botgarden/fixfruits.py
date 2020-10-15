@@ -23,6 +23,7 @@ if __name__ == "__main__":
         datacolumns = line.split('\t')
         datacolumns[55] = rpl(datacolumns[55],['t',])
         datacolumns[56] = rpl(datacolumns[56],['Some','Many'])
+        datacolumns[54] = '|'.join(map(lambda m: 'x' if m == '' else m, datacolumns[54].split('|')))
         print('\t'.join(datacolumns), end = "")
 
 

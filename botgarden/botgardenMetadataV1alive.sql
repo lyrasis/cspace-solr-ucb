@@ -48,11 +48,16 @@ end as vouchers_s,
 -- vouchercount is set further on in the process
 '1' as vouchercount_s,
 utils.findvoucherinfo(h1.name) voucherlist_ss,
+
+-- very complicated logic here! these two fields (fruiting and flowering) have different values and one
+-- has Nulls and the other doesn't. nevertheless, in both cases we need a pipe-delimited string with 12 values...
+-- what to say? "lasciate ogni speranza..."
 concat_ws('|', fruitsjan,fruitsfeb,fruitsmar,fruitsapr,fruitsmay,fruitsjun,fruitsjul,fruitsaug,fruitssep,fruitsoct,fruitsnov,fruitsdec) fruitingverbatim_ss,
-concat_ws('|', flowersjan,flowersfeb,flowersmar,flowersapr,flowersmay,flowersjun,flowersjul,flowersaug,flowerssep,flowersoct,flowersnov,flowersdec) floweringverbatim_ss,
+concat(flowersjan,'|',flowersfeb,'|',flowersmar,'|',flowersapr,'|',flowersmay,'|',flowersjun,'|',flowersjul,'|',flowersaug,'|',flowerssep,'|',flowersoct,'|',flowersnov,'|',flowersdec) as floweringverbatim_ss,
 
 concat_ws('|', fruitsjan,fruitsfeb,fruitsmar,fruitsapr,fruitsmay,fruitsjun,fruitsjul,fruitsaug,fruitssep,fruitsoct,fruitsnov,fruitsdec) fruiting_ss,
-concat_ws('|', flowersjan,flowersfeb,flowersmar,flowersapr,flowersmay,flowersjun,flowersjul,flowersaug,flowerssep,flowersoct,flowersnov,flowersdec) flowering_ss,
+concat(flowersjan,'|',flowersfeb,'|',flowersmar,'|',flowersapr,'|',flowersmay,'|',flowersjun,'|',flowersjul,'|',flowersaug,'|',flowerssep,'|',flowersoct,'|',flowersnov,'|',flowersdec) as flowering_ss,
+
 con.provenancetype as provenancetype_s,
 tn.accessrestrictions as accessrestrictions_s,
 regexp_replace(coc.item, E'[\\t\\n\\r]+', ' ', 'g') as accessionnotes_s,
