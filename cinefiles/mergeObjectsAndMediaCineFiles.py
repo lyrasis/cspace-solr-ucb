@@ -158,7 +158,7 @@ for line in METADATA:
     else:
         count['media matched a document'] += 1
 
-    outputfh.writerow(line + [has] + film_field_values + [associated_films] + [objectcsid] + [','.join(mediablobs)] + [','.join(pdfblobs)])
+    outputfh.writerow(line + [has] + film_field_values + [associated_films] + [objectcsid] + ['|'.join(mediablobs)] + ['|'.join(pdfblobs)])
 
 for s in sorted(count):
     print(f'{s}: {count[s]}')
