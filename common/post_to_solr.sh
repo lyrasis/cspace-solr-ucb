@@ -35,6 +35,8 @@ if (( ${ROWS} < ${MINIMUM} )); then
    MSG="Only ${ROWS} rows in ${CSVFILE}; refresh aborted, core left untouched."
    notify "${MSG}" "PROBLEM with ${TENANT}-${CORE} nightly solr refresh: not enough rows"
    exit 1
+else
+   echo "${ROWS} rows in ${CSVFILE}: so we have the number (${MINIMUM}) to proceed. Full speed ahead."
 fi
 ##############################################################################
 # count the types and tokens in the final file, check cell counts
