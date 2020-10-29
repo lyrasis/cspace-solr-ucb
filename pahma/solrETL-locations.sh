@@ -2,7 +2,6 @@
 #
 ##############################################################################
 # shell script to extract multiple tabular data files from CSpace,
-# "stitch" them together (see join.py)
 # prep them for load into Solr4 using the "csv datahandler"
 ##############################################################################
 date

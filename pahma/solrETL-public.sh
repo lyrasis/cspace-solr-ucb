@@ -8,11 +8,9 @@
 date
 cd /home/app_solr/solrdatasources/pahma
 ##############################################################################
-# move the current set of extracts to temp (thereby saving the previous run, just in case)
 # note that in this case there are 4 nightly scripts, public, internal, and locations,
 # and osteology. internal depends on data created by public, so this case has to be handled
 # specially, and the scripts need to run in order: public > internal > locations
-# the public script, which runs first, *can* 'stash' last night's files...
 ##############################################################################
 # while most of this script is already tenant specific, many of the specific commands
 # are shared between the different scripts; having them be as similar as possible
@@ -160,7 +158,7 @@ time python3 computeTimeIntegers.py d9.csv 4solr.${TENANT}.internal.csv
 ##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
-../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  740000 51
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  760000 51
 # send the errors off to be dealt with
 tar -czf counts.tgz ${TENANT}.counts.*.csv
 ./make_error_report.sh | mail -A counts.tgz -s "PAHMA Solr Counts and Refresh Errors `date`" ${CONTACT}
