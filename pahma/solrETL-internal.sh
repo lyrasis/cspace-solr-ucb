@@ -38,6 +38,6 @@ gunzip -f 4solr.${TENANT}.${CORE}.csv.gz
 ##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
-../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT} 760000 59
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT} 75000 59
 # no cleanup done here!
 date
