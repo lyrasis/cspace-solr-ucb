@@ -3,11 +3,15 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.0.6-rc1
-Sun Oct 25 20:11:08 PDT 2020
+This is version 6.1.0-rc2
+Thu Oct 29 09:45:34 PDT 2020
 
-c259be0 (HEAD -> master) CSW-374: solr pipeline fix: delimiters used in cinefiles blobs need to be |
-0e7f40d (tag: 6.0.5, origin/master, origin/HEAD) revise change log and VERSION file for version 6.0.5
+62388c3 (HEAD -> master) CSW-376: pahma-internal core was not refresh; also, update inline doc a bit
+61f3b06 (origin/master, origin/HEAD) Revert "revise change log and VERSION file for version 6.1.0-rc1"
+6d6f7d3 (tag: 6.1.0-rc1) revise change log and VERSION file for version 6.1.0-rc1
+8e1060a (tag: 6.0.6-rc1) revise change log and VERSION file for version 6.0.6-rc1
+c259be0 CSW-374: solr pipeline fix: delimiters used in cinefiles blobs need to be |
+0e7f40d (tag: 6.0.5) revise change log and VERSION file for version 6.0.5
 3392ac2 (tag: 6.0.5-rc10) revise change log and VERSION file for version 6.0.5-rc10
 42847e4 CSW-360: handle Null in botgarden phenology ('flowering') fields
 4f7d04d (tag: 6.0.5-rc9) revise change log and VERSION file for version 6.0.5-rc9
