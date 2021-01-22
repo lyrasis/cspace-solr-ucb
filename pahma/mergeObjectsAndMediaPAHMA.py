@@ -75,9 +75,10 @@ with open(sys.argv[1], 'r') as MEDIA:
             media_type = 'images'
         else:
             media_type = 'other media'
-        # mark catalog card images as such
+        # mark catalog card and ledger pages images as legacy documentation
         if check(description, 'catalog card') or check(description, 'HSR Datasheet'): media_type = 'legacy documentation'
-        if check(description, 'Index'): media_type = 'legacy documentation'
+        if check(description, 'Index') or check(description, 'Ledger'): media_type = 'legacy documentation'
+        if check(name, 'Ledger'): media_type = 'legacy documentation'
         ispublic = 'public'
         if check(objectstatus, 'culturally') and media_type != 'legacy documentation': ispublic = 'notpublic'
         # NB: the test 'burial' in context of use occurs below -- we only mask if the FCP is in North America
