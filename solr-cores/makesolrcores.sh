@@ -269,5 +269,5 @@ done
 # Use this to export all the *actual* fields defined in the code
 # *after* importing data
 #
-# curl -s -S $SOLR_CORE_URL/admin/luke?numTerms=0 > luke7.xml
+# curl -s -S $SOLR_CORE_URL/admin/luke?numTerms=0 > $SOLR_CORE_URL.luke7.xml
 # ====================

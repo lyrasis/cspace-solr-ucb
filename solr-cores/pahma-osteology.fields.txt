@@ -58,3 +58,4 @@ taxontree_ss
 objpersondepicted_ss
 media_available_ss
 mimetypes_ss
+loan_info_ss
