@@ -14,4 +14,4 @@ FROM collectionobjects_common cc
   LEFT OUTER JOIN collectionobjects_pahma cp ON (cp.id = cc.id)
   JOIN misc ON (cc.id = misc.id AND misc.lifecyclestate <> 'deleted')
   LEFT OUTER JOIN collectionobjects_pahma_pahmaobjectstatuslist osl ON (cc.id = osl.id)
-WHERE osl.item IN ('accessioned', 'deaccessioned', 'number not used', 'recataloged', 'not received', 'on deposit')
+WHERE regexp_replace(osl.item,'^.*\)''(.*)''$', '\1') IN ('accessioned', 'deaccessioned', 'number not used', 'recataloged', 'not received', 'on deposit')
