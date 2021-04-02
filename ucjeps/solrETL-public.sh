@@ -66,7 +66,7 @@ perl -i -pe 's/\\/\//g;s/\t"/\t/g;s/"\t/\t/g;s/\"\"/"/g' 4solr.${TENANT}.${CORE}
 # mark duplicate accession numbers
 ##############################################################################
 cut -f3 4solr.${TENANT}.${CORE}.csv | sort | uniq -c | sort -rn |perl -ne 'print unless / 1 / ' > ${TENANT}.counts.duplicates.csv
-cut -c9- counts.duplicates.csv | perl -ne 'chomp; print "s/\\t$_\\t/\\t$_ (duplicate)\\t/;\n"' > fix_dups.sh
+cut -c9- ${TENANT}.counts.duplicates.csv | perl -ne 'chomp; print "s/\\t$_\\t/\\t$_ (duplicate)\\t/;\n"' > fix_dups.sh
 time perl -i -p fix_dups.sh 4solr.${TENANT}.${CORE}.csv
 ##############################################################################
 # OK, we are good to go! clear out the existing data and reload
