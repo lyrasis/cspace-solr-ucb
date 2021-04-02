@@ -7,7 +7,6 @@ objcountnote_s
 objkeelingser_s
 objfcpverbatim_s
 objname_s
-objname_s
 objinventory_s
 objcontextuse_s
 objcomment_s
