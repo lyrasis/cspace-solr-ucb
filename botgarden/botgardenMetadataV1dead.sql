@@ -106,7 +106,8 @@ array_to_string(array
 
 regexp_replace(pag.habitat, '^.*\)''(.*)''$', '\1') as habit_s,
 case when cocbd.item is null or cocbd.item = '' then null else cocbd.item end as materialtype_s,
-case when co.sex is null or co.sex = '' then null else co.sex end as sex_s
+case when co.sex is null or co.sex = '' then null else co.sex end as sex_s,
+left(con.provenancetype,1) as provenancetype_short_s
 
 from collectionobjects_common co
 inner join misc on (co.id = misc.id and misc.lifecyclestate <> 'deleted')
