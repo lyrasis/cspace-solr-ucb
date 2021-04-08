@@ -38,5 +38,5 @@ perl -pe 's/\t/\n/g' header4Solr.csv| perl -ne 'chomp; next unless /_ss/; next i
 ##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  20000 67
 # get rid of intermediate files
-rm p?.csv header4Solr.csv
+rm -f p?.csv header4Solr.csv
 date

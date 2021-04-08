@@ -86,5 +86,5 @@ perl -i -pe 's/International Union for Conservation of Nature and Natural Resour
 ##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  50000 67
 # get rid of intermediate files
-rm d?.csv d??.csv i4.csv
+rm -f d?.csv d??.csv
 date
