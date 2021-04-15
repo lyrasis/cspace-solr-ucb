@@ -27,7 +27,7 @@ perl -i -pe 's/International Union for Conservation of Nature and Natural Resour
 ##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
-../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  50000 67
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  50000 74
 # get rid of intermediate files
 rm -f d?.csv d??.csv m?.csv metadata*.csv header4Solr.csv
 rm -f metadata.public.csv

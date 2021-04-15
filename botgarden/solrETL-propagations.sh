@@ -36,7 +36,7 @@ perl -pe 's/\t/\n/g' header4Solr.csv| perl -ne 'chomp; next unless /_ss/; next i
 ##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
-../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  20000 67
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  20000 86
 # get rid of intermediate files
 rm -f p?.csv header4Solr.csv
 date
