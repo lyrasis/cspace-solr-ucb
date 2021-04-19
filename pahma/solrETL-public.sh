@@ -158,7 +158,7 @@ time python3 computeTimeIntegers.py d9.csv 4solr.${TENANT}.internal.csv
 ##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
-../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  760000 58
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  720000 58
 # send the errors off to be dealt with
 tar -czf counts.tgz ${TENANT}.counts.*.csv
 ./make_error_report.sh | mail -A counts.tgz -s "PAHMA Solr Counts and Refresh Errors `date`" ${CONTACT}
