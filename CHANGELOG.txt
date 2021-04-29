@@ -3,10 +3,14 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.1.3-rc2
-Wed Apr 21 09:46:54 PDT 2021
+This is version 6.1.3-rc3
+Thu Apr 29 13:40:59 PDT 2021
 
-d245888 (HEAD -> master, origin/master, origin/HEAD) CSW-458: lower solr core thresholds for pahma public and internal
+190e34a (HEAD -> master, origin/master, origin/HEAD) CSW-469: solr refresh starts and 2am now instead of 3am
+1045e9e CSW-445: short 'how to' directions for Tropicos and CoL name parsing scripts
+8f53113 CSW-445: Tropicos and CoL variants of GBIF name parsing script, for UCJEPS
+4a3819c (tag: 6.1.3-rc2) revise change log and VERSION file for version 6.1.3-rc2
+d245888 CSW-458: lower solr core thresholds for pahma public and internal
 e30f1ca CSW-449: update schema used in UCBG Solr cores
 5cb8468 NOJIRA: use correct indices of blob columns in solr pipelines
 bfcde4b (tag: 6.1.3-rc1) revise change log and VERSION file for version 6.1.3-rc1
