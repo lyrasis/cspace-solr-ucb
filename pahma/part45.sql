@@ -26,8 +26,7 @@ SELECT DISTINCT cc.id,
                 STRING_AGG(DISTINCT loc.loanoutnumber, '␥')                                            AS loan_out_number_s,
                 STRING_AGG(DISTINCT REGEXP_REPLACE(loc.loanpurpose, '^.*\)''(.*)''$', '\1'), '␥')      AS purpose_ss,
                 STRING_AGG(DISTINCT REGEXP_REPLACE(loc.borrower, '^.*\)''(.*)''$', '\1'), '␥')         AS borrower_ss,
-                STRING_AGG(DISTINCT REGEXP_REPLACE(loc.borrowerscontact, '^.*\)''(.*)''$', '\1'),
-                           '␥')                                                                        AS borrower_contact_ss,
+                STRING_AGG(DISTINCT REGEXP_REPLACE(loc.borrowerscontact, '^.*\)''(.*)''$', '\1'),'␥')  AS borrower_contact_ss,
                 STRING_AGG(DISTINCT sdg1.datedisplaydate, '␥')                                         AS loanout_date_ss,
                 STRING_AGG(DISTINCT sdg2.datedisplaydate, '␥')                                         AS loan_return_date_ss
 
@@ -36,6 +35,7 @@ FROM collectionobjects_common cc
          JOIN relations_common rca ON (h1.name = rca.subjectcsid AND rca.objectdocumenttype = 'Loanout')
          JOIN hierarchy hlo ON (hlo.name = rca.objectcsid)
          JOIN loansout_common loc ON (hlo.id = loc.id)
+         LEFT OUTER JOIN loansout_pahma lop ON (hlo.id = lop.id)
          JOIN misc mx ON (loc.id = mx.id AND mx.lifecyclestate = 'project')
          LEFT OUTER JOIN hierarchy h3 ON (h3.parentid = loc.id AND h3.name = 'loansout_pahma:loanOutDateGroup')
          LEFT OUTER JOIN structureddategroup sdg1 ON (h3.id = sdg1.id)
@@ -43,4 +43,5 @@ FROM collectionobjects_common cc
          LEFT OUTER JOIN structureddategroup sdg2 ON (h4.id = sdg2.id)
 WHERE loc.loanoutnumber NOT ILIKE '%Proposed%'
   AND loc.loanoutnumber NOT ILIKE '%Cancelled%'
+  AND lop.loannotapprovedforpublic IS NOT TRUE
 GROUP BY cc.id;
