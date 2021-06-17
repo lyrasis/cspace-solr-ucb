@@ -4,14 +4,14 @@
 # this script loads the solr core for the "internal" portal.
 #
 # the input file is created by the script that creates the input file for
-# the public core, so all this script has to do is unzip it and POST it to
+# the public core, so all this script has to do is POST it to
 # to the Solr update endpoint...
 #
 # Features of the 'internal' metadata, so far:
 #
 # un-obfuscated latlongs
 # all images, "in the clear", including catalog cards
-# museum location info
+# museum storage location info
 #
 ##############################################################################
 date
