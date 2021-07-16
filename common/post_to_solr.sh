@@ -60,7 +60,8 @@ SOLRCMD="http://localhost:8983/solr/${TENANT}-${CORE}/update/csv?commit=true&hea
 ##############################################################################
 # the heavy lifting starts...
 ##############################################################################
-time curl -X POST -S -s $SOLRCMD -H 'Content-type:text/plain; charset=utf-8' -T 4solr.${TENANT}.${FILE_PART}.csv
+time curl -X POST -S -s '$SOLRCMD' -H 'Content-type:text/plain; charset=utf-8' -T 4solr.${TENANT}.${FILE_PART}.csv
+echo "time curl -X POST -S -s '$SOLRCMD' -H 'Content-type:text/plain; charset=utf-8' -T 4solr.${TENANT}.${FILE_PART}.csv"
 if [ $? != 0 ]; then
   MSG="Solr POST failed for ${TENANT}-${CORE}, file 4solr.${TENANT}.${FILE_PART}.csv ; retrying using previous successful upload"
   notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refresh failed"
