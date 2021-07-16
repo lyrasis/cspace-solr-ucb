@@ -3,10 +3,12 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.1.3
-Wed Jun  9 08:46:37 PDT 2021
+This is version 6.1.4-rc1
+Fri Jul 16 13:51:24 PDT 2021
 
-6cef0d2 (HEAD -> master, origin/master, origin/HEAD) CSW-478: revised pahma solr pipeline queries to handle 'not approved' out loans
+9b69d96 (HEAD -> master, origin/master, origin/HEAD) NOJIRA: update inline comments for pahma-internal solr pipeline
+c9dac97 (tag: 6.1.3) revise change log and VERSION file for version 6.1.3
+6cef0d2 CSW-478: revised pahma solr pipeline queries to handle 'not approved' out loans
 680d048 CSW-478: revised pahma solr schema for new 'loan_info_all_ss
 71f1bcb CSW-478: revised pahma solr pipeline queries to handle 'not approved' out loans
 fcd1d1a (tag: 6.1.3-rc3) revise change log and VERSION file for version 6.1.3-rc3
