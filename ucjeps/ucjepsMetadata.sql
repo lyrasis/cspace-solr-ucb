@@ -13,32 +13,8 @@ select
     end as collector_ss,
     co.fieldcollectionnumber as collectornumber_s,
     sdg.datedisplaydate as collectiondate_s,
-    case
-        when
-            sdg.dateearliestsingleyear != 0
-            and sdg.dateearliestsinglemonth != 0
-            and sdg.dateearliestsingleday != 0
-        then
-            to_date(
-            sdg.dateearliestsingleyear::varchar(4) || '-' ||
-            sdg.dateearliestsinglemonth::varchar(2) || '-' ||
-            sdg.dateearliestsingleday::varchar(2),
-            'yyyy-mm-dd')
-        else null
-    end as earlycollectiondate_dt,
-    case
-        when
-            sdg.datelatestyear != 0
-            and sdg.datelatestmonth != 0
-            and sdg.datelatestday != 0
-        then
-            to_date(
-            sdg.datelatestyear::varchar(4) || '-' ||
-            sdg.datelatestmonth::varchar(2) || '-' ||
-            sdg.datelatestday::varchar(2),
-            'yyyy-mm-dd')
-        else null
-    end as latecollectiondate_dt,
+    to_char(sdg.dateearliestscalarvalue, 'YYYY-MM-DD') as earlycollectiondate_dt,
+    to_char(sdg.datelatestscalarvalue, 'YYYY-MM-DD') as latecollectiondate_dt,
     regexp_replace(lg.fieldlocverbatim,E'[\\t\\n\\r]+', ' ', 'g') as locality_s,
     regexp_replace(lg.fieldloccounty, '^.*\)''(.*)''$', '\1') as collcounty_s,
     regexp_replace(lg.fieldlocstate, '^.*\)''(.*)''$', '\1') as collstate_s,
