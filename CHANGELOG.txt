@@ -3,11 +3,13 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.1.4-rc2
-Wed Jul 28 09:49:24 PDT 2021
+This is version 6.1.4-rc3
+Fri Aug  6 10:37:33 PDT 2021
 
-3706226 (HEAD -> master) NOJIRA: fix curl command for solr post
-c658fbb (origin/master, origin/HEAD) NOJIRA: update 2 'helper' scripts for solr
+a87d684 (HEAD -> master, origin/master, origin/HEAD) CC-1771: simplify date computations for *collectiondate_dt
+a4b8d04 (tag: 6.1.4-rc2) revise CHANGELOG.txt and bump version to 6.1.4-rc2
+3706226 NOJIRA: fix curl command for solr post
+c658fbb NOJIRA: update 2 'helper' scripts for solr
 1b24815 (tag: 6.1.4-rc1) revise CHANGELOG.txt and bump version to 6.1.4-rc1
 9b69d96 NOJIRA: update inline comments for pahma-internal solr pipeline
 c9dac97 (tag: 6.1.3) revise change log and VERSION file for version 6.1.3
