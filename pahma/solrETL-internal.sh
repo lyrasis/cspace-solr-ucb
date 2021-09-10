@@ -31,6 +31,7 @@ CONTACT="mtblack@berkeley.edu"
 ##############################################################################
 # we use the csv file for the internal store, prepared by the solrETL-public.sh
 ##############################################################################
+gunzip 4solr.${TENANT}.internal.csv.gz
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT} 720000 67
-# no cleanup done here!
+# no cleanup done here, it is done in post_to_solr!
 date

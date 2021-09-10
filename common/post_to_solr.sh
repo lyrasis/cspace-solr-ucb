@@ -101,5 +101,6 @@ else
   ##############################################################################
   wait
   gzip -f 4solr.${TENANT}.${FILE_PART}.csv
-  cp 4solr.${TENANT}.${FILE_PART}.csv.gz /tmp
+  mv 4solr.${TENANT}.${FILE_PART}.csv.gz /tmp
 fi
+mv *.csv /tmp
