@@ -63,6 +63,8 @@ do
     time python3 ../common/evaluate.py 4solr.${TENANT}.${file}.csv /dev/null > ${TENANT}.counts.${file}.csv &
 done
 wait
+# tidy up a bit
+rm d?.csv header4Solr.csv
 ##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
@@ -72,6 +74,4 @@ gzip 4solr.${TENANT}.films.csv
 # now, restore the 'films' file and load it
 gzip 4solr.${TENANT}.films.csv
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  30000  0 films
-# tidy up a bit
-rm d?.csv header4Solr.csv
 date

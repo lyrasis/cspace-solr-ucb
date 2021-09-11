@@ -82,9 +82,13 @@ time python3 computeTimeIntegers.py d10.csv 4solr.${TENANT}.${CORE}.csv
 # shorten this one long org name...
 perl -i -pe 's/International Union for Conservation of Nature and Natural Resources/IUCN/g' 4solr.${TENANT}.${CORE}.csv
 ##############################################################################
+# get rid of intermediate files
+##############################################################################
+rm -f d?.csv d??.csv
+##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
+gzip 4solr.${TENANT}.media.csv
+gzip ${CORE}.metadata.csv
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  50000 74
-# get rid of intermediate files
-rm -f d?.csv d??.csv
 date

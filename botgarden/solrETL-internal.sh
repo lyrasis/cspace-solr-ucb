@@ -11,7 +11,9 @@ CORE=internal
 CONTACT="loughran@berkeley.edu"
 ##############################################################################
 # up to here, both public and internal extracts are the same.
-# so we use the public metadata file and carry on
+# so we use the public metadata and media file and carry on
+gunzip 4solr.${TENANT}.media.csv.gz
+gunzip ${CORE}.metadata.csv
 ##############################################################################
 # add the blob csids
 ##############################################################################
@@ -25,10 +27,11 @@ time python3 computeTimeIntegers.py d10.csv 4solr.${TENANT}.${CORE}.csv
 # shorten this one long org name...
 perl -i -pe 's/International Union for Conservation of Nature and Natural Resources/IUCN/g' 4solr.${TENANT}.${CORE}.csv
 ##############################################################################
+# get rid of intermediate files
+##############################################################################
+rm -f d?.csv d??.csv m?.csv metadata*.csv header4Solr.csv
+##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  50000 74
-# get rid of intermediate files
-rm -f d?.csv d??.csv m?.csv metadata*.csv header4Solr.csv
-rm -f metadata.public.csv
 date

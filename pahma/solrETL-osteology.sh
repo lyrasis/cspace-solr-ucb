@@ -27,12 +27,14 @@ time perl -i -pe 's/[\r\n]/ /g;s/\@\@/\n/g' o1.csv
 ##############################################################################
 # we want to recover and use our "special" solr-friendly header, which got buried
 ##############################################################################
-gunzip 4solr.${TENANT}.internal.csv.gz
 # compress the osteology data into a single variable
 python3 osteology_analyzer.py o1.csv o2.csv
 sort o2.csv > o3.csv
 # add the internal data
+gunzip 4solr.${TENANT}.internal.csv.gz
 python3 join.py o3.csv 4solr.${TENANT}.internal.csv > o4.csv
+# put the internal core extract back where we found it
+gzip -f 4solr.${TENANT}.internal.csv
 # csid_s is both files, let's keep only one in this file
 cut -f1,3- o4.csv > o5.csv
 grep -P "^id\t" o5.csv > header4Solr.csv
@@ -43,10 +45,9 @@ cat header4Solr.csv o6.csv > o7.csv
 ##############################################################################
 time python3 ../common/evaluate.py o7.csv 4solr.${TENANT}.${CORE}.csv > /dev/null
 ##############################################################################
+rm o?.csv header4Solr.csv
+##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  15000 67
-rm o?.csv header4Solr.csv
-gzip -f 4solr.${TENANT}.internal.csv &
-wait
 date

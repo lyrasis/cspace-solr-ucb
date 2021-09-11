@@ -54,9 +54,11 @@ rm m3.sort.csv m4.csv
 ##############################################################################
 time python ../common/evaluate.py m6.csv 4solr.${TENANT}.${CORE}.csv > /dev/null
 ###############################################################################
+# get rid of intermediate files
+###############################################################################
+rm m6.csv header4Solr.csv
+###############################################################################
 ## OK, we are good to go! clear out the existing data and reload
 ###############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  3700000 67
-# get rid of intermediate files
-rm m6.csv header4Solr.csv
 date

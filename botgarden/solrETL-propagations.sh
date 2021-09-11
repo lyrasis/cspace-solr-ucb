@@ -34,9 +34,11 @@ cat header4Solr.csv p6.csv > 4solr.${TENANT}.${CORE}.csv
 ##############################################################################
 perl -pe 's/\t/\n/g' header4Solr.csv| perl -ne 'chomp; next unless /_ss/; next if /blob/; print "f.$_.split=true&f.$_.separator=%7C&"' > uploadparms.txt
 ##############################################################################
+# get rid of intermediate files
+##############################################################################
+rm -f p?.csv header4Solr.csv
+##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  20000 86
-# get rid of intermediate files
-rm -f p?.csv header4Solr.csv
 date
