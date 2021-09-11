@@ -44,9 +44,11 @@ cat header4Solr.csv d7.csv > d8.csv
 time python3 computeTimeIntegers.py d8.csv 4solr.${TENANT}.${CORE}.csv
 wc -l *.csv
 ##############################################################################
+# get rid of intermediate files
+##############################################################################
+rm d?.csv m?.csv b?.csv media.csv metadata.csv header4Solr.csv
+##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  22000 43
-# get rid of intermediate files
-rm d?.csv m?.csv b?.csv media.csv metadata.csv header4Solr.csv
 date

@@ -5,7 +5,6 @@
 # prep them for load into Solr4 using the "csv datahandler"
 ##############################################################################
 date
-cd /home/app_solr/solrdatasources/pahma
 ##############################################################################
 # while most of this script is already tenant specific, many of the specific commands
 # are shared between the different scripts; having them be as similar as possible
@@ -18,6 +17,8 @@ USERNAME="reporter_pahma"
 DATABASE="pahma_domain_pahma"
 CONNECTSTRING="host=$HOSTNAME dbname=$DATABASE"
 CONTACT="mtblack@berkeley.edu"
+##############################################################################
+cd /home/app_solr/solrdatasources/${TENANT}
 ##############################################################################
 # extract locations, past and present, from CSpace
 ##############################################################################

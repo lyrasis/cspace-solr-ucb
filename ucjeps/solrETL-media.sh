@@ -1,6 +1,5 @@
 #!/bin/bash -x
 date
-cd /home/app_solr/solrdatasources/ucjeps
 ##############################################################################
 # while most of this script is already tenant specific, many of the specific commands
 # are shared between the different scripts; having them be as similar as possible
@@ -14,15 +13,19 @@ DATABASE="${TENANT}_domain_${TENANT}"
 CONNECTSTRING="host=$SERVER dbname=$DATABASE"
 CONTACT="ucjeps-it@berkeley.edu"
 ##############################################################################
+cd /home/app_solr/solrdatasources/${TENANT}
+##############################################################################
 # get media
 ##############################################################################
 time psql -F $'\t' -R"@@" -A -U $USERNAME -d "$CONNECTSTRING" -f ucjepsNewMedia.sql -o newmedia.csv
 time perl -i -pe 's/[\r\n]/ /g;s/\@\@/\n/g' newmedia.csv
 perl -ne 's/\\/x/g; next if / rows\)/; print $_' newmedia.csv > 4solr.${TENANT}.${CORE}.csv
 ##############################################################################
+# get rid of intermediate files
+##############################################################################
+rm newmedia.csv
+##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT} 19000 8
-# get rid of intermediate files
-rm newmedia.csv
 date

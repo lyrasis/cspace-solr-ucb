@@ -47,12 +47,13 @@ time python3 computeTimeIntegers.py d8.csv 4solr.${TENANT}.${CORE}.csv
 ##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
+# get rid of intermediate files
+##############################################################################
+rm d?.csv m?.csv b?.csv media.csv metadata.csv header4Solr.csv
 # note: current location, current crate, appraised values have all been redacted
 # in the sql queries themselves.
 # some values were needed for computing the status field (i.e. "on view")
 # TODO however we could also skip them in the Solr load as well...
 # try to upload the file via POST/HTTP to Solr
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  22000 43
-# get rid of intermediate files (leave header4Solr.csv ... internal pipeline needs it)
-rm d?.csv m?.csv b?.csv media.csv metadata.csv
 date

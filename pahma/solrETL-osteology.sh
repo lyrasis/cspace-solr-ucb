@@ -5,7 +5,6 @@
 # into Solr4 using the "csv datahandler"
 ##############################################################################
 date
-cd /home/app_solr/solrdatasources/pahma
 ##############################################################################
 # while most of this script is already tenant specific, many of the specific commands
 # are shared between the different scripts; having them be as similar as possible
@@ -19,24 +18,29 @@ DATABASE="pahma_domain_pahma"
 CONNECTSTRING="host=$HOSTNAME dbname=$DATABASE"
 CONTACT="mtblack@berkeley.edu"
 ##############################################################################
+cd /home/app_solr/solrdatasources/${TENANT}
+##############################################################################
 # extract media info from CSpace
 ##############################################################################
 time psql -F $'\t' -R"@@" -A -U $USERNAME -d "$CONNECTSTRING" -f osteology.sql -o o1.csv
 # cleanup newlines and crlf in data, then switch record separator.
 time perl -i -pe 's/[\r\n]/ /g;s/\@\@/\n/g' o1.csv
 ##############################################################################
-# we want to recover and use our "special" solr-friendly header, which got buried
-##############################################################################
 # compress the osteology data into a single variable
+##############################################################################
 python3 osteology_analyzer.py o1.csv o2.csv
 sort o2.csv > o3.csv
 # add the internal data
-gunzip 4solr.${TENANT}.internal.csv.gz
+cp /tmp/4solr.${TENANT}.internal.csv.gz .
+gunzip /tmp/4solr.${TENANT}.internal.csv.gz
 python3 join.py o3.csv 4solr.${TENANT}.internal.csv > o4.csv
-# put the internal core extract back where we found it
-gzip -f 4solr.${TENANT}.internal.csv
+# get rid of the copy we made
+rm -f 4solr.${TENANT}.internal.csv
 # csid_s is both files, let's keep only one in this file
 cut -f1,3- o4.csv > o5.csv
+##############################################################################
+# we want to recover and use our "special" solr-friendly header, which got buried
+##############################################################################
 grep -P "^id\t" o5.csv > header4Solr.csv
 grep -v -P "^id\t" o5.csv > o6.csv
 cat header4Solr.csv o6.csv > o7.csv

@@ -6,7 +6,6 @@
 # prep them for load into solr using the "csv data import handler"
 ##############################################################################
 date
-cd /home/app_solr/solrdatasources/pahma
 ##############################################################################
 # note that in this case there are 4 nightly scripts, public, internal, and locations,
 # and osteology. internal depends on data created by public, so this case has to be handled
@@ -28,6 +27,8 @@ CONTACT="mtblack@berkeley.edu"
 # (it has to be exported so the perl one-liner below can get the value from
 # the environment; the value is used in 2 places below.)
 export FCPCOL=39
+##############################################################################
+cd /home/app_solr/solrdatasources/${TENANT}
 ##############################################################################
 # run the "all media query"
 ##############################################################################

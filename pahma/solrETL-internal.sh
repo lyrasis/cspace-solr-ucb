@@ -15,7 +15,6 @@
 #
 ##############################################################################
 date
-cd /home/app_solr/solrdatasources/pahma
 ##############################################################################
 # note that there are 4 nightly scripts, public, internal, and locations,
 # and osteology.
@@ -28,6 +27,8 @@ cd /home/app_solr/solrdatasources/pahma
 TENANT=$1
 CORE=internal
 CONTACT="mtblack@berkeley.edu"
+##############################################################################
+cd /home/app_solr/solrdatasources/${TENANT}
 ##############################################################################
 # we use the csv file for the internal store, prepared by the solrETL-public.sh
 ##############################################################################

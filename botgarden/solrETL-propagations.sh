@@ -1,6 +1,5 @@
 #!/bin/bash -x
 date
-cd /home/app_solr/solrdatasources/botgarden
 ##############################################################################
 # while most of this script is already tenant specific, many of the specific commands
 # are shared between the different scripts; having them be as similar as possible
@@ -14,6 +13,8 @@ DATABASE="${TENANT}_domain_${TENANT}"
 CONNECTSTRING="host=$SERVER dbname=$DATABASE"
 CONTACT="loughran@berkeley.edu"
 export NUMFIELDS=28
+##############################################################################
+cd /home/app_solr/solrdatasources/${TENANT}
 ##############################################################################
 # extract propagations info from CSpace
 ##############################################################################

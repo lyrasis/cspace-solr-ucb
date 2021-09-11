@@ -1,6 +1,5 @@
 #!/bin/bash -x
 date
-cd /home/app_solr/solrdatasources/cinefiles
 ##############################################################################
 # while most of this script is already tenant specific, many of the commands
 # are shared between the different scripts; having them be as similar as possible
@@ -13,6 +12,8 @@ USERNAME="reporter_${TENANT}"
 DATABASE="${TENANT}_domain_${TENANT}"
 CONNECTSTRING="host=$SERVER dbname=$DATABASE"
 CONTACT="cspace-support@lists.berkeley.edu"
+##############################################################################
+cd /home/app_solr/solrdatasources/${TENANT}
 ##############################################################################
 # extract metadata and media info from CSpace
 ##############################################################################

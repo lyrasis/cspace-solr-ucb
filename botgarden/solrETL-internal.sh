@@ -1,6 +1,5 @@
 #!/bin/bash -x
 date
-cd /home/app_solr/solrdatasources/botgarden
 ##############################################################################
 # while most of this script is already tenant specific, many of the specific commands
 # are shared between the different scripts; having them be as similar as possible
@@ -9,6 +8,8 @@ cd /home/app_solr/solrdatasources/botgarden
 TENANT=$1
 CORE=internal
 CONTACT="loughran@berkeley.edu"
+##############################################################################
+cd /home/app_solr/solrdatasources/${TENANT}
 ##############################################################################
 # up to here, both public and internal extracts are the same.
 # so we use the public metadata and media file and carry on
