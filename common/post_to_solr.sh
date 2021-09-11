@@ -67,7 +67,7 @@ if [ $? != 0 ]; then
   notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refresh failed"
   gunzip -k -f /tmp/4solr.${TENANT}.${FILE_PART}.csv.gz
   time curl -X POST -S -s "$SOLRCMD" -H 'Content-type:text/plain; charset=utf-8' -T /tmp/4solr.${TENANT}.${FILE_PART}.csv
-  if [ $? =! 0 ]; then
+  if [ $? != 0 ]; then
     MSG="Solr re-POST failed for ${TENANT}-${CORE}, file 4solr.${TENANT}.${FILE_PART}.csv; giving up and sending email."
     notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refresh from previous saved file (2nd attempt), failed too"
   else
