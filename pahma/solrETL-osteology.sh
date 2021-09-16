@@ -32,7 +32,7 @@ python3 osteology_analyzer.py o1.csv o2.csv
 sort o2.csv > o3.csv
 # add the internal data
 cp /tmp/4solr.${TENANT}.internal.csv.gz .
-gunzip /tmp/4solr.${TENANT}.internal.csv.gz
+gunzip 4solr.${TENANT}.internal.csv.gz
 python3 join.py o3.csv 4solr.${TENANT}.internal.csv > o4.csv
 # get rid of the copy we made
 rm -f 4solr.${TENANT}.internal.csv
@@ -54,4 +54,5 @@ rm o?.csv header4Solr.csv
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  15000 67
+# moving .csv files and saving the extract is done in post_to_solr!
 date

@@ -34,5 +34,5 @@ cd /home/app_solr/solrdatasources/${TENANT}
 ##############################################################################
 gunzip 4solr.${TENANT}.internal.csv.gz
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT} 720000 67
-# no cleanup done here, it is done in post_to_solr!
+# moving .csv files and saving the extract is done in post_to_solr!
 date

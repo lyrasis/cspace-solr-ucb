@@ -80,11 +80,15 @@ rm d?.csv metadata.csv media.csv
 gzip ucjeps.counts.errors_in_latlong.csv
 gzip header4Solr.csv
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  750000 67
+##############################################################################
 # hack to zap latlong errors and load the records anyway.
+# TODO: get rid of this somehow someday!
+##############################################################################
 gunzip ucjeps.counts.errors_in_latlong.csv.gz
 gunzip header4Solr.csv.gz
 ./zapCoords.sh
 rm header4Solr.csv
 mv counts.tgz /tmp/ucjeps.counts.tgz
 mv ucjeps.counts.errors_in_latlong.csv /tmp
+# moving .csv files and saving the extract is done in post_to_solr!
 date

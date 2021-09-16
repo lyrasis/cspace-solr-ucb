@@ -56,4 +56,5 @@ rm d?.csv m?.csv b?.csv media.csv metadata.csv header4Solr.csv
 # TODO however we could also skip them in the Solr load as well...
 # try to upload the file via POST/HTTP to Solr
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  22000 43
+# moving .csv files and saving the extract is done in post_to_solr!
 date

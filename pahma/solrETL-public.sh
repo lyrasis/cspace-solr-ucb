@@ -166,9 +166,12 @@ tar -czf counts.tgz ${TENANT}.counts.*.csv
 ##############################################################################
 rm d?.csv d6?.csv part*.csv temp.*.csv basic*.csv header4Solr.csv
 ##############################################################################
+# save (hide) the internal extract so that the internal script can find it
+##############################################################################
+gzip 4solr.${TENANT}.internal.csv
+##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  720000 58
-# save (hide) the internal extract so that the internal script can find it
-gzip 4solr.${TENANT}.internal.csv
+# moving .csv files and saving the extract is done in post_to_solr!
 date
