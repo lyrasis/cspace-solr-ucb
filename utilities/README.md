@@ -1,8 +1,8 @@
-## Solr8 helpers for UCB CSpace webapps
+## Solr helpers for UCB CSpace webapps
 
 Tools (mainly shell scripts) to:
 
-* deploy solr8 on Unix-like systems (Mac, Linux, perhaps even Unix).
+* deploy solr on Unix-like systems (Mac, Linux, perhaps even Unix).
 * load the existing UCB solr datastores into the solr8 deployment.
 * start and stop the solr service.
 * run the Solr ETL pipelines (but the pipeline scripts themselves are not here: see museum repos)
