@@ -41,6 +41,9 @@ wait
 ##############################################################################
 # temporary hack to parse Locality into County/State/Country
 ##############################################################################
+cp /tmp/county.csv .
+cp /tmp/state.csv .
+cp /tmp/country.csv .
 perl fixLocalites.pl d5.csv > metadata.csv
 cut -f10 metadata.csv | perl -pe 's/\|/\n/g;' | sort | uniq -c | perl -pe 's/^ *(\d+) /\1\t/' > county.csv &
 cut -f11 metadata.csv | perl -pe 's/\|/\n/g;' | sort | uniq -c | perl -pe 's/^ *(\d+) /\1\t/' > state.csv &
