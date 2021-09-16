@@ -14,7 +14,8 @@ cd /home/app_solr/solrdatasources/${TENANT}
 # up to here, both public and internal extracts are the same.
 # so we use the public metadata and media file and carry on
 gunzip 4solr.${TENANT}.media.csv.gz
-gunzip ${CORE}.metadata.csv
+gunzip public.metadata.csv.gz
+gunzip header4Solr.csv.gz
 ##############################################################################
 # add the blob csids
 ##############################################################################

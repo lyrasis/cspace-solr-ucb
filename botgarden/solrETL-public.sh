@@ -87,9 +87,13 @@ perl -i -pe 's/International Union for Conservation of Nature and Natural Resour
 ##############################################################################
 rm -f d?.csv d??.csv
 ##############################################################################
-# OK, we are good to go! clear out the existing data and reload
+# save (hide) files needed for the internal core so that the internal script can find them
 ##############################################################################
 gzip 4solr.${TENANT}.media.csv
 gzip ${CORE}.metadata.csv
+gzip header4Solr.csv
+##############################################################################
+# OK, we are good to go! clear out the existing data and reload
+##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  50000 74
 date
