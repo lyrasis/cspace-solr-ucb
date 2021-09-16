@@ -1,6 +1,6 @@
 ### ETL to extract data for Solr datastores
 
-This directory contains the components of the Solr4 system supporting
+This directory contains the components of the Solr system supporting
 the CSpace "Portals"
 
 There is one directory per UCB tenant, each directory contains the SQL and other
