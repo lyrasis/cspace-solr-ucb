@@ -32,7 +32,7 @@ time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' m1.csv > 4solr.${TENANT}.media.csv
 time python3 ../common/evaluate.py 4solr.${TENANT}.media.csv /dev/null > ${TENANT}.counts.media.csv &
 
 # special cases
-cut -f1,25 metadata.csv > csids+docids+warcs.csv
+cut -f1,25,26 metadata.csv > csids+docids+warcs.csv
 cut -f1,5,8,14,15 4solr.${TENANT}.media.csv > csids+media_info.csv
 cut -f1,2 link.csv > 4solr.${TENANT}.link.csv
 perl -i -pe 's/updatedat/film_updatedat/;s/name_id/film_name_id/;' films.csv

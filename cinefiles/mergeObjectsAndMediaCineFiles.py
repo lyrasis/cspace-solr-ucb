@@ -87,8 +87,8 @@ LINK2 = open_file(sys.argv[3], 'link2')
 link2 = {}
 for line in LINK2:
     count['link2'] += 1
-    (csid, docid) = line[:2]
-    link2[docid.strip()] = csid
+    (csid, docid, canonical_url) = line[:3]
+    link2[docid.strip()] = (csid, canonical_url)
 
 FILMS = open_file(sys.argv[4], 'films')
 films = collections.defaultdict(tuple)
