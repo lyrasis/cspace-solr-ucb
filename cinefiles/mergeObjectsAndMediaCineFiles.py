@@ -67,11 +67,13 @@ def make_associated_films(films, filmids):
 MEDIA = open_file(sys.argv[1], 'media')
 media = collections.defaultdict(dict)
 for line in MEDIA:
-    count['media (images, pdfs)'] += 1
+    count['media (images, pdfs, warcs, etc.)'] += 1
     (objectcsid, objectnumber, mediacsid, description, filename, creatorrefname, creator, blobcsid, copyrightstatement,
      identificationnumber, rightsholderrefname, rightsholder, contributor, mimetype, md5) = line
     type = 'pdf' if mimetype == 'application/pdf' else 'image'
     count[f'media: {type}'] += 1
+    # skip WARC full-text JSON files: not images!
+    if '.jsonl' in filename: continue
     if type not in media[objectcsid]:
         media[objectcsid][type] = []
     media[objectcsid][type].append(blobcsid)
