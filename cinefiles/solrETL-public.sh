@@ -32,13 +32,13 @@ time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' m1.csv > 4solr.${TENANT}.media.csv
 time python3 ../common/evaluate.py 4solr.${TENANT}.media.csv /dev/null > ${TENANT}.counts.media.csv &
 
 # special cases
-cut -f1,25 metadata.csv > csids+docids.csv
+cut -f1,25 metadata.csv > csids+docids+warcs.csv
 cut -f1,5,8,14,15 4solr.${TENANT}.media.csv > csids+media_info.csv
 cut -f1,2 link.csv > 4solr.${TENANT}.link.csv
 perl -i -pe 's/updatedat/film_updatedat/;s/name_id/film_name_id/;' films.csv
 
 # merge the documents, film, media (image and pdf) via the 2 "link" files
-time python3 mergeObjectsAndMediaCineFiles.py 4solr.${TENANT}.media.csv link.csv csids+docids.csv films.csv docs.csv public.csv
+time python3 mergeObjectsAndMediaCineFiles.py 4solr.${TENANT}.media.csv link.csv csids+docids+warcs.csv films.csv docs.csv public.csv
 
 for file in docs films metadata public
 do

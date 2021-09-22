@@ -25,7 +25,8 @@ select  distinct
         cocf.hastechcr,
         cocf.docdisplayname,
         cocf.hasboxinfo,
-        coc.objectnumber AS doc_id
+        coc.objectnumber AS doc_id,
+        regexp_replace(coc.contentnote, E'[\\t\\n\\r]+', ' ', 'g') AS canonical_url
 from collectionobjects_common coc
 left outer join hierarchy h1 on (h1.id = coc.id)
 left outer join collectionobjects_cinefiles cocf on (coc.id = cocf.id)

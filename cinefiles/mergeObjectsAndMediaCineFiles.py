@@ -103,7 +103,7 @@ for line in FILMS:
 METADATA = open_file(sys.argv[5], 'docs')
 media['csid']['image'] = ['blob_ss']
 media['csid']['pdf'] = ['pdf_ss']
-link2['doc_id'] = 'csid'
+link2['doc_id'] = ('csid', 'canonical_url')
 
 try:
     outputfh = csv.writer(open(sys.argv[6], 'w', encoding='utf-8'), delimiter="\t", quoting=csv.QUOTE_NONE, quotechar=chr(255), escapechar='\\')
@@ -123,7 +123,8 @@ for line in METADATA:
 
     # insert list of blobs and pdfs as final columns
     try:
-        objectcsid = link2[docid]
+        objectcsid = link2[docid][0]
+        canonical_url = link2[docid][1]
     except:
         print(f'CSID for {docid} not found in links')
         count['docs unmatched with CSIDs'] += 1
@@ -158,7 +159,7 @@ for line in METADATA:
     else:
         count['media matched a document'] += 1
 
-    outputfh.writerow(line + [has] + film_field_values + [associated_films] + [objectcsid] + ['|'.join(mediablobs)] + ['|'.join(pdfblobs)])
+    outputfh.writerow(line + [has] + film_field_values + [associated_films] + [objectcsid] + [canonical_url] + ['|'.join(mediablobs)] + ['|'.join(pdfblobs)])
 
 for s in sorted(count):
     print(f'{s}: {count[s]}')
