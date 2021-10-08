@@ -69,10 +69,12 @@ if [ $? != 0 ]; then
   time curl -X POST -S -s "$SOLRCMD" -H 'Content-type:text/plain; charset=utf-8' -T /tmp/4solr.${TENANT}.${FILE_PART}.csv
   if [ $? != 0 ]; then
     MSG="Solr re-POST failed for ${TENANT}-${CORE}, file 4solr.${TENANT}.${FILE_PART}.csv; giving up and sending email."
-    notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refresh from previous saved file (2nd attempt), failed too"
+    notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refresh from previous saved file (2nd attempt), failed too."
+    exit 1
   else
     MSG="Solr re-POST succeed for ${TENANT}-${CORE}, file 4solr.${TENANT}.${FILE_PART}.csv."
     notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refreshed from previous saved file."
+    exit 1
   fi
   # remove the gunzipped copy we made, but leave the original gzipped file
   rm /tmp/4solr.${TENANT}.${FILE_PART}.csv
@@ -95,9 +97,7 @@ else
   wc -l *.csv
   ##############################################################################
   # gzip and copy the successful extract to /tmp in case we need it tomorrow.
-  # nb: we leave the file here in the runtime directory as well as in some
-  # cases it is needed by other pipelines.
-  # (first wait for any processes started earlier...)
+  # (but first wait for any processes started earlier...)
   ##############################################################################
   wait
   gzip -f 4solr.${TENANT}.${FILE_PART}.csv
