@@ -38,7 +38,7 @@ mkdir ${SOLRETLDIR}
 
 # deploy fresh code from github
 cd ${SOLR_REPO}
-git checkout master
+git checkout main
 git pull -v
 git checkout $1
 cp utilities/o*.sh ~
