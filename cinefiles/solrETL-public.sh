@@ -65,7 +65,7 @@ do
 done
 wait
 # tidy up a bit
-rm d?.csv header4Solr.csv
+rm d?.csv m1.csv header4Solr.csv
 ##############################################################################
 # first, however, save (hide) the 'films' file
 ##############################################################################
