@@ -3,10 +3,13 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.1.5
-Wed Dec 15 13:09:38 PST 2021
+This is version 6.1.6-rc1
+Fri Dec 17 15:07:00 PST 2021
 
-3b6c675 (HEAD -> master, tag: 6.1.5-rc2, origin/master, origin/HEAD) revise CHANGELOG.txt and bump version to 6.1.5-rc2
+4958dfb (HEAD -> main) CSW-574: change 'master' to 'main' in this repo
+b1a556a (origin/main) NOJIRA: cleanup extraneous cinefiles pipeline temp file
+9686f54 (tag: 6.1.5) revise CHANGELOG.txt and bump version to 6.1.5
+3b6c675 (tag: 6.1.5-rc2) revise CHANGELOG.txt and bump version to 6.1.5-rc2
 9c04fe6 CSW-377: exit pipeline if 2nd refresh attempt fails (to keep yesterdays extract
 5ef9f6d (tag: 6.1.5-rc1) revise CHANGELOG.txt and bump version to 6.1.5-rc1
 3b65482 CSW-527: don't display warc .jsonl files as images
