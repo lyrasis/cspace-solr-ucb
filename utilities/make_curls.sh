@@ -16,7 +16,7 @@ do
           echo "# ${TENANT}-${CORE}" >> allcurls.sh
           echo "curl -S -s http://localhost:8983/solr/${TENANT}-${CORE}/update --data '<delete><query>*:*</query></delete>' -H 'Content-type:text/xml; charset=utf-8'" >> allcurls.sh
           echo "curl -S -s http://localhost:8983/solr/${TENANT}-${CORE}/update --data '<commit/>' -H 'Content-type:text/xml; charset=utf-8'" >> allcurls.sh
-          ss_string=`cat uploadparms.${TENANT}.${FILE_PART}.txt`
+          ss_string=`cat ~/solrdatasources/${TENANT}/uploadparms.${TENANT}.${FILE_PART}.txt`
           SOLRCMD="http://localhost:8983/solr/${TENANT}-${CORE}/update/csv?commit=true&header=true&trim=true&separator=%09&${ss_string}&encapsulator=\\"
           echo "time curl -X POST -S -s '$SOLRCMD' -H 'Content-type:text/plain; charset=utf-8' -T 4solr.${TENANT}.${FILE_PART}.csv" >> allcurls.sh
        fi
