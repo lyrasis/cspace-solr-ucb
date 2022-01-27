@@ -50,7 +50,7 @@ WHERE mc.id NOT IN (SELECT
                            ON (cc.id = osl1.id AND osl1.pos = 1)
                          FULL OUTER JOIN collectionobjects_pahma_pahmaobjectstatuslist osl2
                            ON (cc.id = osl2.id AND osl2.pos = 2)
-                       WHERE (cp.pahmatmslegacydepartment = 'Human Remains' AND osl0.item LIKE '%culturally%')
-                             OR (cp.pahmatmslegacydepartment = 'Human Remains' AND osl1.item LIKE '%culturally%')
-                             OR (cp.pahmatmslegacydepartment = 'Human Remains' AND osl2.item LIKE '%culturally%'))
+                       WHERE (regexp_replace(cp.pahmatmslegacydepartment, '^.*\)''(.*)''$', '\1') = 'Human Remains' AND osl0.item LIKE '%culturally%')
+                             OR (regexp_replace(cp.pahmatmslegacydepartment, '^.*\)''(.*)''$', '\1') = 'Human Remains' AND osl1.item LIKE '%culturally%')
+                             OR (regexp_replace(cp.pahmatmslegacydepartment, '^.*\)''(.*)''$', '\1') = 'Human Remains' AND osl2.item LIKE '%culturally%'))
            OR mp.approvedforweb = 'false')

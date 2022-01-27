@@ -3,7 +3,7 @@ SELECT
   h1.name                     AS "csid_s",
   cp.sortableobjectnumber     AS "objsortnum_s",
   cc.objectnumber             AS "objmusno_s",
-  cp.pahmatmslegacydepartment AS "objdept_s",
+  regexp_replace(cp.pahmatmslegacydepartment, '^.*\)''(.*)''$', '\1') AS "objdept_s",
   regexp_replace(cc.collection,'^.*\)''(.*)''$', '\1') AS "objtype_s",
   cc.numberofobjects          AS "objcount_s",
   cp.inventorycount           AS "objcountnote_s",

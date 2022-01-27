@@ -13,7 +13,7 @@ SELECT
   REGEXP_REPLACE(mc.rightsholder, '^.*\)''(.*)''$', '\1')  AS rightsholder,
   mc.contributor,
   mp.approvedforweb,
-  cp.pahmatmslegacydepartment                             AS pahmatmslegacydepartment,
+  regexp_replace(cp.pahmatmslegacydepartment, '^.*\)''(.*)''$', '\1') AS pahmatmslegacydepartment,
   (SELECT STRING_AGG(DISTINCT REGEXP_REPLACE(osl.item, '^.*\)''(.*)''$', '\1'),'␥') AS "status_ss"
      FROM collectionobjects_common cc
      LEFT OUTER JOIN collectionobjects_pahma_pahmaobjectstatuslist osl ON (cc.id=osl.id)

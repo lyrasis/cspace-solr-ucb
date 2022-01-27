@@ -480,7 +480,7 @@ SELECT
   ostsex.sexdeterminationnote        AS "sexdeterminationnote_s"
 FROM collectionobjects_common cc
   LEFT OUTER JOIN collectionobjects_pahma cp
-    ON (cc.id = cp.id AND cp.pahmatmslegacydepartment IN ('Human Remains', 'Mixed faunal and human remains'))
+    ON (cc.id = cp.id AND regexp_replace(cp.pahmatmslegacydepartment, '^.*\)''(.*)''$', '\1') IN ('Human Remains', 'Mixed faunal and human remains'))
   JOIN hierarchy h1 ON (cc.id = h1.id)
   JOIN relations_common rc ON (rc.subjectcsid = h1.name AND rc.objectdocumenttype = 'Osteology')
   JOIN hierarchy h2 ON (rc.objectcsid = h2.name)
