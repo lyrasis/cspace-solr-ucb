@@ -3,11 +3,14 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.1.6-rc1
-Fri Dec 17 15:07:00 PST 2021
+This is version 6.1.6-rc2
+Thu Jan 27 14:51:01 PST 2022
 
-4958dfb (HEAD -> main) CSW-574: change 'master' to 'main' in this repo
-b1a556a (origin/main) NOJIRA: cleanup extraneous cinefiles pipeline temp file
+80d0539 (HEAD -> main) CSC-1863: update pahma solr queries for pahmatmslegacydepartment
+69b2119 (origin/main, origin/HEAD) NOJIRA: update two solr helper scripts
+72fc503 (tag: 6.1.6-rc1) revise CHANGELOG.txt and bump version to 6.1.6-rc1
+4958dfb CSW-574: change 'master' to 'main' in this repo
+b1a556a NOJIRA: cleanup extraneous cinefiles pipeline temp file
 9686f54 (tag: 6.1.5) revise CHANGELOG.txt and bump version to 6.1.5
 3b6c675 (tag: 6.1.5-rc2) revise CHANGELOG.txt and bump version to 6.1.5-rc2
 9c04fe6 CSW-377: exit pipeline if 2nd refresh attempt fails (to keep yesterdays extract
