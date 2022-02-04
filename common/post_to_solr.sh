@@ -7,6 +7,7 @@ CONTACT=$3
 MINIMUM=$4
 BLOB_COLUMN=$5
 FILE_PART=$6
+TEMP_DIR="/var/solr/tmp"
 ##############################################################################
 # a helper function
 ##############################################################################
@@ -41,43 +42,43 @@ fi
 ##############################################################################
 # count the types and tokens in the final file, check cell counts
 ##############################################################################
-time python3 ../common/evaluate.py 4solr.${TENANT}.${FILE_PART}.csv /dev/null > ${TENANT}.counts.${FILE_PART}.csv &
+time python3 ../common/evaluate.py ${CSVFILE} /dev/null > ${TENANT}.counts.${FILE_PART}.csv &
 # zap the existing core, if the file we are loading is the CORE file.
 # (we might be loading several into this core)
 if [ "${FILE_PART}" == "${CORE}" ]; then
-  echo "this file is 4solr.${TENANT}.${FILE_PART}.csv, ergo, we zap solr/${TENANT}-${CORE} first..."
+  echo "this file is ${CSVFILE}, ergo, we zap solr/${TENANT}-${CORE} first..."
   curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<delete><query>*:*</query></delete>' -H 'Content-type:text/xml; charset=utf-8'
   curl -S -s "http://localhost:8983/solr/${TENANT}-${CORE}/update" --data '<commit/>' -H 'Content-type:text/xml; charset=utf-8'
 else
-  echo "POSTing 4solr.${TENANT}.${FILE_PART}.csv, i.e. adding documents to existing solr/${TENANT}-${CORE} ..."
+  echo "POSTing ${CSVFILE}, i.e. adding documents to existing solr/${TENANT}-${CORE} ..."
 fi
 ##############################################################################
 # generate the field splitting parameters for the post to solr
 ##############################################################################
-head -1 4solr.${TENANT}.${FILE_PART}.csv | sort | perl -pe 's/[\t\r]/\n/g' | perl -ne 'chomp; next unless /_(dt|s|i)s/; print "f.$_.split=true&f.$_.separator=%7C&"' > uploadparms.${TENANT}.${FILE_PART}.txt
+head -1 ${CSVFILE} | sort | perl -pe 's/[\t\r]/\n/g' | perl -ne 'chomp; next unless /_(dt|s|i)s/; print "f.$_.split=true&f.$_.separator=%7C&"' > uploadparms.${TENANT}.${FILE_PART}.txt
 ss_string=`cat uploadparms.${TENANT}.${FILE_PART}.txt`
 SOLRCMD="http://localhost:8983/solr/${TENANT}-${CORE}/update/csv?commit=true&header=true&trim=true&separator=%09&${ss_string}&encapsulator=\\"
 ##############################################################################
 # the heavy lifting starts...
 ##############################################################################
-time curl -X POST -S -s "${SOLRCMD}" -H 'Content-type:text/plain; charset=utf-8' -T 4solr.${TENANT}.${FILE_PART}.csv
-echo "time curl -X POST -S -s "${SOLRCMD}" -H 'Content-type:text/plain; charset=utf-8' -T 4solr.${TENANT}.${FILE_PART}.csv"
+echo "time curl -X POST -S -s "${SOLRCMD}" -H 'Content-type:text/plain; charset=utf-8' -T ${CSVFILE}"
+time curl -X POST -S -s "${SOLRCMD}" -H 'Content-type:text/plain; charset=utf-8' -T ${CSVFILE}
 if [ $? != 0 ]; then
-  MSG="Solr POST failed for ${TENANT}-${CORE}, file 4solr.${TENANT}.${FILE_PART}.csv ; retrying using previous successful upload"
+  MSG="Solr POST failed for ${TENANT}-${CORE}, file ${CSVFILE} ; retrying using previous successful upload"
   notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refresh failed"
-  gunzip -k -f /tmp/4solr.${TENANT}.${FILE_PART}.csv.gz
-  time curl -X POST -S -s "$SOLRCMD" -H 'Content-type:text/plain; charset=utf-8' -T /tmp/4solr.${TENANT}.${FILE_PART}.csv
+  gunzip -k -f ${TEMP_DIR}/${CSVFILE}.gz
+  time curl -X POST -S -s "$SOLRCMD" -H 'Content-type:text/plain; charset=utf-8' -T ${TEMP_DIR}/${CSVFILE}
   if [ $? != 0 ]; then
-    MSG="Solr re-POST failed for ${TENANT}-${CORE}, file 4solr.${TENANT}.${FILE_PART}.csv; giving up and sending email."
+    MSG="Solr re-POST failed for ${TENANT}-${CORE}, file ${CSVFILE}; giving up and sending email."
     notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refresh from previous saved file (2nd attempt), failed too."
     exit 1
   else
-    MSG="Solr re-POST succeed for ${TENANT}-${CORE}, file 4solr.${TENANT}.${FILE_PART}.csv."
+    MSG="Solr re-POST succeed for ${TENANT}-${CORE}, file ${CSVFILE}."
     notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refreshed from previous saved file."
     exit 1
   fi
   # remove the gunzipped copy we made, but leave the original gzipped file
-  rm /tmp/4solr.${TENANT}.${FILE_PART}.csv
+  rm ${TEMP_DIR}/${CSVFILE}
 else
   ##############################################################################
   # the refresh succeeded.
@@ -85,22 +86,22 @@ else
   # count rows, blobs, etc.
   ##############################################################################
   if [ ${BLOB_COLUMN} != 0 ]; then
-    cut -f${BLOB_COLUMN} 4solr.${TENANT}.${FILE_PART}.csv | grep -v 'blob_ss' | perl -pe 's/\r//' |  grep . | wc -l > ${TENANT}.counts.${FILE_PART}.blobs.csv
-    cut -f${BLOB_COLUMN} 4solr.${TENANT}.${FILE_PART}.csv | grep -v 'blob_ss' | perl -pe 's/\r//;s/,/\n/g;s/\|/\n/g;'| grep . | wc -l >> ${TENANT}.counts.${FILE_PART}.blobs.csv
-    cp ${TENANT}.counts.${FILE_PART}.blobs.csv /tmp/
+    cut -f${BLOB_COLUMN} ${CSVFILE} | grep -v 'blob_ss' | perl -pe 's/\r//' |  grep . | wc -l > ${TENANT}.counts.${FILE_PART}.blobs.csv
+    cut -f${BLOB_COLUMN} ${CSVFILE} | grep -v 'blob_ss' | perl -pe 's/\r//;s/,/\n/g;s/\|/\n/g;'| grep . | wc -l >> ${TENANT}.counts.${FILE_PART}.blobs.csv
+    cp ${TENANT}.counts.${FILE_PART}.blobs.csv ${TEMP_DIR}/
     cat ${TENANT}.counts.${FILE_PART}.blobs.csv
   fi
-  cp ${TENANT}.counts.${FILE_PART}.csv /tmp/
+  cp ${TENANT}.counts.${FILE_PART}.csv ${TEMP_DIR}/
   ##############################################################################
   # log the state of the .csv files
   ##############################################################################
   wc -l *.csv
   ##############################################################################
-  # gzip and copy the successful extract to /tmp in case we need it tomorrow.
+  # gzip and copy the successful extract to ${TEMP_DIR} in case we need it tomorrow.
   # (but first wait for any processes started earlier...)
   ##############################################################################
   wait
-  gzip -f 4solr.${TENANT}.${FILE_PART}.csv
-  mv 4solr.${TENANT}.${FILE_PART}.csv.gz /tmp
+  gzip -f ${CSVFILE}
+  mv ${CSVFILE}.gz ${TEMP_DIR}
 fi
-mv *.csv /tmp
+mv *.csv ${TEMP_DIR}
