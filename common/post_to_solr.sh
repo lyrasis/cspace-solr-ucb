@@ -8,6 +8,11 @@ MINIMUM=$4
 BLOB_COLUMN=$5
 FILE_PART=$6
 TEMP_DIR="/var/solr/tmp"
+if [[ ! -d ${TEMP_DIR} ]]; then
+  MSG="Could not find temporary directory ${TEMP_DIR}; refresh aborted, core left untouched."
+  notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refresh failed: ${TEMP_DIR} missing"
+  exit 1
+fi
 ##############################################################################
 # a helper function
 ##############################################################################

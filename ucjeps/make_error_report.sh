@@ -1,6 +1,6 @@
 echo "Solr Refresh, Field Counts and Errors `date`"
 echo
-for F in `ls counts.*.csv`
+for F in `ls ${TENANT}.counts.*.csv`
 do
   ERRORS=`grep errors $F`
   if [ "$ERRORS" == "" ]; then
