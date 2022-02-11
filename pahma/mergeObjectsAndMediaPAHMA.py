@@ -179,10 +179,10 @@ with open(sys.argv[2], 'r') as METADATA:
                     # belt-and-suspenders: restrict if 'human remains' or charmstone or NAGPRA appear anywhere...
                     if check(rest[contextofusecol], 'burial') or \
                             check(rest[objectnamecol], 'charm stone') or check(rest[objectnamecol], 'charmstone') or \
-                            check(rest[objectlegacydeptcol], 'NAGPRA-associated Funerary Objects') or \
+                            check(rest[objectlegacydeptcol], 'Associated Funerary Objects') or \
                             check(line_as_string, 'Human Remains') or \
                             check(line_as_string, 'charm stone') or check(line_as_string, 'charmstone') or \
-                            check(line_as_string, 'NAGPRA-associated Funerary Objects'):
+                            check(line_as_string, 'Associated Funerary Objects'):
 
                         # if the *object* is one of the restricted type, remove *all* image media, and use the placeholder
                         blobs[objectcsid]['images'] = [ restricted_csid ]
