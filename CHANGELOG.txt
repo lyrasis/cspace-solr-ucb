@@ -3,12 +3,14 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.1.6-rc4
-Fri Feb 11 15:12:31 PST 2022
+This is version 6.1.6-rc5
+Wed Feb 16 08:11:17 PST 2022
 
-7b8be48 (HEAD -> main) CSW-608: minor cleanup and bulletproofing of solr pipelines
+cf1162b (HEAD -> main) NOJIRA: minor refactor of bmu nightly report process
+aca383a (tag: 6.1.6-rc4, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.1.6-rc4
+7b8be48 CSW-608: minor cleanup and bulletproofing of solr pipelines
 857ea71 CSW-602: revise pahma solr pipeline to handle pahmatmslegacydepartment changes
-c669d23 (tag: 6.1.6-rc3, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.1.6-rc3
+c669d23 (tag: 6.1.6-rc3) revise CHANGELOG.txt and bump version to 6.1.6-rc3
 a1a5d6c HMP-206: store extracts in /var/solr/tmp
 3b78586 (tag: 6.1.6-rc2) revise CHANGELOG.txt and bump version to 6.1.6-rc2
 80d0539 CSC-1863: update pahma solr queries for pahmatmslegacydepartment
