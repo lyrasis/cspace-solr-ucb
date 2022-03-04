@@ -27,7 +27,7 @@ time python3 ../common/evaluate.py d3.csv metadata.csv > ${TENANT}.counts.${CORE
 # get media
 ##############################################################################
 time psql -F $'\t' -R"@@" -A -U $USERNAME -d "$CONNECTSTRING" -f ucjepsMedia.sql -o media.csv
-time perl -i -pe 's/[\r\n]/ /g;s/\@\@/\n/g' media.csv 
+time perl -i -pe 's/[\r\n]/ /g;s/\@\@/\n/g' media.csv
 ##############################################################################
 # make a unique sequence number for id
 ##############################################################################
@@ -64,10 +64,11 @@ cat header4Solr.csv d9.csv | perl -pe 's/␥/|/g' > 4solr.${TENANT}.${CORE}.csv
 perl -i -pe 's/\\/\//g;s/\t"/\t/g;s/"\t/\t/g;s/\"\"/"/g' 4solr.${TENANT}.${CORE}.csv
 ##############################################################################
 # mark duplicate accession numbers
+# nb: no longer needed, but code retained below for posterity
 ##############################################################################
-cut -f3 4solr.${TENANT}.${CORE}.csv | sort | uniq -c | sort -rn |perl -ne 'print unless / 1 / ' > ${TENANT}.counts.duplicates.csv
-cut -c9- ${TENANT}.counts.duplicates.csv | perl -ne 'chomp; print "s/\\t$_\\t/\\t$_ (duplicate)\\t/;\n"' > fix_dups.sh
-time perl -i -p fix_dups.sh 4solr.${TENANT}.${CORE}.csv
+# cut -f3 4solr.${TENANT}.${CORE}.csv | sort | uniq -c | sort -rn |perl -ne 'print unless / 1 / ' > ${TENANT}.counts.duplicates.csv
+# cut -c9- ${TENANT}.counts.duplicates.csv | perl -ne 'chomp; print "s/\\t$_\\t/\\t$_ (duplicate)\\t/;\n"' > fix_dups.sh
+# time perl -i -p fix_dups.sh 4solr.${TENANT}.${CORE}.csv
 ##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
