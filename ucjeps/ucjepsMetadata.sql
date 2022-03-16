@@ -37,10 +37,9 @@ select
     lg.localitynote as localitynote_s,
     lg.localitysource as localitysource_s,
     lg.localitysourcedetail as localitysourcedetail_s,
-    -- TODO: when the data is migrated from the two fields above, these next two fields should replace them.
-    -- TODO: at least, I *think* so!
-    -- gr.georefsource as georefersource_s,
-    -- gr.georefremarks as georefremarks_s,
+    gr.georefsource as georefsource_s,
+    gr.georefremarks as georefremarks_s,
+    gr.georeferencedby as georeferencedby_s,
     cc.updatedat as updatedat_dt,
     case when conh.labelheader like 'urn:%' then getdispl(conh.labelheader)
         else conh.labelheader
@@ -186,8 +185,8 @@ left outer join taxontermgroup ttg on (ttg.id = httg.id)
 left outer join taxon_ucjeps tu on (tu.id = tc.id)
 left outer join taxon_naturalhistory tnh on (tnh.id = tc.id)
 left outer join localitygroup lg on (lg.id = hlg.id)
--- left outer join hierarchy hgr on (co.id = hgr.parentid and hgr.pos = 0 and hgr.name = 'TODO: what goes here?')
--- left outer join placegeorefgroup gr on (gr.id = hgr.id)
+left outer join hierarchy hgr on (co.id = hgr.parentid and hgr.pos = 0 and hgr.name = 'collectionobjects_naturalhistory:localityGroupList')
+left outer join placegeorefgroup gr on (gr.id = hgr.id)
 left outer join collectionobjects_naturalhistory conh on (co.id = conh.id)
 left outer join collectionobjects_ucjeps cj on (co.id = cj.id)
 left outer join hierarchy hlng on (co.id = hlng.parentid and hlng.primarytype = 'localNameGroup' and hlng.pos = 0)
@@ -195,7 +194,7 @@ left outer join localNameGroup lng on (hlng.id = lng.id)
 left outer join collectionobjects_common_briefdescriptions cocbd on (co.id = cocbd.id and cocbd.pos = 0)
 where substring(co.objectnumber from '^[A-Z]*') not in ('DHN', 'UCSB', 'UCSC')
       and (cj.posttopublic = 'yes' or cj.posttopublic is Null)
--- and h1.name = '338075de-821c-49b3-8f34-969cc666a61e' -- JEPS46872
--- and h1.name = '291d85e2-06dc-4fc2-9364' -- UC1300355
+-- and h1.name = '338075de-821c-49b3-8f34-969cc666a61e' -- JEPS4687
+-- and h1.name = '32328608-467e-46c3-875c-6de0cece0be0'
 -- and h1.name = '33803cfe-e6a8-4025-bf53-a3814cf4da82'	-- JEPS105623
 -- and h1.name = '0ad96db0-be78-4a0b-8f99-9fb229222ffb'	-- JEPS70526

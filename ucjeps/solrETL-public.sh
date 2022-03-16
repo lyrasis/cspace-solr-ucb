@@ -48,7 +48,7 @@ time perl -ne '@x=split /\t/;print if !(abs($x[22])<90 && abs($x[23])<180);' d7.
 ##############################################################################
 # snag UCBG accession number and stuff it in the right field
 ##############################################################################
-time perl -i -ne '@x=split /\t/;$x[49]="";($x[48]=~/U.?C.? Botanical Ga?r?de?n.*(\d\d+\.\d+)|(\d+\.\d+).*U.?C.? Botanical Ga?r?de?n/)&&($x[49]="$1$2");print join "\t",@x;' d8.csv
+time perl -i -ne '@x=split /\t/;$x[52]="";($x[51]=~/U.?C.? Botanical Ga?r?de?n.*(\d\d+\.\d+)|(\d+\.\d+).*U.?C.? Botanical Ga?r?de?n/)&&($x[49]="$1$2");print join "\t",@x;' d8.csv
 ##############################################################################
 # parse collector names
 ##############################################################################
@@ -80,7 +80,7 @@ rm d?.csv metadata.csv media.csv
 # first hide these two files so zapCoords.sh can find and use them
 gzip ucjeps.counts.errors_in_latlong.csv
 gzip header4Solr.csv
-../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  750000 67
+../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  900000 67
 ##############################################################################
 # hack to zap latlong errors and load the records anyway.
 # TODO: get rid of this somehow someday!
@@ -89,7 +89,7 @@ gunzip ucjeps.counts.errors_in_latlong.csv.gz
 gunzip header4Solr.csv.gz
 ./zapCoords.sh
 rm header4Solr.csv
-mv counts.tgz /tmp/ucjeps.counts.tgz
-mv ucjeps.counts.errors_in_latlong.csv /tmp
+mv counts.tgz /var/solr/tmp/ucjeps.counts.tgz
+mv ucjeps.counts.errors_in_latlong.csv /var/solr/tmp
 # moving .csv files and saving the extract is done in post_to_solr!
 date
