@@ -38,8 +38,8 @@ select
     lg.localitysource as localitysource_s,
     lg.localitysourcedetail as localitysourcedetail_s,
     gr.georefsource as georefsource_s,
-    gr.georefremarks as georefremarks_s,
-    gr.georeferencedby as georeferencedby_s,
+    lg.georefremarks as georefremarks_s,
+    lg.geoRefencedBy as georeferencedby_s,
     cc.updatedat as updatedat_dt,
     case when conh.labelheader like 'urn:%' then getdispl(conh.labelheader)
         else conh.labelheader
