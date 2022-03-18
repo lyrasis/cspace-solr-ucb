@@ -17,7 +17,7 @@
 10   5 * * * for t in botgarden cinefiles pahma ucjeps; do python3 /var/www/$t/uploadmedia/checkRuns.py /var/cspace/$t/bmu jobs summary $t > /var/www/static/${t}.nightly.report.txt ; done
 22   9 * * * bash -l -c 'python3 /var/www/pahma/uploadmedia/bmu-nightly-2022-concise.py > /dev/null'
 10   5 * * * python3 /var/www/pahma/uploadmedia/checkRuns.py /var/cspace/pahma/bmu jobs summary pahma | mail -s "recent PAHMA BMU jobs" pahma-cspace-bmu@lists.berkeley.edu > /dev/null 2>&1
-10   5 * * * python3 /var/www/ucjeps/uploadmedia/checkRuns.py /var/cspace/ucjeps/bmu jobs summary ucjeps | mail -s "recent UCJEPS BMU jobs" herb_cspace_reports@lists.berkeley.edu > /dev/null 2>&1
+10   5 * * * python3 /var/www/ucjeps/uploadmedia/checkRuns.py /var/cspace/ucjeps/bmu jobs summary ucjeps | mail -s "recent UCJEPS BMU jobs" ucjeps-it@berkeley.edu > /dev/null 2>&1
 10   5 * * * python3 /var/www/cinefiles/uploadmedia/checkRuns.py /var/cspace/cinefiles/bmu jobs summary cinefiles | mail -s "recent Cinefiles BMU jobs" bampfacspaceuploader@lists.berkeley.edu > /dev/null 2>&1
 10   5 * * * python3 /var/www/botgarden/uploadmedia/checkRuns.py /var/cspace/botgarden/bmu jobs summary botgarden | mail -s "recent UCBG BMU jobs" loughran@berkeley.edu,hforbes@berkeley.edu > /dev/null 2>&1
 ##################################################################################
