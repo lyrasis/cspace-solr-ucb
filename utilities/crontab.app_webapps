@@ -19,7 +19,7 @@
 10   5 * * * python3 /var/www/pahma/uploadmedia/checkRuns.py /var/cspace/pahma/bmu jobs summary pahma | mail -s "recent PAHMA BMU jobs" pahma-cspace-bmu@lists.berkeley.edu > /dev/null 2>&1
 10   5 * * * python3 /var/www/ucjeps/uploadmedia/checkRuns.py /var/cspace/ucjeps/bmu jobs summary ucjeps | mail -s "recent UCJEPS BMU jobs" ucjeps-it@berkeley.edu > /dev/null 2>&1
 10   5 * * * python3 /var/www/cinefiles/uploadmedia/checkRuns.py /var/cspace/cinefiles/bmu jobs summary cinefiles | mail -s "recent Cinefiles BMU jobs" bampfacspaceuploader@lists.berkeley.edu > /dev/null 2>&1
-10   5 * * * python3 /var/www/botgarden/uploadmedia/checkRuns.py /var/cspace/botgarden/bmu jobs summary botgarden | mail -s "recent UCBG BMU jobs" loughran@berkeley.edu,hforbes@berkeley.edu > /dev/null 2>&1
+10   5 * * * python3 /var/www/botgarden/uploadmedia/checkRuns.py /var/cspace/botgarden/bmu jobs summary botgarden | mail -s "recent UCBG BMU jobs" ucbg-cspace-bmu@lists.berkeley.edu > /dev/null 2>&1
 ##################################################################################
 # run BMU batch jobs (nightly or twice a day depending)
 ##################################################################################
@@ -95,7 +95,6 @@
 #10 04 * * * perl -ne 'next if /^(start |POST|PUT)/;s/\r//;s/elapsedtime= *//;s/\t[a-z]+=/\t/g;print;' /tmp/dj.tools-prod.csv | awk -v OFS="\t" -F"\t" '{print $2,$5,$3,$7,$1,$6,$10,$8,$9}' > /var/cspace/monitor/currappuse.csv ; cat /var/cspace/monitor/currappuse.csv /var/cspace/monitor/webappuse.csv | sort -u > /tmp/tmp2 ; mv /tmp/tmp2 /var/cspace/monitor/webappuse.csv ; perl /var/cspace/monitor/monitorWebapps.pl /var/cspace/monitor/webappuse.csv > /var/www/static/webappuse.html
 #
 00 00 * * * /var/cspace/monitor/checklogs.sh | mail -s "Access Log Analysis" jblowe@berkeley.edu
-# analyze and summarize the django logs, keep a copy of an extract of the other vhost logs
-#05 04 * * * cd /var/cspace/monitor ; ./analyze.sh > /dev/null 2>&1 ; ./corestats.sh > /dev/null 2>&1
-05 04 * * * cd /var/cspace/monitor ; ./corestats.sh > /dev/null 2>&1
+# analyze and summarize the django logs and solr cores, keep a copy of an extract of the other vhost logs
+05 04 * * * cd /var/cspace/monitor ; ./analyze.sh > /dev/null 2>&1 ; ./corestats.sh > /dev/null 2>&1
 20 04 * * * wc -l /var/cspace/*/bmu/*.processed.csv | perl -pe 's/^ *(\d+) /\1\t/;s#/var/cspace/(.*)/bmu#\1#;s#/#\t#g;s/.processed.csv//' > /var/cspace/monitor/bmu-counts.csv
