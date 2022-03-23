@@ -11,7 +11,7 @@ SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
 USERNAME="reporter_${TENANT}"
 DATABASE="${TENANT}_domain_${TENANT}"
 CONNECTSTRING="host=$SERVER dbname=$DATABASE"
-CONTACT="loughran@berkeley.edu"
+CONTACT="ucbg-cspace-bmu@lists.berkeley.edu"
 ##############################################################################
 cd /home/app_solr/solrdatasources/${TENANT}
 ##############################################################################
@@ -36,7 +36,7 @@ time python3 ../common/evaluate.py d3.csv d4.csv > ${TENANT}.counts.${CORE}.rawd
 # check latlongs
 ##############################################################################
 perl -ne '@y=split /\t/;@x=split ",",$y[17];print if  (abs($x[0])<90 && abs($x[1])<180);' d4.csv > d5.csv &
-perl -ne '@y=split /\t/;@x=split ",",$y[17];print if !(abs($x[0])<90 && abs($x[1])<180);' d4.csv > errors_in_latlong.csv &
+perl -ne '@y=split /\t/;@x=split ",",$y[17];print if !(abs($x[0])<90 && abs($x[1])<180);' d4.csv > ${TENANT}.errors_in_latlong.csv &
 wait
 ##############################################################################
 # temporary hack to parse Locality into County/State/Country
@@ -89,6 +89,11 @@ perl -i -pe 's/International Union for Conservation of Nature and Natural Resour
 # get rid of intermediate files
 ##############################################################################
 rm -f d?.csv d??.csv
+##############################################################################
+# send the errors off to be dealt with, etc.
+##############################################################################
+tar -czf counts.tgz ${TENANT}.counts.*.csv
+./make_error_report.sh | mail -A counts.tgz -s "UCBG Solr Counts and Refresh Errors `date`" ${CONTACT}
 ##############################################################################
 # save (hide) files needed for the internal core so that the internal script can find them
 ##############################################################################

@@ -7,7 +7,7 @@ date
 ##############################################################################
 TENANT=$1
 CORE=internal
-CONTACT="loughran@berkeley.edu"
+CONTACT="ucbg-cspace-bmu@lists.berkeley.edu"
 ##############################################################################
 cd /home/app_solr/solrdatasources/${TENANT}
 ##############################################################################
