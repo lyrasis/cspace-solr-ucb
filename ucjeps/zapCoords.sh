@@ -1,4 +1,5 @@
-cd ~/solrdatasources/ucjeps/
+source pipeline-config.sh
+cd ${HOME}/solrdatasources/ucjeps/
 awk -F'\t' -v OFS="\t" '{$25 = ""; print}' ucjeps.counts.errors_in_latlong.csv > e2.csv
 cat header4Solr.csv e2.csv > e3.csv
 #cut -f3,25 e3.csv | expand -20

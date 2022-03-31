@@ -5,21 +5,22 @@ date
 # are shared between the different scripts; having them be as similar as possible
 # eases maintainance. ergo, the TENANT parameter
 ##############################################################################
+source pipeline-config.sh
 TENANT=$1
 CORE=propagations
-SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
+SERVER="${BOTGARDEN_SERVER}"
 USERNAME="reporter_${TENANT}"
 DATABASE="${TENANT}_domain_${TENANT}"
-CONNECTSTRING="host=$SERVER dbname=$DATABASE"
-CONTACT="loughran@berkeley.edu"
+CONNECTSTRING="host=$SERVER dbname=$DATABASE sslmode=prefer"
+CONTACT="${BOTGARDEN_CONTACT}"
 export NUMFIELDS=28
 ##############################################################################
-cd /home/app_solr/solrdatasources/${TENANT}
+cd ${HOME}/solrdatasources/${TENANT}
 ##############################################################################
 # extract propagations info from CSpace
 ##############################################################################
 time psql  -F $'\t' -R"@@" -A -U $USERNAME -d "$CONNECTSTRING" -f botgardenPropagations.sql -o p1.csv
-time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' p1.csv > p2.csv 
+time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' p1.csv > p2.csv
 time perl -ne 'print unless /\(\d+ rows\)/' p2.csv > p3.csv
 time perl -ne '$x = $_ ;s/[^\t]//g; if (length eq $ENV{NUMFIELDS}) { print $x;} '     p3.csv > p4.csv &
 time perl -ne '$x = $_ ;s/[^\t]//g; unless (length eq $ENV{NUMFIELDS}) { print $x;} ' p3.csv > errors.csv &

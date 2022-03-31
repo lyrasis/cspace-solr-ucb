@@ -9,5 +9,5 @@ perl -i -pe 's/=5313/=5113/' solrdatasources/*/*.sh
 perl -i -pe 's/=5307/=5107/' solrdatasources/*/*.sh
 perl -i -pe 's/=5310/=5110/' solrdatasources/*/*.sh
 perl -i -pe 's/cspace.support.lists.berkeley.edu/$ENV{"DEVCONTACT"}/' solrdatasources/*/*.sh
-perl -i -pe 's/cspace.support.lists.berkeley.edu/$ENV{"DEVCONTACT"}/' ~/*.sh
+perl -i -pe 's/cspace.support.lists.berkeley.edu/$ENV{"DEVCONTACT"}/' ${HOME}/*.sh
 perl -i -pe 's/CONTACT=.*/CONTACT="$ENV{"DEVCONTACT"}"/' solrdatasources/*/*.sh

@@ -15,20 +15,21 @@ date
 # are shared between the different scripts; having them be as similar as possible
 # eases maintainance. ergo, the TENANT parameter
 ##############################################################################
+source pipeline-config.sh
 TENANT=$1
 CORE=public
-SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5307 sslmode=prefer"
+SERVER="${PAHMA_SERVER}"
 USERNAME="reporter_${TENANT}"
 DATABASE="${TENANT}_domain_${TENANT}"
-CONNECTSTRING="host=$SERVER dbname=$DATABASE"
-CONTACT="mtblack@berkeley.edu"
+CONNECTSTRING="host=$SERVER dbname=$DATABASE sslmode=prefer"
+CONTACT="${PAHMA_CONTACT}"
 # field collection place ("FCP") is used in various calculations, set a
 # variable to indicate which column it is in the extract
 # (it has to be exported so the perl one-liner below can get the value from
 # the environment; the value is used in 2 places below.)
 export FCPCOL=39
 ##############################################################################
-cd /home/app_solr/solrdatasources/${TENANT}
+cd ${HOME}/solrdatasources/${TENANT}
 ##############################################################################
 # run the "all media query"
 ##############################################################################

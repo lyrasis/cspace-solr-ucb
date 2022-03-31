@@ -24,11 +24,12 @@ date
 # are shared between the different scripts; having them be as similar as possible
 # eases maintenance. ergo, the TENANT parameter
 ##############################################################################
+source pipeline-config.sh
 TENANT=$1
 CORE=internal
-CONTACT="mtblack@berkeley.edu"
+CONTACT="${PAHMA_CONTACT}"
 ##############################################################################
-cd /home/app_solr/solrdatasources/${TENANT}
+cd ${HOME}/solrdatasources/${TENANT}
 ##############################################################################
 # we use the csv file for the internal store, prepared by the solrETL-public.sh
 ##############################################################################

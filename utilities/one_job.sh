@@ -37,11 +37,11 @@ wait
 ##################################################################################
 # optimize all solrcores after refresh
 ##################################################################################
-/home/app_solr/optimize.sh > /home/app_solr/logs/optimize.log
+${HOME}/optimize.sh > ${HOME}/logs/optimize.log
 ##################################################################################
 # monitor solr datastores
 ##################################################################################
-if [[ `/home/app_solr/checkstatus.sh` ]] ; then /home/app_solr/checkstatus.sh -v | mail -s "PROBLEM with solr refresh nightly refresh" -- cspace-support@lists.berkeley.edu ; fi
-/home/app_solr/checkstatus.sh -v >> refresh.log
+if [[ `${HOME}/checkstatus.sh` ]] ; then ${HOME}/checkstatus.sh -v | mail -s "PROBLEM with solr refresh nightly refresh" -- cspace-support@lists.berkeley.edu ; fi
+${HOME}/checkstatus.sh -v >> refresh.log
 echo 'done with solr refresh' `date` >> refresh.log
 

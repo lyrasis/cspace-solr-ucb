@@ -5,15 +5,16 @@ date
 # are shared between the different scripts; having them be as similar as possible
 # eases maintainance. ergo, the TENANT parameter
 ##############################################################################
+source pipeline-config.sh
 TENANT=$1
 CORE=public
-SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
+SERVER="${CINEFILES_SERVER}"
 USERNAME="reporter_${TENANT}"
 DATABASE="${TENANT}_domain_${TENANT}"
-CONNECTSTRING="host=$SERVER dbname=$DATABASE"
-CONTACT="cspace-support@lists.berkeley.edu"
+CONNECTSTRING="host=$SERVER dbname=$DATABASE sslmode=prefer"
+CONTACT="${CINEFILES_CONTACT}"
 ##############################################################################
-cd /home/app_solr/solrdatasources/${TENANT}
+cd ${HOME}/solrdatasources/${TENANT}
 ##############################################################################
 # extract metadata and media info from CSpace
 ##############################################################################

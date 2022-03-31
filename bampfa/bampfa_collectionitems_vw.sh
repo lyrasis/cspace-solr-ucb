@@ -3,15 +3,16 @@
 # script to extract data from the 'special BAMPFA view' and email it to those who need it.
 #
 date
+source pipeline-config.sh
 TENANT=$1
-cd /home/app_solr/solrdatasources/${TENANT}
-SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
+cd ${HOME}/solrdatasources/${TENANT}
+SERVER="${BAMPFA_SERVER}"
 USERNAME="reporter_${TENANT}"
 DATABASE="${TENANT}_domain_${TENANT}"
-CONNECTSTRING="host=$SERVER dbname=$DATABASE"
-CONTACT="osanchez@berkeley.edu"
+CONNECTSTRING="host=$SERVER dbname=$DATABASE sslmode=prefer"
+CONTACT="${BAMPFA_CONTACT}"
 ##############################################################################
-# 
+#
 ##############################################################################
 time psql -R"@@" -A -U $USERNAME -d "$CONNECTSTRING"  -c "select * from utils.${TENANT}_collectionitems_vw" -o ${TENANT}_collectionitems_vw.tab
 # some fix up required, alas: data from cspace is dirty: contain csv delimiters, newlines, etc. that's why we used @@ as temporary record separator

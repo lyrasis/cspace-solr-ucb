@@ -5,11 +5,12 @@ date
 # are shared between the different scripts; having them be as similar as possible
 # eases maintainance. ergo, the TENANT parameter
 ##############################################################################
+source pipeline-config.sh
 TENANT=$1
-CORE=internal
-CONTACT="ucbg-cspace-bmu@lists.berkeley.edu"
 ##############################################################################
-cd /home/app_solr/solrdatasources/${TENANT}
+CORE=internal
+CONTACT="${BOTGARDEN_CONTACT}"
+cd ${HOME}/solrdatasources/${TENANT}
 ##############################################################################
 # up to here, both public and internal extracts are the same.
 # so we use the public metadata and media file and carry on

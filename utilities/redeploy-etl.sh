@@ -11,8 +11,8 @@ then
 fi
 
 cd
-SOLRETLDIR=~/solrdatasources
-SOLR_REPO=~/cspace-solr-ucb
+SOLRETLDIR=${HOME}/solrdatasources
+SOLR_REPO=${HOME}/cspace-solr-ucb
 # check to see we are plausibly able to do something...
 if [ ! -d ${SOLR_REPO} ];
 then
@@ -41,8 +41,8 @@ cd ${SOLR_REPO}
 git checkout main
 git pull -v
 git checkout $1
-cp utilities/o*.sh ~
-cp utilities/checkstatus.sh ~
+cp utilities/o*.sh ${HOME}
+cp utilities/checkstatus.sh ${HOME}
 
 cd
 rsync -a --exclude .git --exclude .gitignore --exclude solr-cores --exclude utilities ${SOLR_REPO}/ ${SOLRETLDIR}/

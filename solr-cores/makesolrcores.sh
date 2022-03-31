@@ -9,7 +9,7 @@
 SOLR_PORT="8983"
 
 # for solr8 as deployed on my laptop
-# SOLR_CMD=~/solr8/bin/solr
+# SOLR_CMD=${HOME}/solr8/bin/solr
 
 # for solr8 as deployed on RTL-managed Ubuntu servers
 SOLR_CMD=/opt/solr/bin/solr

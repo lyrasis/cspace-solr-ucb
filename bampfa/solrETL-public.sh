@@ -1,18 +1,20 @@
 #!/bin/bash -x
 date
-cd /home/app_solr/solrdatasources/bampfa
 ##############################################################################
 # while most of this script is already tenant specific, many of the specific commands
 # are shared between the different scripts; having them be as similar as possible
 # eases maintainance. ergo, the TENANT parameter
 ##############################################################################
+source pipeline-config.sh
 TENANT=$1
 CORE=public
-SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313 sslmode=prefer"
+SERVER="${BAMPFA_SERVER}"
 USERNAME="reporter_${TENANT}"
 DATABASE="${TENANT}_domain_${TENANT}"
-CONNECTSTRING="host=$SERVER dbname=$DATABASE"
-CONTACT="osanchez@berkeley.edu"
+CONNECTSTRING="host=$SERVER dbname=$DATABASE sslmode=prefer"
+CONTACT="${BAMPFA_CONTACT}"
+##############################################################################
+cd ${HOME}/solrdatasources/${TENANT}
 ##############################################################################
 # extract metadata and media info from CSpace
 ##############################################################################
@@ -20,13 +22,13 @@ CONTACT="osanchez@berkeley.edu"
 # removed later. The values are needed, however, to calculate viewing status
 time psql -R"@@" -F $'\t' -A -U $USERNAME -d "$CONNECTSTRING"  -f metadata_public.sql -o d1.csv
 # some fix up required, alas: data from cspace is dirty: contain csv delimiters, newlines, etc. that's why we used @@ as temporary record separator
-time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1.csv > d3.csv 
+time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1.csv > d3.csv
 ##############################################################################
 # check cell counts
 ##############################################################################
 time python3 ../common/evaluate.py d3.csv d4.csv > ${TENANT}.counts.public.errors.csv
 time psql -R"@@" -F $'\t' -A -U $USERNAME -d "$CONNECTSTRING" -f media_public.sql -o m1.csv
-time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' m1.csv > media.csv 
+time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' m1.csv > media.csv
 time psql -R"@@" -F $'\t' -A -U $USERNAME -d "$CONNECTSTRING" -f blobs.sql -o b1.csv
 time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' b1.csv > blobs.csv
 # Compute the "view status" of each object

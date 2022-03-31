@@ -9,11 +9,12 @@
 # renamed in a single batch. Then, finally, one more batch file is
 # executed to create indexes.
 #
-# This script should be installed in /home/app_solr/solrdatasources/cinefiles/scripts
-# SQL files go in /home/app_solr/solrdatasources/cinefiles/scripts/sql/denorm_nightly
-# Log files go in /home/app_solr/logs
+# This script should be installed in ${HOME}/solrdatasources/cinefiles/scripts
+# SQL files go in ${HOME}/solrdatasources/cinefiles/scripts/sql/denorm_nightly
+# Log files go in ${HOME}/logs
+# NB: gets password for nuxeo_cinefiles from .pgpass
 
-export BASEDIR=/home/app_solr/solrdatasources/cinefiles
+export BASEDIR=${HOME}/solrdatasources/cinefiles
 export SCRIPTDIR=$BASEDIR/scripts
 export PGUSER=nuxeo_cinefiles
 export PGDATABASE=cinefiles_domain_cinefiles
@@ -21,7 +22,7 @@ export PGHOST=dba-postgres-prod-45.ist.berkeley.edu
 export PGPORT=5313
 
 export SQLDIR="$SCRIPTDIR/sql/denorm_nightly"
-export LOGDIR="/home/app_solr/logs"
+export LOGDIR="${HOME}/logs"
 export LOGFILE="$LOGDIR/cinefiles.denorm_nightly.log.$(date +'%d')"
 export FOOFILE="$LOGDIR/cinefiles.solr_extract_public.log"
 export LOGLEVEL=3

@@ -5,7 +5,7 @@
 # record of what was done...
 #
 cd
-SOLRETLDIR=~/solrdatasources
+SOLRETLDIR=${HOME}/solrdatasources
 # copy all the logs back, for posterity
 for t in bampfa botgarden cinefiles pahma ucjeps
 do
@@ -13,11 +13,12 @@ do
     do
        if [[ -e ${SOLRETLDIR}/${t}/solr_extract_${d}.log ]]
        then
-           cp ${SOLRETLDIR}/${t}/solr_extract_${d}.log ~/logs/${t}.solr_extract_${d}.log
+           cp ${SOLRETLDIR}/${t}/solr_extract_${d}.log ${HOME}/logs/${t}.solr_extract_${d}.log
        fi
     done
 done
 cp solrdatasources/*/*.log logs
+source pipeline-config.sh
 cd logs/
 mv solr_extract_BAM.log bampfa.solr_extract_BAM.log
 mv solr_extract_Piction.log bampfa.solr_extract_Piction.log

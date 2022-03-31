@@ -5,15 +5,16 @@ date
 # are shared between the different scripts; having them be as similar as possible
 # eases maintainance. ergo, the TENANT parameter
 ##############################################################################
+source pipeline-config.sh
 TENANT=$1
 CORE=public
-SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5310 sslmode=prefer"
+SERVER="${UCJEPS_SERVER}"
 USERNAME="reporter_${TENANT}"
 DATABASE="${TENANT}_domain_${TENANT}"
-CONNECTSTRING="host=$SERVER dbname=$DATABASE"
-CONTACT="ucjeps-it@berkeley.edu"
+CONNECTSTRING="host=$SERVER dbname=$DATABASE sslmode=prefer"
+CONTACT="${UCJEPS_CONTACT}"
 ##############################################################################
-cd /home/app_solr/solrdatasources/${TENANT}
+cd ${HOME}/solrdatasources/${TENANT}
 ##############################################################################
 # extract and massage the metadata from CSpace
 ##############################################################################

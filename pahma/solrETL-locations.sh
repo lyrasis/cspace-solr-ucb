@@ -10,15 +10,16 @@ date
 # are shared between the different scripts; having them be as similar as possible
 # eases maintainance. ergo, the TENANT parameter
 ##############################################################################
+source pipeline-config.sh
 TENANT=$1
 CORE=locations
-HOSTNAME="dba-postgres-prod-45.ist.berkeley.edu port=5307 sslmode=prefer"
-USERNAME="reporter_pahma"
-DATABASE="pahma_domain_pahma"
-CONNECTSTRING="host=$HOSTNAME dbname=$DATABASE"
-CONTACT="mtblack@berkeley.edu"
+SERVER="${PAHMA_SERVER}"
+USERNAME="reporter_${TENANT}"
+DATABASE="${TENANT}_domain_${TENANT}"
+CONNECTSTRING="host=$SERVER dbname=$DATABASE sslmode=prefer"
+CONTACT="${PAHMA_CONTACT}"
 ##############################################################################
-cd /home/app_solr/solrdatasources/${TENANT}
+cd ${HOME}/solrdatasources/${TENANT}
 ##############################################################################
 # extract locations, past and present, from CSpace
 ##############################################################################
