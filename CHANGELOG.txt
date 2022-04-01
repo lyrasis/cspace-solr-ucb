@@ -3,12 +3,18 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.2.0-rc3
-Fri Apr  1 12:04:16 PDT 2022
+This is version 6.2.0-rc4
+Fri Apr  1 14:30:38 PDT 2022
 
-6624f8e (HEAD -> main) CSW-629: more bulletproofing of solr pipeline deploy script
+195f6c4 (HEAD -> main) CSW-629: location of solr cache is now a parameter for pipelines
+ec0453d (origin/main, origin/HEAD) CSW-629: typo in redeploy-etl.sh
+882b094 CSW-629: cinefiles config now read from home dir
+a79f217 CSW-629: 'SUPPORT_CONTACT' is now a configurable parameter in solr pipelines
+ba1a00a CSW-629: solr pipelines should get config from correct file in home dir
+e4c7083 (tag: 6.2.0-rc3) revise CHANGELOG.txt and bump version to 6.2.0-rc3
+6624f8e CSW-629: more bulletproofing of solr pipeline deploy script
 784a056 CSW-629: get rid of obsolete file
-e854cac (origin/main, origin/HEAD) CSW-629: update READMEs for latest changes to Solr pipeline deployments
+e854cac CSW-629: update READMEs for latest changes to Solr pipeline deployments
 d6b6e32 (tag: 6.2.0-rc2) revise CHANGELOG.txt and bump version to 6.2.0-rc2
 816c9a4 CSW-629: add 3 config files for cinefiles denorm
 f6bfabe (tag: 6.2.0-rc1) revise CHANGELOG.txt and bump version to 6.2.0-rc1
