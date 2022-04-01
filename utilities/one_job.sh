@@ -25,6 +25,8 @@
 #
 # then does a bit of tidying up: solr optimize, check status of runs, etc.
 ##################################################################################
+cd
+source ${HOME}/pipeline-config.sh
 echo 'starting solr refresh' `date` >> refresh.log
 ./oj.bampfa.sh &
 ./oj.botgarden.sh &
@@ -39,7 +41,7 @@ ${HOME}/optimize.sh > ${HOME}/logs/optimize.log
 ##################################################################################
 # monitor solr datastores
 ##################################################################################
-if [[ `${HOME}/checkstatus.sh` ]] ; then ${HOME}/checkstatus.sh -v | mail -s "PROBLEM with solr refresh nightly refresh" -- cspace-support@lists.berkeley.edu ; fi
+if [[ `${HOME}/checkstatus.sh` ]] ; then ${HOME}/checkstatus.sh -v | mail -s "PROBLEM with solr refresh nightly refresh" -- ${SUPPORT_CONTACT} ; fi
 ${HOME}/checkstatus.sh -v >> refresh.log
 echo 'done with solr refresh' `date` >> refresh.log
 

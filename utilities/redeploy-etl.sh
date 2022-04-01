@@ -27,13 +27,13 @@ then
 fi
 
 # select correct config file for this environment
-if [ ! -e ppipeline-config-${ENVIRONMENT}.sh ]
+if [ ! -e pipeline-config-${ENVIRONMENT}.sh ]
 then
-   echo "Solr config file ppipeline-config-${ENVIRONMENT}.sh not found in this directory."
+   echo "Solr config file pipeline-config-${ENVIRONMENT}.sh not found in this directory."
    echo "Should be one of prod/qa/dev; please try again."
    exit 1
 else
-  cp ppipeline-config-${ENVIRONMENT}.sh ~/pipeline-config.sh
+  cp pipeline-config-${ENVIRONMENT}.sh ~/pipeline-config.sh
 fi
 
 # deploy fresh code from github
@@ -79,4 +79,4 @@ fi
 echo
 echo "Solr ETL ppipeline deploy complete."
 echo
-echo "Double-check configuration of code in ${HOME}/ppipeline-config.sh!"
+echo "Double-check configuration of code in ${HOME}/pipeline-config.sh!"

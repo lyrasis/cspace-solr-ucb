@@ -13,3 +13,4 @@ PAHMA_CONTACT="jblowe@berkeley.edu"
 UCJEPS_SERVER="dba-postgres-dev-45.ist.berkeley.edu port=5119"
 UCJEPS_CONTACT="jblowe@berkeley.edu"
 
+SUPPORT_CONTACT="jblowe@berkeley.edu"

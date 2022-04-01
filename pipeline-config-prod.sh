@@ -13,3 +13,4 @@ PAHMA_CONTACT="mtblack@berkeley.edu"
 UCJEPS_SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5310"
 UCJEPS_CONTACT="ucjeps-it@berkeley.edu"
 
+SUPPORT_CONTACT="cspace-support@berkeley.edu"
