@@ -3,10 +3,27 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.1.6
-Wed Feb 16 14:31:24 PST 2022
+This is version 6.2.0-rc1
+Fri Apr  1 08:51:08 PDT 2022
 
-eddc74b (HEAD -> main, tag: 6.1.6-rc5, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.1.6-rc5
+89d5d38 (HEAD -> main) CSW-629: put cinefiles denorm log output into regular solr pipeline file
+177b8d5 CSW-629: fix typo in solr pipeline qa config file
+df195dc CSW-629: update cinefiles denorm to get config from cinefiles-denorm-config.sh
+2bb1a67 (origin/main, origin/HEAD) CSC-1956: add Division to ucbg solr cores
+63548ef CSW-629: update solr pipelines to get config from pipeline-config.sh
+1be4608 CSW-629: solr pipeline config is now in these 3 files
+b6bb878 NOJIRA: remove unneeded legacy file
+990babf (CSW-629) CSW-324: use proper email list for solr refresh notifications
+7da1578 CSW-325: revise bmu nightly email address for ucbg
+b011a7f CSW-612: place solr refresh counts where they can be used by metrics scripts
+690893a CSW-624: update ucjeps spa email for bmu notifications
+be2b65e CSW-606: further revisions to ucjeps georeference sql
+e25da19 CSW-606: initial georeference revisions to ucjeps solr pipeline
+52c987d CSC-1787: ucjeps solr pipeline no longer needs to check for dups
+540dea5 CSW-612: update crontab for app_webapps
+e214f05 CSW-611: need to set proper python versions for bmu nightly status cron jobs
+c89384d (tag: 6.1.6) revise CHANGELOG.txt and bump version to 6.1.6
+eddc74b (tag: 6.1.6-rc5) revise CHANGELOG.txt and bump version to 6.1.6-rc5
 cf1162b NOJIRA: minor refactor of bmu nightly report process
 aca383a (tag: 6.1.6-rc4) revise CHANGELOG.txt and bump version to 6.1.6-rc4
 7b8be48 CSW-608: minor cleanup and bulletproofing of solr pipelines
