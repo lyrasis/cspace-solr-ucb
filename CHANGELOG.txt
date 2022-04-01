@@ -3,11 +3,15 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.2.0-rc2
-Fri Apr  1 09:19:26 PDT 2022
+This is version 6.2.0-rc3
+Fri Apr  1 12:04:16 PDT 2022
 
-816c9a4 (HEAD -> main) CSW-629: add 3 config files for cinefiles denorm
-f6bfabe (tag: 6.2.0-rc1, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.2.0-rc1
+6624f8e (HEAD -> main) CSW-629: more bulletproofing of solr pipeline deploy script
+784a056 CSW-629: get rid of obsolete file
+e854cac (origin/main, origin/HEAD) CSW-629: update READMEs for latest changes to Solr pipeline deployments
+d6b6e32 (tag: 6.2.0-rc2) revise CHANGELOG.txt and bump version to 6.2.0-rc2
+816c9a4 CSW-629: add 3 config files for cinefiles denorm
+f6bfabe (tag: 6.2.0-rc1) revise CHANGELOG.txt and bump version to 6.2.0-rc1
 89d5d38 CSW-629: put cinefiles denorm log output into regular solr pipeline file
 177b8d5 CSW-629: fix typo in solr pipeline qa config file
 df195dc CSW-629: update cinefiles denorm to get config from cinefiles-denorm-config.sh
