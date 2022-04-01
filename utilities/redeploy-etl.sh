@@ -2,10 +2,12 @@
 #
 # redeploy the Solr ETL from github
 #
-if [[ $# -ne 1 ]] ;
+if [[ $# -ne 2 ]] ;
 then
   echo
-  echo "Usage: $0 <version>"
+  echo "Usage: $0 <version> <environment>"
+  echo
+  echo "environment is one of 'dev', 'qa', 'prod'"
   echo
   exit 1
 fi
@@ -13,13 +15,40 @@ fi
 cd
 SOLRETLDIR=${HOME}/solrdatasources
 SOLR_REPO=${HOME}/cspace-solr-ucb
+ENVIRONMENT=$2
 # check to see we are plausibly able to do something...
-if [ ! -d ${SOLR_REPO} ];
+
+cd ${SOLR_REPO}
+
+if [ ! -d ${SOLR_REPO} ]
 then
-   echo "Solr repo ${SOLR_REPO} not found in this directory. Please clone from GitHub."
+   echo "Solr repo ${SOLR_REPO} not found in this directory. Please clone into home dir from GitHub."
    exit 1
 fi
-if [ ! -d ${SOLRETLDIR} ];
+
+# select correct config file for this environment
+if [ ! -e pipeline-config-${ENVIRONMENT}.sh ]
+then
+   echo "Solr config file pipeline-config-${ENVIRONMENT}.sh not found in this directory."
+   echo "Should be one of prod/qa/dev; please try again."
+   exit 1
+else
+  cp pipeline-config-${ENVIRONMENT}.sh pipeline-config.sh
+fi
+
+# deploy fresh code from github
+git checkout main
+git pull -v
+git checkout $1
+if [ $? -ne 0 ]
+then
+  echo "Could not check out $1 from github. Please try again."
+  exit 1
+fi
+cp utilities/o*.sh ${HOME}
+cp utilities/checkstatus.sh ${HOME}
+
+if [ ! -d ${SOLRETLDIR} ]
 then
    echo "Solr ETL directory $SOLRETLDIR not found. Assuming this is a fresh install"
 else
@@ -36,14 +65,6 @@ fi
 
 mkdir ${SOLRETLDIR}
 
-# deploy fresh code from github
-cd ${SOLR_REPO}
-git checkout main
-git pull -v
-git checkout $1
-cp utilities/o*.sh ${HOME}
-cp utilities/checkstatus.sh ${HOME}
-
 cd
 rsync -a --exclude .git --exclude .gitignore --exclude solr-cores --exclude utilities ${SOLR_REPO}/ ${SOLRETLDIR}/
 
@@ -58,4 +79,4 @@ fi
 echo
 echo "Solr ETL pipeline deploy complete."
 echo
-echo "Double-check configuration of code in ${SOLRETLDIR}!"
+echo "Double-check configuration of code in ${HOME}/pipeline-config.sh!"

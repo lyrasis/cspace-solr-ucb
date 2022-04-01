@@ -7,8 +7,6 @@
 #
 # run all solr ETL
 #
-# currently runs under app user app_solr on webapps-prod and (optionally) webapps-dev
-#
 # 1. run the 13 solr etl pipeline scripts, in parallel
 # 2. monitor solr datastore contents (i.e. email cspace-support, etc. if needed)
 #
