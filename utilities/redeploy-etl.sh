@@ -26,16 +26,6 @@ then
    exit 1
 fi
 
-# select correct config file for this environment
-if [ ! -e pipeline-config-${ENVIRONMENT}.sh ]
-then
-   echo "Solr config file pipeline-config-${ENVIRONMENT}.sh not found in this directory."
-   echo "Should be one of prod/qa/dev; please try again."
-   exit 1
-else
-  cp pipeline-config-${ENVIRONMENT}.sh ~/pipeline-config.sh
-fi
-
 # deploy fresh code from github
 git checkout main
 git pull -v
@@ -45,6 +35,19 @@ then
   echo "Could not check out $1 from github. Please try again."
   exit 1
 fi
+
+# select correct config file for this environment
+if [ ! -e pipeline-config-${ENVIRONMENT}.sh ]
+then
+   echo "Solr config file pipeline-config-${ENVIRONMENT}.sh not found in this directory."
+   echo "Should be one of prod/qa/dev; please try again."
+   exit 1
+else
+  cp pipeline-config-${ENVIRONMENT}.sh {HOME}/pipeline-config.sh
+  # cinefiles denorm process has its own config
+  cp cinefiles/cinefiles-denorm-config-${ENVIRONMENT}.sh {HOME}/cinefiles-denorm-config.sh
+fi
+
 cp utilities/o*.sh ${HOME}
 cp utilities/checkstatus.sh ${HOME}
 
