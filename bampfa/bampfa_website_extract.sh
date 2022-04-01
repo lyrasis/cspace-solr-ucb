@@ -3,7 +3,7 @@
 # script to extract data for the BAMPFA website and email it to those who need it.
 #
 date
-source pipeline-config.sh
+source ${HOME}/pipeline-config.sh
 TENANT=$1
 SERVER="${BAMPFA_SERVER}"
 USERNAME="reporter_${TENANT}"

@@ -5,7 +5,7 @@ date
 # are shared between the different scripts; having them be as similar as possible
 # eases maintainance. ergo, the TENANT parameter
 ##############################################################################
-source pipeline-config.sh
+source ${HOME}/pipeline-config.sh
 TENANT=$1
 ##############################################################################
 CORE=internal
@@ -21,7 +21,7 @@ gunzip header4Solr.csv.gz
 # add the blob csids
 ##############################################################################
 time perl mergeObjectsAndMedia.pl 4solr.${TENANT}.media.csv public.metadata.csv ${CORE} > d9.csv
-# uses the header created by the public pipeline. it better be available!
+# uses the header created by the public ppipeline. it better be available!
 cat header4Solr.csv d9.csv | perl -pe 's/␥/|/g' > d10.csv
 ##############################################################################
 # compute _i values for _dt values (to support BL date range searching)

@@ -7,7 +7,7 @@
 #
 # run all solr ETL
 #
-# 1. run the 13 solr etl pipeline scripts, in parallel
+# 1. run the 13 solr etl ppipeline scripts, in parallel
 # 2. monitor solr datastore contents (i.e. email cspace-support, etc. if needed)
 #
 # some notes:

@@ -1,4 +1,4 @@
-source pipeline-config.sh
+source ${HOME}/pipeline-config.sh
 cd ${HOME}/solrdatasources/ucjeps/
 awk -F'\t' -v OFS="\t" '{$25 = ""; print}' ucjeps.counts.errors_in_latlong.csv > e2.csv
 cat header4Solr.csv e2.csv > e3.csv

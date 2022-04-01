@@ -18,7 +18,7 @@ do
     done
 done
 cp solrdatasources/*/*.log logs
-source pipeline-config.sh
+source ${HOME}/pipeline-config.sh
 cd logs/
 mv solr_extract_BAM.log bampfa.solr_extract_BAM.log
 mv solr_extract_Piction.log bampfa.solr_extract_Piction.log

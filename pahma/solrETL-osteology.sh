@@ -10,7 +10,7 @@ date
 # are shared between the different scripts; having them be as similar as possible
 # eases maintainance. ergo, the TENANT parameter
 ##############################################################################
-source pipeline-config.sh
+source ${HOME}/pipeline-config.sh
 TENANT=$1
 CORE=osteology
 SERVER="${PAHMA_SERVER}"

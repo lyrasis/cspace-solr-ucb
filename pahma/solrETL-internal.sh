@@ -24,7 +24,7 @@ date
 # are shared between the different scripts; having them be as similar as possible
 # eases maintenance. ergo, the TENANT parameter
 ##############################################################################
-source pipeline-config.sh
+source ${HOME}/pipeline-config.sh
 TENANT=$1
 CORE=internal
 CONTACT="${PAHMA_CONTACT}"

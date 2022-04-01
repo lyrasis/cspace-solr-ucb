@@ -3,7 +3,7 @@
 # script to extract data from the 'special BAMPFA view' and email it to those who need it.
 #
 date
-source pipeline-config.sh
+source ${HOME}/pipeline-config.sh
 TENANT=$1
 cd ${HOME}/solrdatasources/${TENANT}
 SERVER="${BAMPFA_SERVER}"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# a lil helper script to change the solr pipeline config to point to qa instead of prod and to
+# a lil helper script to change the solr ppipeline config to point to qa instead of prod and to
 # send email notifications to Dev jblowe and not the various "real" addresses.
 export DEVCONTACT="jblowe@berkeley.edu"
 cd
