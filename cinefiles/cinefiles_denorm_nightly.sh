@@ -14,12 +14,14 @@
 # Log files go in ${HOME}/logs
 # NB: gets password for nuxeo_cinefiles from .pgpass
 
+source cinefiles-denorm-config.sh
 export BASEDIR=${HOME}/solrdatasources/cinefiles
 export SCRIPTDIR=$BASEDIR/scripts
 export PGUSER=nuxeo_cinefiles
 export PGDATABASE=cinefiles_domain_cinefiles
-export PGHOST=dba-postgres-prod-45.ist.berkeley.edu
-export PGPORT=5313
+export PGHOST="${CINEFILES_PGHOST}"
+export PGPORT="${CINEFILES_PGPORT}"
+export CONTACT="${CINEFILES_CONTACT}"
 
 export SQLDIR="$SCRIPTDIR/sql/denorm_nightly"
 export LOGDIR="${HOME}/logs"
@@ -33,7 +35,7 @@ echo  "$(date): starting cinefiles_denorm_nightly" >> $FOOFILE
 
 function notify
 {
-   echo "NOTIFY: $1" | mail -s "cinefiles denorm" cspace-support@lists.berkeley.edu
+   echo "NOTIFY: $1" | mail -s "cinefiles denorm" ${CONTACT}
 }
 
 function log
