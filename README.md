@@ -9,12 +9,12 @@ magic to refresh that tenant's Solr cores.
 The instructions and code to install Solr and configure the cores is not here; look in the
 `cspace-solr-ucb/utilities` directory for that. 
 
-The crontab for the app_solr pseudo-user is now one line to run the Solr ETL piplines
+The crontab for the APP_USER pseudo-user is now one line to run the Solr ETL piplines
 at 03:01am nightly:
 
 ```bash
-[app_solr@cspace-prod-01 ~]$ crontab -l
-01 3 * * * /home/app_solr/one_job.sh >> /home/app_solr/refresh.log
+[APP_USER@cspace-prod-01 ~]$ crontab -l
+01 3 * * * ${HOME}/one_job.sh >> ${HOME}/refresh.log
 ```
 
 This runs each museum refresh (which may have several cores) as a separate job ("oj.*.sh"), but
@@ -35,7 +35,7 @@ pahma-public, records found: 735314
 
 (NB: solr must be running on localhost:8983 and have a core with the specified name)
 
-Other contents of the app_solr working directory (which includes the content of this
+Other contents of the APP_USER working directory (which includes the content of this
 GitHub directory):
 
 checkstatus.sh - a script to display the contents of the UCB solr4 portals
@@ -52,7 +52,7 @@ refresh.log - cumulative log of refreshes.
 
 #### Initial Installation and Maintenance of ETL pipelines on RTL VMs (Ubuntu)
 
-The following steps will setup the Solr ETL for UCB in ~app_solr.
+The following steps will setup the Solr ETL for UCB in ~APP_USER.
 
 NB:
 
@@ -67,7 +67,7 @@ running the SQL would require tunneling, and be very, very slow. One _could_, th
 ```bash
 # ssh to a server
 ssh cspace-dev.cspace.berkeley.edu
-sudo su - app_solr
+sudo su - APP_USER
 # assumes that Solr is up and running, see above
 git clone https://github.com/cspace-deployment/cspace-solr-ucb
 cspace-solr-ucb/utilities/redeploy-etl.sh
@@ -103,7 +103,7 @@ To redeploy all pipeline code on any of the 3 RTL server (-dev, -qa, -prod):
 
 ```bash
 ssh ... to the server
-sudo su - app_solr
+sudo su - APP_USER
 cspace-solr-ucb/utilities/redeploy-etl.sh 6.0.5-rc6
 cspace-solr-ucb/utilities/switch2dev.sh
 # to run all pipelines (a couple hours on dev)
@@ -117,14 +117,14 @@ rm -rf solrdatasources.20200924
 To run individual pipelines, invoke the appropriate `solrETL-*sh` script, e.g.:
 ```bash
 # try reloading a couple of cores 'by hand'. the small ones: takes a few minutes for each
-nohup /home/app_solr/solrdatasources/bampfa/solrETL-public.sh bampfa >> /home/app_solr/logs/bampfa.solr_extract_public.log 2>&1 &
-nohup /home/app_solr/solrdatasources/botgarden/solrETL-public.sh botgarden >> /home/app_solr/logs/botgarden.solr_extract_public.log &
+nohup /home/APP_USER/solrdatasources/bampfa/solrETL-public.sh bampfa >> /home/APP_USER/logs/bampfa.solr_extract_public.log 2>&1 &
+nohup /home/APP_USER/solrdatasources/botgarden/solrETL-public.sh botgarden >> /home/APP_USER/logs/botgarden.solr_extract_public.log &
 # did they work?
 ./checkstatus.sh -v
 
 # now load the solr cores; couple ways to do this:
 # Provided you have access to the Postgres server, you can run the refresh job (takes a few hours):
-nohup one_job.sh >> /home/app_solr/refresh.log &
+nohup one_job.sh >> /home/APP_USER/refresh.log &
 ```
 
 #### Finding stuff in your Solr cores"

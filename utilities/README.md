@@ -9,11 +9,11 @@ Tools (mainly shell scripts) to:
 
 Currently there are 7 tools, some mature, but mostly unripe, raw, and needy:
 
-* scp4solr.sh -- attempts to scp (copy via ssh) the available nightly solr extracts. Includes the `internal` extracts!
+* scp4solr.sh -- attempts to scp (copy via ssh) the available nightly solr extracts. CAUTION: includes the `internal` extracts!
 * curl4solr.sh --  attempts to cURL the available nightly solr public extracts from the Production server.
 * wget4solr.sh --  attempts to `wget` the available nightly solr public extracts from the Production server.
 * make_curls.sh -- script to extract the latest cURL commands from the Solr ETL logs to do the POSTing to
-  Solr. Creates `allcurls.sh`. MUST BE RUN ON AND RTL SERVER where `~app_solr/logs exists`!
+  Solr. Creates `allcurls.sh`. MUST BE RUN ON AND RTL SERVER where `~APP_USER/logs exists`!
 * allcurls.sh -- (EXAMPLE ONLY!) clears out and refreshes all UCB solr cores (provide you have the input files!)
 * checkstatus.sh -- *on UCB managed servers only* this script checks the ETL logs and counts records in all the solr cores
 * checkcores.sh -- pings the admin interface (via cURL and HTTP) to obtain counts for all the solr cores
@@ -51,9 +51,7 @@ here's one way to do it:
 ps aux | grep solr
 kill <thatsolrprocess>
 ```
-
 or, if you have already started solr in a way similar to what is suggested here:
-
 ```bash
 cd ~/solr8
 bin/solr stop
@@ -166,43 +164,39 @@ rm -rf ~/4solr
 #
 ```
 
-#### Differences between Dev, QA and Prod deployments on RTL servers
+#### Differences between Dev, QA and Prod environments on RTL servers
 
-There are only a few differences between the "pipeline code" as deployed on Dev and as deployed on Prod. (The
-files committed on GitHub are set up for Production; they need some minor edits when deployed on Dev.)
+The Solr pipelines need to be configured to point to the appropriate CSpace
+and Solr servers for each environment.
 
-* The Postgres servers of course are different (hostname and port numbers).
-* Several of the scripts send email. On Dev, these emails addresses should be changed to something appropriate: no
-need to bug everyone with Dev output!
-* Usually I keep the Dev Solr cores updated with data from Production. This way, the Dev portals more
-closely resemble their production counterparts. Therefore, in app_solr's home directory there is a subdirectory
-`/4solr` that contains the refresh files from Prod, along with a script to fetch them from Prod (via wget) and to POST
-them to Solr. However, when testing changes to the pipelines, one should run the pipeline on Dev and check results.
-Later it may be prudent to put the production data back...
-* There is no need (in general) to run the Solr refresh scripts nightly: nothing changes much on Dev! Therefore, the
-cron job to run the refreshes (`one_job.sh`) is commented out in the `crontab`
+There are only a few parameters that need to be changed in the 
+pipeline scripts themselves:
 
-To edit the "standard" production configuration as represented in GitHub for Dev or QA
-use one of the two convenient scripts:
+* The postgres server used (e.g. "dba-postgres-[dev,prod]-45.ist.berkeley.edu")
+* The port number for the postgres server (e.g. 5117)
+* The email address for email reports
 
-```bash
-~/cspace-solr-ucb/utilities/switch2dev.sh
-~/cspace-solr-ucb/utilities/switch2qa.sh
+These are current set in a config file in the home directory of the
+user running the pipelines. The file is `pipeline-config.sh`
+
+In the GitHub repo, there are three versions of this file, one for each
+environment. Configuring the pipelines there consists of
+copying the appropriate file to create `pipeline-config.sh`, e.g.
 ```
-
-These scripts, if they have been kept up to date, change:
-* The hostname as needed
-* The postgres port numbers as needed.
-* The contact info (for notification emails) so emails are sent to a Dev
-  (so museum folks are not pestered with emails from Dev or QA activity)
-
-Here's a way to find the diffs one can expect between the pipeline files as committed to GitHub and as deployed on Dev.
-
+cd
+cp pipeline-config-prod.sh pipeline-config.sh
 ```
-# ~app_solr@webapps(-dev/-qa).cspace.berkeley.edu
-$ diff -r ~/cspace-solr-ucb solrdatasources | grep -v Only > diffs
-$ less diffs
-```
+Alas,
+
+the CineFiles pipeline has a 'legacy' component that denormalizes the CSpace
+database content into table in the utils scheme. This Rube Goldberg apparatus
+is keep in the Solr repo in `cinefiles/scripts` and is deployed with the
+rest of the pipelines. However, since it needs to write to the utils schema
+it needs its own Posgres role (current `miponca`) and therefore entry in `.pgpass`.
+This pipeline therefore has its own config files `cinefiles-config*.sh`
+which work just like the config for the rest of the pipelines: just copy
+the right version of the file into home directory (from repo
+`cspace-solr-ucb/cinefiles`).
 
 #### Installing solr8 as a service on UCB VMs
 
@@ -223,19 +217,29 @@ wget https://webapps.cspace.berkeley.edu/names.pickle
 rm logs/*
 ```
 - run the 'nightly solr refresh' (i.e. pipelines) manually
-```nohup /home/app_solr/one_job.sh >> /home/app_solr/refresh.log &
 ```
-- to refresh the dev cores from recent production extracts
+nohup ${HOME}/one_job.sh >> ${HOME}/refresh.log &
 ```
+- to refresh the dev cores from recent production extracts (this creates
+a bash script that `cURL`s the various '4solr.*' extracts to the system
+on which it is executed. NB: there is a relatively recent
+version of all the public extracts kept in a web-accessible directory
+on the server the Solr pipelines.)
+```
+# make a home for these files if one does not exist
+mkdir ~/4solr/
 cd ~/4solr/
+# cURL the public extracts
 ./curl4solr.sh
 
+# fetch the current version of the script that POSTs the extracts
+# to the local Solr instance. Which better be configured and running
 curl -O https://webapps.cspace.berkeley.edu/allcurls.sh
 chmod +x allcurls.sh
 gunzip *.gz &
 nohup time ./allcurls.sh
 ```
-- perhaps the following, too?
+- perhaps the following, too? (if solr is to run as a systemd service)
 ```
 less bin/solr.cmd
 less bin/init.d/solr
