@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# we only get SOLR_CACHE_DIR from here, the rest of the parms are passed in from caller
+source ${HOME}/pipeline-config.sh
 TENANT=$1
 CORE=$2
 CONTACT=$3
@@ -7,12 +9,7 @@ CONTACT=$3
 MINIMUM=$4
 BLOB_COLUMN=$5
 FILE_PART=$6
-TEMP_DIR="/var/solr/tmp"
-if [[ ! -d ${TEMP_DIR} ]]; then
-  MSG="Could not find temporary directory ${TEMP_DIR}; refresh aborted, core left untouched."
-  notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refresh failed: ${TEMP_DIR} missing"
-  exit 1
-fi
+TEMP_DIR=${SOLR_CACHE_DIR}
 ##############################################################################
 # a helper function
 ##############################################################################
@@ -21,6 +18,11 @@ function notify()
   echo "$1"
   echo "$1" | mail -s "$2" -- ${CONTACT}
 }
+if [[ ! -d ${TEMP_DIR} ]]; then
+  MSG="Could not find temporary directory ${TEMP_DIR}; refresh aborted, core left untouched."
+  notify "${MSG}" "PROBLEM ${TENANT}-${CORE} nightly solr refresh failed: ${TEMP_DIR} missing"
+  exit 1
+fi
 # nb: in general the name of the core and the name of the file are related.
 # however, sometimes the same core may get refreshed with more than one file.
 # ergo, we need to (optionally) distinguish CORE and FILE.
