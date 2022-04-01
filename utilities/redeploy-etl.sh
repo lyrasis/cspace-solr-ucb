@@ -43,9 +43,9 @@ then
    echo "Should be one of prod/qa/dev; please try again."
    exit 1
 else
-  cp pipeline-config-${ENVIRONMENT}.sh {HOME}/pipeline-config.sh
+  cp pipeline-config-${ENVIRONMENT}.sh ${HOME}/pipeline-config.sh
   # cinefiles denorm process has its own config
-  cp cinefiles/cinefiles-denorm-config-${ENVIRONMENT}.sh {HOME}/cinefiles-denorm-config.sh
+  cp cinefiles/cinefiles-denorm-config-${ENVIRONMENT}.sh ${HOME}/cinefiles-denorm-config.sh
 fi
 
 cp utilities/o*.sh ${HOME}
