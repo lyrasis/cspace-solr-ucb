@@ -3,13 +3,15 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.2.0-rc1
-Fri Apr  1 08:51:08 PDT 2022
+This is version 6.2.0-rc2
+Fri Apr  1 09:19:26 PDT 2022
 
-89d5d38 (HEAD -> main) CSW-629: put cinefiles denorm log output into regular solr pipeline file
+816c9a4 (HEAD -> main) CSW-629: add 3 config files for cinefiles denorm
+f6bfabe (tag: 6.2.0-rc1, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.2.0-rc1
+89d5d38 CSW-629: put cinefiles denorm log output into regular solr pipeline file
 177b8d5 CSW-629: fix typo in solr pipeline qa config file
 df195dc CSW-629: update cinefiles denorm to get config from cinefiles-denorm-config.sh
-2bb1a67 (origin/main, origin/HEAD) CSC-1956: add Division to ucbg solr cores
+2bb1a67 CSC-1956: add Division to ucbg solr cores
 63548ef CSW-629: update solr pipelines to get config from pipeline-config.sh
 1be4608 CSW-629: solr pipeline config is now in these 3 files
 b6bb878 NOJIRA: remove unneeded legacy file
@@ -23,23 +25,23 @@ e25da19 CSW-606: initial georeference revisions to ucjeps solr pipeline
 540dea5 CSW-612: update crontab for app_webapps
 e214f05 CSW-611: need to set proper python versions for bmu nightly status cron jobs
 c89384d (tag: 6.1.6) revise CHANGELOG.txt and bump version to 6.1.6
-eddc74b (tag: 6.1.6-rc5) revise CHANGELOG.txt and bump version to 6.1.6-rc5
+eddc74b revise CHANGELOG.txt and bump version to 6.1.6-rc5
 cf1162b NOJIRA: minor refactor of bmu nightly report process
-aca383a (tag: 6.1.6-rc4) revise CHANGELOG.txt and bump version to 6.1.6-rc4
+aca383a revise CHANGELOG.txt and bump version to 6.1.6-rc4
 7b8be48 CSW-608: minor cleanup and bulletproofing of solr pipelines
 857ea71 CSW-602: revise pahma solr pipeline to handle pahmatmslegacydepartment changes
-c669d23 (tag: 6.1.6-rc3) revise CHANGELOG.txt and bump version to 6.1.6-rc3
+c669d23 revise CHANGELOG.txt and bump version to 6.1.6-rc3
 a1a5d6c HMP-206: store extracts in /var/solr/tmp
-3b78586 (tag: 6.1.6-rc2) revise CHANGELOG.txt and bump version to 6.1.6-rc2
+3b78586 revise CHANGELOG.txt and bump version to 6.1.6-rc2
 80d0539 CSC-1863: update pahma solr queries for pahmatmslegacydepartment
 69b2119 NOJIRA: update two solr helper scripts
-72fc503 (tag: 6.1.6-rc1) revise CHANGELOG.txt and bump version to 6.1.6-rc1
+72fc503 revise CHANGELOG.txt and bump version to 6.1.6-rc1
 4958dfb CSW-574: change 'master' to 'main' in this repo
 b1a556a NOJIRA: cleanup extraneous cinefiles pipeline temp file
 9686f54 (tag: 6.1.5) revise CHANGELOG.txt and bump version to 6.1.5
-3b6c675 (tag: 6.1.5-rc2) revise CHANGELOG.txt and bump version to 6.1.5-rc2
+3b6c675 revise CHANGELOG.txt and bump version to 6.1.5-rc2
 9c04fe6 CSW-377: exit pipeline if 2nd refresh attempt fails (to keep yesterdays extract
-5ef9f6d (tag: 6.1.5-rc1) revise CHANGELOG.txt and bump version to 6.1.5-rc1
+5ef9f6d revise CHANGELOG.txt and bump version to 6.1.5-rc1
 3b65482 CSW-527: don't display warc .jsonl files as images
 6e302e0 CSW-527: fix oversights in early cinefiles solr pipeline for warcs
 77f79f9 CSW-527: enhance cinefiles solr pipeline for wars
