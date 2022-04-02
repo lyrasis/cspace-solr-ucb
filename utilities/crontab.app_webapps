@@ -1,8 +1,7 @@
 ##################################################################################
 #
-# CRON TABLE (crontab) for CSpace Tricoder- and BMU-related jobs
-# Also: UCJEPS CCH, PAHMA hierarchy "denorm"
-# BAMPFA Drupal extract push, and other monitoring tasks
+# CRON TABLE (crontab) for Solr Pipelines, CSpace Tricoder, and BMU-related jobs
+# PAHMA hierarchies refresh, and other monitoring tasks
 #
 # m h  dom mon dow   command
 ##################################################################################
@@ -15,6 +14,7 @@
 # NB: BAM no longer uses the BMU: derivatives from Piction are pushed to CSpace
 10   5 * * * for t in botgarden cinefiles pahma ucjeps; do python3 /var/www/$t/uploadmedia/checkRuns.py /var/cspace/$t/bmu jobs summary $t | mail -s "recent $t BMU jobs" jblowe@berkeley.edu,rjaffe@berkeley.edu; done
 10   5 * * * for t in botgarden cinefiles pahma ucjeps; do python3 /var/www/$t/uploadmedia/checkRuns.py /var/cspace/$t/bmu jobs summary $t > /var/www/static/${t}.nightly.report.txt ; done
+# bmu 'usage graphs': plots of nightly bmu uploads
 22   9 * * * bash -l -c 'python3 /var/www/pahma/uploadmedia/bmu-nightly-2022-concise.py > /dev/null'
 10   5 * * * python3 /var/www/pahma/uploadmedia/checkRuns.py /var/cspace/pahma/bmu jobs summary pahma | mail -s "recent PAHMA BMU jobs" pahma-cspace-bmu@lists.berkeley.edu > /dev/null 2>&1
 10   5 * * * python3 /var/www/ucjeps/uploadmedia/checkRuns.py /var/cspace/ucjeps/bmu jobs summary ucjeps | mail -s "recent UCJEPS BMU jobs" ucjeps-it@berkeley.edu > /dev/null 2>&1
@@ -38,12 +38,15 @@
 ##################################################################################
 1 5 * * * for t in bampfa botgarden cinefiles pahma ucjeps; do ~/bin/cleanBMUtempdir.sh /var/cspace/$t/bmu >> /var/cspace/monitor/${t}.imagedircleanup.log ; done
 ##################################################################################
+# start the solr pipelines at 1 minute after midnight daily (takes 2 hours or so)
+##################################################################################
+01 00  *   *   *     ${HOME}/one_job.sh
+##################################################################################
 # run the tricoder upload job (with locks) weekdays 7am-10pm, 3 mins after the hour
-# clean up temp files that sometime get left behind.
 ##################################################################################
 3 7-22 * * 1-5 cd /var/cspace/pahma/tricoder/batch_barcode ; ./tricoderlock.sh > /dev/null 2>&1
 ##################################################################################
-# clean up untidy messes left by tricoder
+# every day, clean up untidy messes left by tricoder the day before
 ##################################################################################
 1 5 * * * cd /tmp ; ls /tmp | perl -ne "print if /^\d+$/" | xargs rm > /dev/null 2>&1
 ##################################################################################
@@ -69,12 +72,12 @@
 ##################################################################################
 # run the UCJEPS jobs weekly, on Saturday
 ##################################################################################
-00 1 * * 6 /home/app_webapps/bin/major_group.sh > /dev/null 2>&1
-00 2 * * 6 /home/app_webapps/bin/cch_extract.sh > /dev/null 2>&1
-00 3 * * 6 /home/app_webapps/bin/get_taxonauth.sh taxon > /dev/null 2>&1
-00 4 * * 6 /home/app_webapps/bin/get_taxonauth.sh unverified > /dev/null 2>&1
-00 5 * * 6 /home/app_webapps/bin/extract_authorities_nightly.sh > /dev/null 2>&1
-30 6 * * 6 foo=`/home/app_webapps/bin/rsync2annie.sh 2>&1` ;  echo "$foo" | mail -s "rsync2annie" ucjeps-it@berkeley.edu
+00 1 * * 6 ${HOME}/bin/major_group.sh > /dev/null 2>&1
+00 2 * * 6 ${HOME}/bin/cch_extract.sh > /dev/null 2>&1
+00 3 * * 6 ${HOME}/bin/get_taxonauth.sh taxon > /dev/null 2>&1
+00 4 * * 6 ${HOME}/bin/get_taxonauth.sh unverified > /dev/null 2>&1
+00 5 * * 6 ${HOME}/bin/extract_authorities_nightly.sh > /dev/null 2>&1
+30 6 * * 6 foo=`${HOME}/bin/rsync2annie.sh 2>&1` ;  echo "$foo" | mail -s "rsync2annie" ucjeps-it@berkeley.edu
 ##################################################################################
 # refresh the denormalized hierarchies
 ##################################################################################
@@ -83,18 +86,18 @@
 ##################################################################################
 # run the cinefiles month qc report
 ##################################################################################
-#00 03 1 * * /home/app_webapps/bin/qc/monthly.sh cinefiles_reports@lists.berkeley.edu > /dev/null 2>&1
-#10 03 1 * * /home/app_webapps/bin/qc/monthly.sh cspace-app-logs@lists.berkeley.edu > /dev/null 2>&1
+#00 03 1 * * ${HOME}/bin/qc/monthly.sh cinefiles_reports@lists.berkeley.edu > /dev/null 2>&1
+#10 03 1 * * ${HOME}/bin/qc/monthly.sh cspace-app-logs@lists.berkeley.edu > /dev/null 2>&1
 ##################################################################################
 # run the nightly bampfa extract for the drupal website
 ##################################################################################
-01 05 * * * cd ~/extracts/bampfa ; /home/app_webapps/extracts/bampfa/bampfa_website_extract.sh bampfa >> bampfa_website_extract.log 2>&1
+01 05 * * * cd ~/extracts/bampfa ; ${HOME}/extracts/bampfa/bampfa_website_extract.sh bampfa >> bampfa_website_extract.log 2>&1
 ##################################################################################
-# monitor webapp use
+# monitor webapp use, compute solr core stats, goaccess log analysis
 ################################################################################
-#10 04 * * * perl -ne 'next if /^(start |POST|PUT)/;s/\r//;s/elapsedtime= *//;s/\t[a-z]+=/\t/g;print;' /tmp/dj.tools-prod.csv | awk -v OFS="\t" -F"\t" '{print $2,$5,$3,$7,$1,$6,$10,$8,$9}' > /var/cspace/monitor/currappuse.csv ; cat /var/cspace/monitor/currappuse.csv /var/cspace/monitor/webappuse.csv | sort -u > /tmp/tmp2 ; mv /tmp/tmp2 /var/cspace/monitor/webappuse.csv ; perl /var/cspace/monitor/monitorWebapps.pl /var/cspace/monitor/webappuse.csv > /var/www/static/webappuse.html
-#
 00 00 * * * /var/cspace/monitor/checklogs.sh | mail -s "Access Log Analysis" jblowe@berkeley.edu
 # analyze and summarize the django logs and solr cores, keep a copy of an extract of the other vhost logs
 05 04 * * * cd /var/cspace/monitor ; ./analyze.sh > /dev/null 2>&1 ; ./corestats.sh > /dev/null 2>&1
 20 04 * * * wc -l /var/cspace/*/bmu/*.processed.csv | perl -pe 's/^ *(\d+) /\1\t/;s#/var/cspace/(.*)/bmu#\1#;s#/#\t#g;s/.processed.csv//' > /var/cspace/monitor/bmu-counts.csv
+# restart goaccess stats daily
+* * */1 * *  ${HOME}/bin/goaccess.sh
