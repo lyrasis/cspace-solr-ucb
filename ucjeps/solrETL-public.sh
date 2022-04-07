@@ -90,7 +90,7 @@ gunzip ucjeps.counts.errors_in_latlong.csv.gz
 gunzip header4Solr.csv.gz
 ./zapCoords.sh
 rm header4Solr.csv
-mv counts.tgz /var/solr/tmp/ucjeps.counts.tgz
-mv ucjeps.counts.errors_in_latlong.csv /var/solr/tmp
+mv counts.tgz ${SOLR_CACHE_DIR}/ucjeps.counts.tgz
+mv ucjeps.counts.errors_in_latlong.csv ${SOLR_CACHE_DIR}
 # moving .csv files and saving the extract is done in post_to_solr!
 date

@@ -32,7 +32,7 @@ time perl -i -pe 's/[\r\n]/ /g;s/\@\@/\n/g' o1.csv
 python3 osteology_analyzer.py o1.csv o2.csv
 sort o2.csv > o3.csv
 # add the internal data
-cp /var/solr/tmp/4solr.${TENANT}.internal.csv.gz .
+cp ${SOLR_CACHE_DIR}/4solr.${TENANT}.internal.csv.gz .
 gunzip 4solr.${TENANT}.internal.csv.gz
 python3 join.py o3.csv 4solr.${TENANT}.internal.csv > o4.csv
 # get rid of the copy we made
