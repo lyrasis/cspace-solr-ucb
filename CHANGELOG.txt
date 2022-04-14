@@ -3,11 +3,16 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.2.0-rc4
-Fri Apr  1 14:30:38 PDT 2022
+This is version 6.2.0-rc5
+Thu Apr 14 13:22:45 PDT 2022
 
-195f6c4 (HEAD -> main) CSW-629: location of solr cache is now a parameter for pipelines
-ec0453d (origin/main, origin/HEAD) CSW-629: typo in redeploy-etl.sh
+65aca0e (HEAD -> main, origin/main, origin/HEAD) CSW-629: copy nightly solr pipeline counts into stats directory
+b4835da CSW-629: use SOLR_CACHE_DIR correctly in these two pipeline scripts
+f71a238 CSW-629: initial refactoring of crontab to handle ALL batch jobs and Solr
+8611fc8 CSW-629: remove obsolete 'special user' crontab
+a4928a5 (tag: 6.2.0-rc4) revise CHANGELOG.txt and bump version to 6.2.0-rc4
+195f6c4 CSW-629: location of solr cache is now a parameter for pipelines
+ec0453d CSW-629: typo in redeploy-etl.sh
 882b094 CSW-629: cinefiles config now read from home dir
 a79f217 CSW-629: 'SUPPORT_CONTACT' is now a configurable parameter in solr pipelines
 ba1a00a CSW-629: solr pipelines should get config from correct file in home dir
