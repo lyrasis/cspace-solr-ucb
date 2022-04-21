@@ -3,10 +3,14 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.2.0-rc5
-Thu Apr 14 13:22:45 PDT 2022
+This is version 6.2.0-rc6
+Thu Apr 21 11:11:09 PDT 2022
 
-65aca0e (HEAD -> main, origin/main, origin/HEAD) CSW-629: copy nightly solr pipeline counts into stats directory
+a802d8a (HEAD -> main) CSW-638: further revisions to make_error_report.sh, etc.
+d2760c5 CSW-638: solr pipeline script updates for consistent error file handling
+23ced3d CSW-638: all museums now report solr pipeline errors using make_error_report.sh
+5a2b1ed (tag: 6.2.0-rc5, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.2.0-rc5
+65aca0e CSW-629: copy nightly solr pipeline counts into stats directory
 b4835da CSW-629: use SOLR_CACHE_DIR correctly in these two pipeline scripts
 f71a238 CSW-629: initial refactoring of crontab to handle ALL batch jobs and Solr
 8611fc8 CSW-629: remove obsolete 'special user' crontab
