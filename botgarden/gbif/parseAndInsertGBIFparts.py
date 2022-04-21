@@ -96,12 +96,13 @@ def main():
 
     try:
         namepartsfile = sys.argv[2]
-        namepartsfh = csv.writer(open(namepartsfile, "w", encoding="utf-8"), delimiter='\t', quoting=csv.QUOTE_NONE, quotechar=chr(255))
+        namepartsfh = csv.writer(open(namepartsfile, "w"), delimiter='\t', quoting=csv.QUOTE_NONE, quotechar=chr(255))
         #namepartsfh.write('\t'.join(nameparts) + '\n')
     except:
         print("could not open output file")
         sys.exit(1)
 
+    picklefile = 'names.pickle'
     try:
         picklefile = sys.argv[3]
         picklefh = open(picklefile, "rb")
@@ -117,14 +118,12 @@ def main():
         picklefh.close()
         print("%s names in datasource." % len(parsednames.keys()))
     except:
-        raise
         print("could not parse data in picklefile %s" % picklefile)
         sys.exit(1)
 
     try:
-        inputfile = csv.reader(open(sys.argv[1], "r", encoding="utf-8"), delimiter='\t', quoting=csv.QUOTE_NONE, quotechar=chr(255))
+        inputfile = csv.reader(open(sys.argv[1], "r"), delimiter='\t', quoting=csv.QUOTE_NONE, quotechar=chr(255))
     except:
-        raise
         print("could not open input file %s" % sys.argv[1])
         sys.exit(1)
 
@@ -137,7 +136,6 @@ def main():
             count.source += 1
             name2use = parsednames[name]
         else:
-            time.sleep(1)  # delays for 1 second
             response = requests.get('http://api.gbif.org/v1/parser/name', params={'name': name})
             response.encoding = 'utf-8'
             name2use = response.json()[0]

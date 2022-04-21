@@ -60,7 +60,14 @@ perl -i -pe '$i++;print $i . "\t"' metadata.csv
 ##############################################################################
 # parse scientific names into parts using GBIF (and cache results in pickle)
 ##############################################################################
+# try to make sure names.pickle is there. it is slow to recreate
+if [[ ! -e gbif/names.pickle ]]; then
+  echo "names.pickle not found in runtime directory; attempting to retrieve copy from backup"
+  cp ${SOLR_CACHE_DIR/names.pickle gbif/names.pickle
+fi
 python3 gbif/parseAndInsertGBIFparts.py metadata.csv metadata+parsednames.csv gbif/names.pickle 3
+# put the latest and greatest version of names.pickle into the solr cache
+cp gbif/names.pickle ${SOLR_CACHE_DIR/names.pickle
 ##############################################################################
 # we want to recover and use our "special" solr-friendly header, which got buried
 ##############################################################################

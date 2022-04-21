@@ -1,8 +1,0 @@
-cd gbif/
-cp ~/Downloads/CSW-445/UCJEPS-Lichen.scientificname.csv .
-cut -f6 UCJEPS-Lichen.scientificname.csv > lichens.names.csv
-nohup python parseAndInsertCOLParts.py lichens.names.csv parsed.lichen.names.csv lichen.pickle 0 &
-cp ~/Downloads/CSW-445/Bryophytes-Part.scientificname.csv .
-cut -f6 Bryophytes-Part.scientificname.csv | sort | uniq -c  > bryophytes.names.csv
-cut -f6 Bryophytes-Part.scientificname.csv | sort -u > bryophytes.names.csv
-nohup python parseAndInsertCOLParts.py bryophytes.names.csv parsed.bryophytes.names.csv bryophytes.pickle 0 &
