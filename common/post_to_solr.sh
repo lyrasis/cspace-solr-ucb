@@ -110,5 +110,11 @@ else
   wait
   gzip -f ${CSVFILE}
   mv ${CSVFILE}.gz ${TEMP_DIR}
+  ##############################################################################
+  # send the errors off to be dealt with, etc.
+  ##############################################################################
+  tar -czf counts.tgz ${TENANT}.counts.*.csv
+  ../common/make_error_report.sh | mail -A counts.tgz -s "${TENANT} ${FILE_PART} Solr Refresh: Counts and Errors `date`" ${CONTACT}
 fi
+# tidy up: move all csv files to cache directory
 mv *.csv ${TEMP_DIR}
