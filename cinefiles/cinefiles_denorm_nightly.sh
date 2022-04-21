@@ -11,7 +11,7 @@
 #
 # This script should be installed in ${HOME}/solrdatasources/cinefiles/scripts
 # SQL files go in ${HOME}/solrdatasources/cinefiles/scripts/sql/denorm_nightly
-# Log files go in ${HOME}/logs
+# Log files go in ${SOLR_LOG_DIR}
 # NB: gets password for nuxeo_cinefiles from .pgpass
 
 source ${HOME}/cinefiles-denorm-config.sh
@@ -24,7 +24,7 @@ export PGPORT="${CINEFILES_PGPORT}"
 export CONTACT="${CINEFILES_CONTACT}"
 
 export SQLDIR="$SCRIPTDIR/sql/denorm_nightly"
-export LOGDIR="${HOME}/logs"
+export LOGDIR="${SOLR_LOG_DIR}"
 export LOGFILE="$LOGDIR/cinefiles.denorm_nightly.log.$(date +'%d')"
 export FOOFILE="$LOGDIR/cinefiles.solr_extract_public.log"
 export LOGLEVEL=3
