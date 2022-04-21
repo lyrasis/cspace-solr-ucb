@@ -117,14 +117,14 @@ rm -rf solrdatasources.20200924
 To run individual pipelines, invoke the appropriate `solrETL-*sh` script, e.g.:
 ```bash
 # try reloading a couple of cores 'by hand'. the small ones: takes a few minutes for each
-nohup /home/APP_USER/solrdatasources/bampfa/solrETL-public.sh bampfa >> /home/APP_USER/logs/bampfa.solr_extract_public.log 2>&1 &
-nohup /home/APP_USER/solrdatasources/botgarden/solrETL-public.sh botgarden >> /home/APP_USER/logs/botgarden.solr_extract_public.log &
+nohup ${HOME}/solrdatasources/bampfa/solrETL-public.sh bampfa >> ${SOLR_LOG_DIR}/bampfa.solr_extract_public.log 2>&1 &
+nohup ${HOME}/solrdatasources/botgarden/solrETL-public.sh botgarden >> ${SOLR_LOG_DIR}/botgarden.solr_extract_public.log &
 # did they work?
 ./checkstatus.sh -v
 
 # now load the solr cores; couple ways to do this:
 # Provided you have access to the Postgres server, you can run the refresh job (takes a few hours):
-nohup one_job.sh >> /home/APP_USER/refresh.log &
+nohup one_job.sh >> ${HOME}/refresh.log &
 ```
 
 #### Finding stuff in your Solr cores"
