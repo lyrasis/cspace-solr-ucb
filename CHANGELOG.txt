@@ -3,13 +3,20 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.2.0-rc6
-Thu Apr 21 11:11:09 PDT 2022
+This is version 6.2.0-rc7
+Thu Apr 21 16:25:34 PDT 2022
 
-a802d8a (HEAD -> main) CSW-638: further revisions to make_error_report.sh, etc.
+194cd17 (HEAD -> main) CSW-629: solr pipeline log location is now SOLR_LOG_DIR
+41b9f36 CSW-638: delete legacy script
+082b7d4 CSW-638: update README.md re: running pipelines
+b7b9605 CSW-638: update README.md re: botgarden pickle, etc.
+f131b3e CSW-629: further revisions to solr pipeline configuration
+fb6eae4 CSW-638: ensure botgarden names.pickle file stays around
+b847e1f (tag: 6.2.0-rc6, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.2.0-rc6
+a802d8a CSW-638: further revisions to make_error_report.sh, etc.
 d2760c5 CSW-638: solr pipeline script updates for consistent error file handling
 23ced3d CSW-638: all museums now report solr pipeline errors using make_error_report.sh
-5a2b1ed (tag: 6.2.0-rc5, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.2.0-rc5
+5a2b1ed (tag: 6.2.0-rc5) revise CHANGELOG.txt and bump version to 6.2.0-rc5
 65aca0e CSW-629: copy nightly solr pipeline counts into stats directory
 b4835da CSW-629: use SOLR_CACHE_DIR correctly in these two pipeline scripts
 f71a238 CSW-629: initial refactoring of crontab to handle ALL batch jobs and Solr
