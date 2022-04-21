@@ -33,8 +33,8 @@ The essence:
 * Install Solr8 (either the "bonehead" easy way, or as a service)
 * Start the Solr8 server
 * Configure for UCB solr datastores using the scripts provided
-* Obtain the latest data extracts from UCB servers
-* Unzip and load the extracts
+* (Obtain the latest data extracts from UCB servers; unzip and load the extracts)
+* (Or regenerate from scratch via the pipelines)
 * Verify Solr8 server works
 
 NB: in general, you won't be running the _Solr ETL pipelines_ themselves locally, that's why we copy the
@@ -204,17 +204,12 @@ Check with Ops
 
 #### Additional first time installation considerations
 
-- UCBG needs the gbif pickle file and 'requests'. get a copy from prod_
+- UCBG needs the gbif pickle file and 'requests'. get a copy from prod
 ```
 pip3 install requests
-cd ~/solrdatasources/botgarden/gbif/
+cd ~/solrddatasource/botgarden/gbif
 # a usuable though perhaps outdated pickle file is kept on prod
 wget https://webapps.cspace.berkeley.edu/names.pickle
-```
-- log cleanup? (we usually don't...)
-```
-# might want to clear out the Solr ETL logs from time to time...
-rm logs/*
 ```
 - run the 'nightly solr refresh' (i.e. pipelines) manually
 ```
