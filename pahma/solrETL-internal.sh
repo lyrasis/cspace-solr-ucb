@@ -35,5 +35,4 @@ cd ${HOME}/solrdatasources/${TENANT}
 ##############################################################################
 gunzip 4solr.${TENANT}.internal.csv.gz
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT} 720000 68
-# moving .csv files and saving the extract is done in post_to_solr!
 date

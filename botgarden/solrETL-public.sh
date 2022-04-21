@@ -42,18 +42,24 @@ wait
 ##############################################################################
 # temporary hack to parse Locality into County/State/Country
 ##############################################################################
-cp /tmp/county.csv .
-cp /tmp/state.csv .
-cp /tmp/country.csv .
+# 1. recover yesterday's version of these 3 files
+cp ${SOLR_CACHE_DIR}/county.csv .
+cp ${SOLR_CACHE_DIR}/state.csv .
+cp ${SOLR_CACHE_DIR}/country.csv .
+# parse the extracted field, insert into metadata
 perl fixLocalites.pl d5.csv > metadata.csv
+# 3. we need to regenerate and save these 3 files for the next run...
 cut -f10 metadata.csv | perl -pe 's/\|/\n/g;' | sort | uniq -c | perl -pe 's/^ *(\d+) /\1\t/' > county.csv &
 cut -f11 metadata.csv | perl -pe 's/\|/\n/g;' | sort | uniq -c | perl -pe 's/^ *(\d+) /\1\t/' > state.csv &
 cut -f12 metadata.csv | perl -pe 's/\|/\n/g;' | sort | uniq -c | perl -pe 's/^ *(\d+) /\1\t/' > country.csv &
 rm d3.csv i4.csv
 ##############################################################################
-# make a unique sequence number for id
+# make a unique sequence number for id (accession csid is not unique in this extract)
 ##############################################################################
 perl -i -pe '$i++;print $i . "\t"' metadata.csv
+##############################################################################
+# parse scientific names into parts using GBIF (and cache results in pickle)
+##############################################################################
 python3 gbif/parseAndInsertGBIFparts.py metadata.csv metadata+parsednames.csv gbif/names.pickle 3
 ##############################################################################
 # we want to recover and use our "special" solr-friendly header, which got buried

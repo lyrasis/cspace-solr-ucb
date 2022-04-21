@@ -29,5 +29,4 @@ rm newmedia.csv
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT} 19000 8
-# moving .csv files and saving the extract is done in post_to_solr!
 date

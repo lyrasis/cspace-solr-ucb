@@ -158,11 +158,6 @@ cat header4Solr.csv d8.csv | perl -pe 's/␥/|/g' > d9.csv
 ##############################################################################
 time python3 computeTimeIntegers.py d9.csv 4solr.${TENANT}.internal.csv
 ##############################################################################
-# send the errors off to be dealt with, etc.
-##############################################################################
-tar -czf counts.tgz ${TENANT}.counts.*.csv
-./make_error_report.sh | mail -A counts.tgz -s "PAHMA Solr Counts and Refresh Errors `date`" ${CONTACT}
-##############################################################################
 # get rid of intermediate files
 ##############################################################################
 rm d?.csv d6?.csv part*.csv temp.*.csv basic*.csv header4Solr.csv
@@ -174,5 +169,4 @@ gzip 4solr.${TENANT}.internal.csv
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  720000 58
-# moving .csv files and saving the extract is done in post_to_solr!
 date

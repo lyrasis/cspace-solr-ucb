@@ -53,5 +53,4 @@ rm d?.csv m?.csv b?.csv media.csv metadata.csv header4Solr.csv
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  22000 43
-# moving .csv files and saving the extract is done in post_to_solr!
 date

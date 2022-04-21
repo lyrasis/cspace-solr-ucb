@@ -73,24 +73,20 @@ perl -i -pe 's/\\/\//g;s/\t"/\t/g;s/"\t/\t/g;s/\"\"/"/g' 4solr.${TENANT}.${CORE}
 ##############################################################################
 # OK, we are good to go! clear out the existing data and reload
 ##############################################################################
-# send the errors off to be dealt with
-tar -czf counts.tgz ${TENANT}.counts.*.csv
-./make_error_report.sh | mail -A counts.tgz -s "UCJEPS Solr Refresh Counts and Errors `date`" ${CONTACT}
 # get rid of intermediate files
 rm d?.csv metadata.csv media.csv
 # first hide these two files so zapCoords.sh can find and use them
-gzip ucjeps.counts.errors_in_latlong.csv
+cp ucjeps.counts.errors_in_latlong.csv temp.counts.txt
 gzip header4Solr.csv
 ../common/post_to_solr.sh ${TENANT} ${CORE} ${CONTACT}  900000 67
 ##############################################################################
 # hack to zap latlong errors and load the records anyway.
 # TODO: get rid of this somehow someday!
 ##############################################################################
-gunzip ucjeps.counts.errors_in_latlong.csv.gz
+mv temp.counts.txt ucjeps.counts.errors_in_latlong.csv
 gunzip header4Solr.csv.gz
 ./zapCoords.sh
 rm header4Solr.csv
 mv counts.tgz ${SOLR_CACHE_DIR}/ucjeps.counts.tgz
 mv ucjeps.counts.errors_in_latlong.csv ${SOLR_CACHE_DIR}
-# moving .csv files and saving the extract is done in post_to_solr!
 date
