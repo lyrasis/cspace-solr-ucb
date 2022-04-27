@@ -50,10 +50,11 @@ fi
 
 cp utilities/o*.sh ${HOME}
 cp utilities/checkstatus.sh ${HOME}
+cp utilities/set_platform.sh ${HOME}
 
 if [ ! -d ${SOLRETLDIR} ]
 then
-   echo "Solr ETL directory $SOLRETLDIR not found. Assuming this is a fresh install"
+   echo "Solr ETL directory ${SOLRETLDIR} not found. Assuming this is a fresh install"
 else
     # make a backup of the current ETL directory just in case
     YYYYMMDD=`date +%Y%m%d`

@@ -43,5 +43,5 @@ ${HOME}/optimize.sh > ${SOLR_LOG_DIR}/optimize.log
 ##################################################################################
 if [[ `${HOME}/checkstatus.sh` ]] ; then ${HOME}/checkstatus.sh -v | mail -s "PROBLEM with solr refresh nightly refresh" -- ${SUPPORT_CONTACT} ; fi
 ${HOME}/checkstatus.sh -v >> refresh.log
-echo 'done with solr refresh' `date` >> refresh.log
+echo 'done with solr refresh' `date` >> ${SOLR_LOG_DIR}/refresh.log
 

@@ -15,5 +15,4 @@ export UCJEPS_CONTACT="jblowe@berkeley.edu"
 
 export SUPPORT_CONTACT="jblowe@berkeley.edu"
 
-export SOLR_CACHE_DIR="/cspace/solr_cache"
-export SOLR_LOG_DIR="/cspace/solr_logs"
+${HOME}/set_platform.sh
