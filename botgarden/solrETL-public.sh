@@ -63,7 +63,7 @@ perl -i -pe '$i++;print $i . "\t"' metadata.csv
 # try to make sure names.pickle is there. it is slow to recreate
 if [[ ! -e gbif/names.pickle ]]; then
   echo "names.pickle not found in runtime directory; attempting to retrieve copy from backup"
-  cp ${SOLR_CACHE_DIR/names.pickle gbif/names.pickle
+  cp ${SOLR_CACHE_DIR}/names.pickle gbif/names.pickle
 fi
 python3 gbif/parseAndInsertGBIFparts.py metadata.csv metadata+parsednames.csv gbif/names.pickle 3
 # put the latest and greatest version of names.pickle into the solr cache
