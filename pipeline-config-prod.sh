@@ -15,4 +15,4 @@ export UCJEPS_CONTACT="ucjeps-it@berkeley.edu"
 
 export SUPPORT_CONTACT="cspace-support@berkeley.edu"
 
-${HOME}/set_platform.sh
+source ${HOME}/set_platform.sh

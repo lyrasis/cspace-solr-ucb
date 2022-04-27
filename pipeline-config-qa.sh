@@ -15,4 +15,4 @@ export UCJEPS_CONTACT="jblowe@berkeley.edu"
 
 export SUPPORT_CONTACT="jblowe@berkeley.edu"
 
-${HOME}/set_platform.sh
+source ${HOME}/set_platform.sh
