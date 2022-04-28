@@ -3,48 +3,50 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.2.0-rc11
-Thu Apr 28 07:44:56 PDT 2022
+This is version 6.2.0-rc12
+Thu Apr 28 10:23:54 PDT 2022
 
-4f1aae9 (HEAD -> main) CSW-634: fix typo in botgarden solr pipeline
+2100687 (HEAD -> main) CSW-634: solr deploy script redeploy-etl.sh was too noisy
+4fd0d97 (tag: 6.2.0-rc11, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.2.0-rc11
+4f1aae9 CSW-634: fix typo in botgarden solr pipeline
 ea5bde4 CSW-634: checkstatus.sh needs to source pipeline-config.sh
 5090d32 CSW-634: minor solr pipeline deploy script improvements, e.g. 'latest'
-8a6ac9b (tag: 6.2.0-rc10, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.2.0-rc10
+8a6ac9b (tag: 6.2.0-rc10) revise CHANGELOG.txt and bump version to 6.2.0-rc10
 6dbc61b CSW-634: set_platform.sh must be source'd not executed
-6c39a91 (tag: 6.2.0-rc9) revise CHANGELOG.txt and bump version to 6.2.0-rc9
+6c39a91 revise CHANGELOG.txt and bump version to 6.2.0-rc9
 171b0fa CSW-634: refactor solr pipeline scripts to detect 'platform' (aws, rtl, etc.)
 14b2805 NOJIRA: correct typo in botgarden solr pipeline
-df23b71 (tag: 6.2.0-rc8) revise CHANGELOG.txt and bump version to 6.2.0-rc8
+df23b71 revise CHANGELOG.txt and bump version to 6.2.0-rc8
 46fbba9 CSW-629: export needed environment vars, don't just set them
-65d6c3e (tag: 6.2.0-rc7) revise CHANGELOG.txt and bump version to 6.2.0-rc7
+65d6c3e revise CHANGELOG.txt and bump version to 6.2.0-rc7
 194cd17 CSW-629: solr pipeline log location is now SOLR_LOG_DIR
 41b9f36 CSW-638: delete legacy script
 082b7d4 CSW-638: update README.md re: running pipelines
 b7b9605 CSW-638: update README.md re: botgarden pickle, etc.
 f131b3e CSW-629: further revisions to solr pipeline configuration
 fb6eae4 CSW-638: ensure botgarden names.pickle file stays around
-b847e1f (tag: 6.2.0-rc6) revise CHANGELOG.txt and bump version to 6.2.0-rc6
+b847e1f revise CHANGELOG.txt and bump version to 6.2.0-rc6
 a802d8a CSW-638: further revisions to make_error_report.sh, etc.
 d2760c5 CSW-638: solr pipeline script updates for consistent error file handling
 23ced3d CSW-638: all museums now report solr pipeline errors using make_error_report.sh
-5a2b1ed (tag: 6.2.0-rc5) revise CHANGELOG.txt and bump version to 6.2.0-rc5
+5a2b1ed revise CHANGELOG.txt and bump version to 6.2.0-rc5
 65aca0e CSW-629: copy nightly solr pipeline counts into stats directory
 b4835da CSW-629: use SOLR_CACHE_DIR correctly in these two pipeline scripts
 f71a238 CSW-629: initial refactoring of crontab to handle ALL batch jobs and Solr
 8611fc8 CSW-629: remove obsolete 'special user' crontab
-a4928a5 (tag: 6.2.0-rc4) revise CHANGELOG.txt and bump version to 6.2.0-rc4
+a4928a5 revise CHANGELOG.txt and bump version to 6.2.0-rc4
 195f6c4 CSW-629: location of solr cache is now a parameter for pipelines
 ec0453d CSW-629: typo in redeploy-etl.sh
 882b094 CSW-629: cinefiles config now read from home dir
 a79f217 CSW-629: 'SUPPORT_CONTACT' is now a configurable parameter in solr pipelines
 ba1a00a CSW-629: solr pipelines should get config from correct file in home dir
-e4c7083 (tag: 6.2.0-rc3) revise CHANGELOG.txt and bump version to 6.2.0-rc3
+e4c7083 revise CHANGELOG.txt and bump version to 6.2.0-rc3
 6624f8e CSW-629: more bulletproofing of solr pipeline deploy script
 784a056 CSW-629: get rid of obsolete file
 e854cac CSW-629: update READMEs for latest changes to Solr pipeline deployments
-d6b6e32 (tag: 6.2.0-rc2) revise CHANGELOG.txt and bump version to 6.2.0-rc2
+d6b6e32 revise CHANGELOG.txt and bump version to 6.2.0-rc2
 816c9a4 CSW-629: add 3 config files for cinefiles denorm
-f6bfabe (tag: 6.2.0-rc1) revise CHANGELOG.txt and bump version to 6.2.0-rc1
+f6bfabe revise CHANGELOG.txt and bump version to 6.2.0-rc1
 89d5d38 CSW-629: put cinefiles denorm log output into regular solr pipeline file
 177b8d5 CSW-629: fix typo in solr pipeline qa config file
 df195dc CSW-629: update cinefiles denorm to get config from cinefiles-denorm-config.sh
