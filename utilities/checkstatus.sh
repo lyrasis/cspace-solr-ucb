@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+cd
+source pipeline-config.sh
+
 for t in bampfa botgarden cinefiles pahma ucjeps
 do
     for d in public internal propagations locations media osteology
