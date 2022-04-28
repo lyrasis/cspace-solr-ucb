@@ -31,7 +31,7 @@ fi
 git checkout main
 git pull -v
 if [[ $1 != 'latest' ]]; then
-  git checkout $1
+  git -c advice.detachedHead=false checkout $1
 fi
 if [ $? -ne 0 ]
 then
