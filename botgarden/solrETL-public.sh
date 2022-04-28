@@ -67,7 +67,7 @@ if [[ ! -e gbif/names.pickle ]]; then
 fi
 python3 gbif/parseAndInsertGBIFparts.py metadata.csv metadata+parsednames.csv gbif/names.pickle 3
 # put the latest and greatest version of names.pickle into the solr cache
-cp gbif/names.pickle ${SOLR_CACHE_DIR/names.pickle
+cp gbif/names.pickle ${SOLR_CACHE_DIR}/names.pickle
 ##############################################################################
 # we want to recover and use our "special" solr-friendly header, which got buried
 ##############################################################################
