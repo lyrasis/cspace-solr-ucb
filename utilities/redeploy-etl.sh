@@ -8,6 +8,7 @@ then
   echo "Usage: $0 <version> <environment>"
   echo
   echo "environment is one of 'dev', 'qa', 'prod'"
+  echo "version is like 6.2.0-rc9 or 6.2.0 or latest (meaning 'tip of main branch', not an actual tag)"
   echo
   exit 1
 fi
@@ -29,7 +30,9 @@ fi
 # deploy fresh code from github
 git checkout main
 git pull -v
-git checkout $1
+if [[ $1 != 'latest' ]]; then
+  git checkout $1
+fi
 if [ $? -ne 0 ]
 then
   echo "Could not check out $1 from github. Please try again."
