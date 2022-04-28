@@ -3,11 +3,15 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.2.0-rc10
-Wed Apr 27 15:27:00 PDT 2022
+This is version 6.2.0-rc11
+Thu Apr 28 07:44:56 PDT 2022
 
-6dbc61b (HEAD -> main) CSW-634: set_platform.sh must be source'd not executed
-6c39a91 (tag: 6.2.0-rc9, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.2.0-rc9
+4f1aae9 (HEAD -> main) CSW-634: fix typo in botgarden solr pipeline
+ea5bde4 CSW-634: checkstatus.sh needs to source pipeline-config.sh
+5090d32 CSW-634: minor solr pipeline deploy script improvements, e.g. 'latest'
+8a6ac9b (tag: 6.2.0-rc10, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.2.0-rc10
+6dbc61b CSW-634: set_platform.sh must be source'd not executed
+6c39a91 (tag: 6.2.0-rc9) revise CHANGELOG.txt and bump version to 6.2.0-rc9
 171b0fa CSW-634: refactor solr pipeline scripts to detect 'platform' (aws, rtl, etc.)
 14b2805 NOJIRA: correct typo in botgarden solr pipeline
 df23b71 (tag: 6.2.0-rc8) revise CHANGELOG.txt and bump version to 6.2.0-rc8
