@@ -36,7 +36,7 @@ time perl addStatus.pl ${CORE} 37 38 < d4.csv > metadata.csv
 # make the header
 head -1 metadata.csv > header4Solr.csv
 # add the blob field name to the header (the header already ends with a tab); rewrite objectcsid_s to id (for solr id...)
-perl -i -pe 's/\r//;s/\t/_s\t/g;s/objectcsid_s/id/;s/$/_s\tblob_ss/;s/_ss_s/_ss/;' header4Solr.csv
+perl -i -pe 's/\r//;s/\t/_s\t/g;s/objectcsid_s/id/;s/$/_s\tblob_ss/;s/_ss_s/_ss/g;s/_dt_s/_dt/g;' header4Solr.csv
 # add the blobcsids to the rest of the data
 time perl mergeObjectsAndMedia.pl media.csv metadata.csv > d6.csv
 # we want to use our "special" solr-friendly header.

@@ -22,7 +22,7 @@ select
    '-REDACTED-' as currentvalue,
    cv.currentvaluesource,
    sdgcv.datedisplaydate currentvaluedate,
-   cb.creditline, 
+   cb.creditline,
    case when (cb.creditline='' or cb.creditline is null)  then
      'University of California, Berkeley Art Museum and Pacific Film Archive'
      else 'University of California, Berkeley Art Museum and Pacific Film Archive; '||cb.creditline
@@ -53,7 +53,8 @@ select
    utils.getdispl(co.computedcurrentlocation) currentlocation,
    utils.getdispl(cb.computedcrate) currentcrate,
    TRIM(cb.objectProductionDateCentury || ' ' || regexp_replace(cb.objectProductionDateEra, '^.*\)''(.*)''$', '\1')) as century,
-   'not yet available' as grouptitle_ss
+   'not yet available' as grouptitle_ss,
+   to_char(sdg.datelatestscalarvalue, 'YYYY-MM-DD') as dateMadeYear_dt
 from
    hierarchy h1
    INNER JOIN collectionobjects_common co
@@ -77,7 +78,7 @@ from
    LEFT OUTER JOIN hierarchy h5
       ON (h5.parentid = co.id AND h5.name = 'collectionobjects_bampfa:currentValueGroupList' and h5.pos=0)
    LEFT OUTER JOIN currentvaluegroup cv
-      ON (h5.id = cv.id)  
+      ON (h5.id = cv.id)
    LEFT OUTER JOIN hierarchy h6
       ON (h6.parentid = cv.id AND h6.name='currentValueDateGroup')
    LEFT OUTER JOIN structuredDateGroup sdgcv ON (h6.id = sdgcv.id)
@@ -101,7 +102,7 @@ from
    LEFT OUTER JOIN hierarchy h11
       ON (h11.parentid = co.id AND h11.name = 'collectionobjects_bampfa:bampfaObjectProductionPersonGroupList' and h11.pos=0)
    LEFT OUTER JOIN bampfaobjectproductionpersongroup ba
-      ON (h11.id = ba.id)  
+      ON (h11.id = ba.id)
    LEFT OUTER JOIN persons_common pc on (ba.bampfaobjectproductionperson=pc.refname)
    LEFT OUTER JOIN persons_common_nationalities pcn on (pc.id=pcn.id and pcn.pos=0)
    LEFT OUTER JOIN hierarchy h12
