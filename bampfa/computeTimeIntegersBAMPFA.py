@@ -17,18 +17,21 @@ def get_date_rows(row):
 
 
 def get_year(date_value):
-    if date_value == '':
+    year = date_value[0:4]
+    if date_value == '' or year[0] == '0':
         pattern = re.search(r'(\d{4})\-(\d{4})', verbatimdate)
         if pattern is not None:
             return pattern[2]
         pattern = re.search(r'(\d{2})/(\d{4})', verbatimdate)
         if pattern is not None:
             return pattern[2]
+        pattern = re.search(r'(\d{4})\-(\d{2})', verbatimdate)
+        if pattern is not None:
+            return pattern[1][0:2] + pattern[2]
+        return ''
         pattern = re.search(r'(\d{4})', verbatimdate)
         if pattern is not None:
             return pattern[1]
-        return ''
-    year = date_value[0:4]
     if 'BC' in verbatimdate:
         return ''
     if year < '0' or year > current_year:
