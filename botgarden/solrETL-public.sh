@@ -104,11 +104,6 @@ perl -i -pe 's/International Union for Conservation of Nature and Natural Resour
 ##############################################################################
 rm -f d?.csv d??.csv
 ##############################################################################
-# send the errors off to be dealt with, etc.
-##############################################################################
-tar -czf counts.tgz ${TENANT}.counts.*.csv
-./make_error_report.sh | mail -A counts.tgz -s "UCBG Solr Counts and Refresh Errors `date`" ${CONTACT}
-##############################################################################
 # save (hide) files needed for the internal core so that the internal script can find them
 ##############################################################################
 gzip 4solr.${TENANT}.media.csv
