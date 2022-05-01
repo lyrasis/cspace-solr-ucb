@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
 # we only get SOLR_CACHE_DIR from here, the rest of the parms are passed in from caller
 source ${HOME}/pipeline-config.sh
-TENANT=$1
-CORE=$2
-CONTACT=$3
+export TENANT=$1
+export CORE=$2
+export CONTACT=$3
 # MINIMUM is an approximate lower bound on the number of rows there should
 # be, based on data as of 2019-09-11. It may need to be periodically adjusted.
-MINIMUM=$4
-BLOB_COLUMN=$5
-FILE_PART=$6
-TEMP_DIR=${SOLR_CACHE_DIR}
+export MINIMUM=$4
+export BLOB_COLUMN=$5
+export FILE_PART=$6
+# set by ${HOME}/set_platform.sh
+export TEMP_DIR=${SOLR_CACHE_DIR}
 ##############################################################################
 # a helper function
 ##############################################################################
 function notify()
 {
   echo "$1"
-  echo "$1" | mail -s "$2" -- ${CONTACT}
+  echo "$1" | mail -r "cspace-support@lists.berkeley.edu" -s "$2" -- ${CONTACT}
 }
 if [[ ! -d ${TEMP_DIR} ]]; then
   MSG="Could not find temporary directory ${TEMP_DIR}; refresh aborted, core left untouched."
@@ -114,7 +115,7 @@ else
   # send the errors off to be dealt with, etc.
   ##############################################################################
   tar -czf counts.tgz ${TENANT}.counts.*.csv
-  ../common/make_error_report.sh | mail -A counts.tgz -s "${TENANT} ${FILE_PART} Solr Refresh: Counts and Errors `date`" ${CONTACT}
+  ../common/make_error_report.sh | mail -r "cspace-support@lists.berkeley.edu" -A counts.tgz -s "${TENANT} ${FILE_PART} Solr Refresh: Counts and Errors `date`" ${CONTACT}
 fi
 # tidy up: move all csv files to cache directory
 mv *.csv ${TEMP_DIR}
