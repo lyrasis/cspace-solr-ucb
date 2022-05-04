@@ -27,7 +27,7 @@
 ##################################################################################
 cd
 source ${HOME}/pipeline-config.sh
-echo 'starting solr refresh' `date` >> refresh.log
+echo 'starting solr refresh' `date` >> ${SOLR_LOG_DIR}/refresh.log
 ./oj.bampfa.sh &
 ./oj.botgarden.sh &
 ./oj.cinefiles.sh &
@@ -41,7 +41,7 @@ ${HOME}/optimize.sh > ${SOLR_LOG_DIR}/optimize.log
 ##################################################################################
 # monitor solr datastores
 ##################################################################################
-if [[ `${HOME}/checkstatus.sh` ]] ; then ${HOME}/checkstatus.sh -v | mail -s "PROBLEM with solr refresh nightly refresh" -- ${SUPPORT_CONTACT} ; fi
-${HOME}/checkstatus.sh -v >> refresh.log
+if [[ `${HOME}/checkstatus.sh` ]] ; then ${HOME}/checkstatus.sh -v | mail -r "cspace-support@lists.berkeley.edu" -s "PROBLEM with solr refresh nightly refresh" -- ${SUPPORT_CONTACT} ; fi
+${HOME}/checkstatus.sh -v >> ${SOLR_LOG_DIR}/refresh.log
 echo 'done with solr refresh' `date` >> ${SOLR_LOG_DIR}/refresh.log
 
