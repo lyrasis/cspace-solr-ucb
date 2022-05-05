@@ -43,7 +43,7 @@ cat header4Solr.csv d7.csv > d8.csv
 ##############################################################################
 # compute _i values for _dt values (to support BL date range searching)
 ##############################################################################
-time python3 computeTimeIntegers.py d8.csv 4solr.${TENANT}.${CORE}.csv
+time python3 computeTimeIntegersBAMPFA.py d8.csv 4solr.${TENANT}.${CORE}.csv
 wc -l *.csv
 ##############################################################################
 # get rid of intermediate files
