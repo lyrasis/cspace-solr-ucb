@@ -3,10 +3,12 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.2.0-rc14
-Wed May  4 17:25:57 PDT 2022
+This is version 6.2.0
+Fri May  6 13:43:36 PDT 2022
 
-9c91dd3 (HEAD -> main, origin/main, origin/HEAD) CSW-634: need to set a HOMEDIR (not HOME) var for some cron jobs
+2f9f586 (HEAD -> main, origin/main, origin/HEAD) CSW-656: add 'date_made_i' to bampfa solr core
+9e60254 (tag: 6.2.0-rc14) revise CHANGELOG.txt and bump version to 6.2.0-rc14
+9c91dd3 CSW-634: need to set a HOMEDIR (not HOME) var for some cron jobs
 d8c4db9 CSW-634: incremental improvements to Solr pipeline helper scripts
 93e02b0 (tag: 6.2.0-rc13) revise CHANGELOG.txt and bump version to 6.2.0-rc13
 74e46d3 CSW-652: solr pipelines, etc. now user -r parameter when sending email
