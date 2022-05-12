@@ -9,34 +9,18 @@
 # BMU-related jobs
 #
 ##################################################################################
-# BMU monitoring / report (i.e. send nightly emails)
-##################################################################################
-# NB: BAM no longer uses the BMU: derivatives from Piction are pushed to CSpace
-10   5 * * * for t in botgarden cinefiles pahma ucjeps; do python3 /var/www/$t/uploadmedia/checkRuns.py /cspace/$t/bmu jobs summary $t | mail -r "cspace-support@lists.berkeley.edu" -s "recent $t BMU jobs" jblowe@berkeley.edu,rjaffe@berkeley.edu; done
-10   5 * * * for t in botgarden cinefiles pahma ucjeps; do python3 /var/www/$t/uploadmedia/checkRuns.py /cspace/$t/bmu jobs summary $t > /var/www/static/${t}.nightly.report.txt ; done
-# bmu 'usage graphs': plots of nightly bmu uploads
-22   9 * * * bash -l -c 'python3 /var/www/pahma/uploadmedia/bmu-nightly-2022-concise.py > /dev/null'
-10   5 * * * python3 /var/www/pahma/uploadmedia/checkRuns.py /cspace/pahma/bmu jobs summary pahma | mail -r "cspace-support@lists.berkeley.edu" -s "recent PAHMA BMU jobs" pahma-cspace-bmu@lists.berkeley.edu > /dev/null 2>&1
-10   5 * * * python3 /var/www/ucjeps/uploadmedia/checkRuns.py /cspace/ucjeps/bmu jobs summary ucjeps | mail -r "cspace-support@lists.berkeley.edu" -s "recent UCJEPS BMU jobs" ucjeps-it@berkeley.edu > /dev/null 2>&1
-10   5 * * * python3 /var/www/cinefiles/uploadmedia/checkRuns.py /cspace/cinefiles/bmu jobs summary cinefiles | mail -r "cspace-support@lists.berkeley.edu" -s "recent Cinefiles BMU jobs" bampfacspaceuploader@lists.berkeley.edu > /dev/null 2>&1
-10   5 * * * python3 /var/www/botgarden/uploadmedia/checkRuns.py /cspace/botgarden/bmu jobs summary botgarden | mail -r "cspace-support@lists.berkeley.edu" -s "recent UCBG BMU jobs" ucbg-cspace-bmu@lists.berkeley.edu > /dev/null 2>&1
-##################################################################################
 # run BMU batch jobs (nightly or twice a day depending)
 ##################################################################################
-# run PAHMA BMU (one minute after 7pm)
-10 19   * * * bash -l -c 'shopt -s nullglob ; for f in /cspace/pahma/bmu/*.step1.csv; do f=$(echo $f | sed -e "s/\.step1.csv//") ; { time /var/www/pahma/uploadmedia/postblob.sh pahma $f uploadmedia_batch ; } >> /cspace/pahma/bmu/batches.log 2>&1 ; done'
-# run UCJEPS BMU (ten minutes after 9pm)
-10 21 * * * bash -l -c 'shopt -s nullglob ; for f in /cspace/ucjeps/bmu/*.step1.csv; do f=$(echo $f | sed -e "s/\.step1.csv//") ; { time /var/www/ucjeps/uploadmedia/postblob.sh ucjeps $f uploadmedia_batch ; } >> /cspace/ucjeps/bmu/batches.log 2>&1 ; done'
-# run Cinefiles BMU ((ten minutes after 10pm)
-10 22 * * * bash -l -c 'shopt -s nullglob ; for f in /cspace/cinefiles/bmu/*.step1.csv; do f=$(echo $f | sed -e "s/\.step1.csv//") ; { time /var/www/cinefiles/uploadmedia/postblob.sh cinefiles $f uploadmedia_batch ; } >> /cspace/cinefiles/bmu/batches.log 2>&1 ; done'
-# run BAMPFA BMU (currently a no-op -- they now use Piction)
-#30 * * * * bash -l -c 'shopt -s nullglob ; for f in /cspace/bampfa/bmu/*.step1.csv; do f=$(echo $f | sed -e "s/\.step1.csv//") ; { time /var/www/bampfa/uploadmedia/postblob.sh $f uploadmedia_batch ; } >> /cspace/bampfa/bmu/batches.log 2>&1 ; done'
-# run UCBG BMU (ten minutes after 11pm)
-10 23 * * * bash -l -c 'shopt -s nullglob ; for f in /cspace/botgarden/bmu/*.step1.csv; do f=$(echo $f | sed -e "s/\.step1.csv//") ; { time /var/www/botgarden/uploadmedia/postblob.sh botgarden $f uploadmedia_batch ; } >> /cspace/botgarden/bmu/batches.log 2>&1 ; done'
+# run BMUs (sequentially, starting one minute after 7pm)
+10 19 * * * {$HOME}/bin/bmu-run.sh > /dev/null 2>&1
 ##################################################################################
-# clean up the BMU temp directories (erase images more than 48 hours old)
+# BMU monitoring / report (i.e. send nightly emails)
 ##################################################################################
-1 5 * * * for t in bampfa botgarden cinefiles pahma ucjeps; do ~/bin/cleanBMUtempdir.sh /cspace/$t/bmu >> /cspace/monitor/${t}.imagedircleanup.log ; done
+10 05 * * * ${HOME}/bin/bmu-monitor.sh
+##################################################################################
+# keep a set of the BMU log files
+##################################################################################
+5 6 * * *  for t in bampfa botgarden cinefiles pahma ucjeps; do cp -p /cspace/bmu/${t}/*.csv /cspace/monitor/image_upload_cache_${t}/ > /dev/null 2>&1 ; cp -p /cspace/bmu/${t} /cspace/monitor/image_upload_cache_${t}/ > /dev/null 2>&1 ; done
 ##################################################################################
 # start the solr pipelines at 1 minute after midnight daily (takes 2 hours or so)
 ##################################################################################
@@ -44,40 +28,26 @@
 # copy the stats to the public directory so people can use them (8am)
 01 08  *   *   *     cp ${HOME}/*count* /var/www/static/
 ##################################################################################
+# run the UCJEPS extract jobs weekly, on Saturday
+##################################################################################
+00 01 * * 6 ${HOME}/bin/run-ucjeps-extracts.sh > /dev/null 2>&1
+##################################################################################
 # run the tricoder upload job (with locks) weekdays 7am-10pm, 3 mins after the hour
 ##################################################################################
-3 7-22 * * 1-5 cd /cspace/pahma/tricoder/batch_barcode ; ./tricoderlock.sh > /dev/null 2>&1
+3 7-22 * * 1-5 cd /cspace/tricoder/batch_barcode ; ./tricoderlock.sh > /dev/null 2>&1
 ##################################################################################
 # every day, clean up untidy messes left by tricoder the day before
 ##################################################################################
 1 5 * * * cd /tmp ; ls /tmp | perl -ne "print if /^\d+$/" | xargs rm > /dev/null 2>&1
 ##################################################################################
-# keep a set of the BMU log files
-##################################################################################
-5 6 * * *  for t in bampfa botgarden cinefiles pahma ucjeps; do cp -p /cspace/$t/bmu/*.csv /cspace/monitor/image_upload_cache_${t}/ > /dev/null 2>&1 ; cp -p /cspace/$t/bmu/*.trace.log /cspace//monitor/image_upload_cache_${t}/ > /dev/null 2>&1 ; done
-##################################################################################
-# run the UCJEPS jobs weekly, on Saturday
-##################################################################################
-00 1 * * 6 ${HOME}/bin/major_group.sh > /dev/null 2>&1
-00 2 * * 6 ${HOME}/bin/cch_extract.sh > /dev/null 2>&1
-00 3 * * 6 ${HOME}/bin/get_taxonauth.sh taxon > /dev/null 2>&1
-00 4 * * 6 ${HOME}/bin/get_taxonauth.sh unverified > /dev/null 2>&1
-00 5 * * 6 ${HOME}/bin/extract_authorities_nightly.sh > /dev/null 2>&1
-30 6 * * 6 foo=`${HOME}/bin/rsync2annie.sh 2>&1` ;  echo "$foo" | mail -r "cspace-support@lists.berkeley.edu" -s "rsync2annie" ucjeps-it@berkeley.edu
-##################################################################################
 # refresh the denormalized hierarchies
 ##################################################################################
-01 1 * * * ~/hierarchies/refresh.sh pahma > /dev/null 2>&1
-15 1 * * * cd ~/hierarchies ; ./checkstatus.sh pahma | mail -r "cspace-support@lists.berkeley.edu" -s "hierarchies refresh" mtblack@berkeley.edu
-##################################################################################
-# run the cinefiles month qc report
-##################################################################################
-#00 03 1 * * ${HOME}/bin/qc/monthly.sh cinefiles_reports@lists.berkeley.edu > /dev/null 2>&1
-#10 03 1 * * ${HOME}/bin/qc/monthly.sh cspace-app-logs@lists.berkeley.edu > /dev/null 2>&1
+01 1 * * * ${HOME}/bin/hierarchies/refresh.sh > /dev/null 2>&1
+15 1 * * * cd ${HOME}/bin/hierarchies ; ./checkstatus.sh pahma | mail -r "cspace-support@lists.berkeley.edu" -s "hierarchies refresh" mtblack@berkeley.edu
 ##################################################################################
 # run the nightly bampfa extract for the drupal website
 ##################################################################################
-01 05 * * * cd ~/extracts/bampfa ; ${HOME}/extracts/bampfa/bampfa_website_extract.sh bampfa >> bampfa_website_extract.log 2>&1
+01 05 * * * cd ${HOME}/extracts/bampfa ; ${HOME}/bin/bampfa_website_extract.sh bampfa >> bampfa_website_extract.log 2>&1
 ##################################################################################
 # monitor webapp use, compute solr core stats, goaccess log analysis
 ################################################################################
