@@ -3,10 +3,12 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.3.0-rc1
-Thu May 12 15:20:59 PDT 2022
+This is version 6.3.0-rc2
+Sat May 21 13:38:32 PDT 2022
 
-dd9ecda (HEAD -> main, origin/main, origin/HEAD) CSW-638: initial revisions to app_cspace cron jobs for AWC/EC2
+552526f (HEAD -> main) CSW-634: solr pipeline deploy should be rerunnable
+5ddab0b (tag: 6.3.0-rc1, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.3.0-rc1
+dd9ecda CSW-638: initial revisions to app_cspace cron jobs for AWC/EC2
 cfe3f79 (tag: 6.2.0) revise CHANGELOG.txt and bump version to 6.2.0
 2f9f586 CSW-656: add 'date_made_i' to bampfa solr core
 9e60254 revise CHANGELOG.txt and bump version to 6.2.0-rc14
