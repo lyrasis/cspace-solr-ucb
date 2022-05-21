@@ -60,8 +60,8 @@ then
    echo "Solr ETL directory ${SOLRETLDIR} not found. Assuming this is a fresh install"
 else
     # make a backup of the current ETL directory just in case
-    YYYYMMDD=`date +%Y%m%d`
-    BACKUPDIR=${SOLRETLDIR}.${YYYYMMDD}
+    YYYYMMDDHHMM=`date +%Y%m%d%H%M`
+    BACKUPDIR=${SOLRETLDIR}.${YYYYMMDDHHMM}
     if [ -d ${BACKUPDIR} ];
     then
        echo "Backup ETL directory ${BACKUPDIR} already exists. Please move or remove it and try again"
