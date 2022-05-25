@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source ${HOME}/pipeline-config.sh
+
 ${HOME}/solrdatasources/bampfa/solrETL-public.sh           bampfa    2>&1 | /usr/bin/ts '[%Y-%m-%d %H:%M:%S]' >> ${SOLR_LOG_DIR}/bampfa.solr_extract_public.log  2>&1
 ${HOME}/solrdatasources/bampfa/solrETL-internal.sh         bampfa    2>&1 | /usr/bin/ts '[%Y-%m-%d %H:%M:%S]' >> ${SOLR_LOG_DIR}/bampfa.solr_extract_internal.log  2>&1
 ${HOME}/solrdatasources/bampfa/bampfa_collectionitems_vw.sh bampfa   2>&1 | /usr/bin/ts '[%Y-%m-%d %H:%M:%S]' >> ${SOLR_LOG_DIR}/bampfa.solr_extract_BAM.log  2>&1
