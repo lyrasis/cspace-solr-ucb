@@ -24,9 +24,9 @@
 ##################################################################################
 # start the solr pipelines at 1 minute after midnight daily (takes 2 hours or so)
 ##################################################################################
-01 00  *   *   *     ${HOME}/one_job.sh
+01 03 * * * ${HOME}/one_job.sh
 # copy the stats to the public directory so people can use them (8am)
-01 08  *   *   *     cp ${HOME}/*count* /var/www/static/
+01 08 * * * cp ${HOME}/*count* /var/www/static/
 ##################################################################################
 # run the UCJEPS extract jobs weekly, on Saturday
 ##################################################################################
@@ -38,14 +38,14 @@
 ##################################################################################
 # refresh the denormalized hierarchies
 ##################################################################################
-01 1 * * * ${HOME}/bin/hierarchies/refresh.sh > /dev/null 2>&1
-15 1 * * * cd ${HOME}/bin/hierarchies ; ./checkstatus.sh pahma | mail -r "cspace-support@lists.berkeley.edu" -s "hierarchies refresh" mtblack@berkeley.edu
+01 01 * * * ${HOME}/bin/hierarchies/refresh.sh > /dev/null 2>&1
+15 01 * * * cd ${HOME}/bin/hierarchies ; ./checkstatus.sh pahma | mail -r "cspace-support@lists.berkeley.edu" -s "hierarchies refresh" mtblack@berkeley.edu
 ##################################################################################
 # monitor webapp use, compute solr core stats, goaccess log analysis
 ################################################################################
 00 00 * * * /cspace/monitor/checklogs.sh | mail -r "cspace-support@lists.berkeley.edu" -s "Access Log Analysis" jblowe@berkeley.edu
 # analyze and summarize the django logs and solr cores, keep a copy of an extract of the other vhost logs
 05 04 * * * cd /cspace/monitor ; ./analyze.sh > /dev/null 2>&1 ; ./corestats.sh > /dev/null 2>&1
-20 04 * * * wc -l /cspace/*/bmu/*.processed.csv | perl -pe 's/^ *(\d+) /\1\t/;s#/cspace/(.*)/bmu#\1#;s#/#\t#g;s/.processed.csv//' > /cspace/monitor/bmu-counts.csv
+20 04 * * * wc -l /cspace/bmu/*/*.processed.csv | perl -pe 's/^ *(\d+) /\1\t/;s#/cspace/bmu/(.*)#\1#;s#/#\t#g;s/.processed.csv//' > /cspace/monitor/bmu-counts.csv
 # recompute goaccess stats daily
 1 1 */1 * *  ${HOME}/bin/goaccess.sh
