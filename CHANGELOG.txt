@@ -3,13 +3,17 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.3.0-rc3
-Wed May 25 16:39:42 PDT 2022
+This is version 6.3.0-rc4
+Thu Jun  2 15:40:27 PDT 2022
 
-8609426 (HEAD -> main) CSW-634: incremental improvements and correx to blacklight stack crontab
+df69848 (HEAD -> main) NOJIRA: formatting changes only to crontab
+8c6f665 CSW-634: set_platform should use LOGNAME not USER for platform check
+0d29e83 CSW-634: add bash sha-bang line to several pipeline script
+8926bf3 (tag: 6.3.0-rc3, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.3.0-rc3
+8609426 CSW-634: incremental improvements and correx to blacklight stack crontab
 cd45ef5 CSW-634: solr pipeline jobs each need to source global config file
 04831d0 CSW-634: use better dummy email addrs for dev and qa deployments
-588cbd5 (tag: 6.3.0-rc2, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.3.0-rc2
+588cbd5 (tag: 6.3.0-rc2) revise CHANGELOG.txt and bump version to 6.3.0-rc2
 552526f CSW-634: solr pipeline deploy should be rerunnable
 5ddab0b (tag: 6.3.0-rc1) revise CHANGELOG.txt and bump version to 6.3.0-rc1
 dd9ecda CSW-638: initial revisions to app_cspace cron jobs for AWC/EC2
