@@ -1,10 +1,11 @@
+#!/bin/bash
 
-if [[ ${USER} == 'app_cspace' ]]; then
+if [[ ${LOGNAME} == 'app_cspace' ]]; then
   export PLATFORM="AWS/EC2"
   export HOMEDIR="/cspace"
   export SOLR_CACHE_DIR="/cspace/solr_cache"
   export SOLR_LOG_DIR="/cspace/solr_logs"
-elif [[ ${USER} == 'app_webapps' ]]; then
+elif [[ ${LOGNAME} == 'app_webapps' ]]; then
   export PLATFORM="RTL server"
   export HOMEDIR=${HOME}
   export SOLR_CACHE_DIR="/tmp"
@@ -17,7 +18,7 @@ else
 fi
 if [[ "$1" == "-v" ]]; then
   echo
-  echo "User is ${USER}"
+  echo "LOGNAME is ${LOGNAME}"
   echo "Assuming deployment is ${PLATFORM}"
   echo "HOMEDIR: ${HOMEDIR}"
   echo "SOLR_CACHE_DIR: ${SOLR_CACHE_DIR}"
