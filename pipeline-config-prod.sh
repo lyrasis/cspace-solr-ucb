@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export BAMPFA_SERVER="dba-postgres-prod-45.ist.berkeley.edu port=5313"
 export BAMPFA_CONTACT="osanchez@berkeley.edu"
 

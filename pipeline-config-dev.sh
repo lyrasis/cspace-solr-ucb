@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # for qa and dev deployments, we send notification email to nobody
 
