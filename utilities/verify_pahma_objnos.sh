@@ -7,10 +7,10 @@ if [ $# -ne 1 ]; then
 fi
 
 
-python tS.py pahma-public http://localhost:8983 'objmusno_txt:"%s"' < $1 > objmusno_txt.txt &
-python tS.py pahma-public http://localhost:8983 'objmusno_s:"%s"' < $1 > objmusno_s.txt &
-perl -pe 'tr/A-Z/a-z/' $1 | python tS.py pahma-public http://localhost:8983 'objmusno_s:"%s"' > objmusno_s_vs_lower.txt &
-perl -pe 'tr/A-Z/a-z/' $1 | python tS.py pahma-public http://localhost:8983 'objmusno_s_lower:"%s"' > objmusno_s_lower.txt &
+python3 tS.py pahma-public http://localhost:8983 'objmusno_txt:"%s"' < $1 > objmusno_txt.txt &
+python3 tS.py pahma-public http://localhost:8983 'objmusno_s:"%s"' < $1 > objmusno_s.txt &
+perl -pe 'tr/A-Z/a-z/' $1 | python3 tS.py pahma-public http://localhost:8983 'objmusno_s:"%s"' > objmusno_s_vs_lower.txt &
+perl -pe 'tr/A-Z/a-z/' $1 | python3 tS.py pahma-public http://localhost:8983 'objmusno_s_lower:"%s"' > objmusno_s_lower.txt &
 
 wait
 

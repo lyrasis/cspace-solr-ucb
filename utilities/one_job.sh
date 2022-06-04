@@ -7,17 +7,17 @@
 #
 # run all solr ETL
 #
-# 1. run the 13 solr etl ppipeline scripts, in parallel
+# 1. run the 13 solr etl pipeline scripts, mostly in parallel
 # 2. monitor solr datastore contents (i.e. email cspace-support, etc. if needed)
 #
 # some notes:
 #
 # in most cases, the jobs for each tenant must be ordered wrt to each other:
-# the 'internal' cores often require data generated for the 'public' cores, etc.
+# e.g. the 'internal' cores often require data generated for the 'public' cores, etc.
 #
 # thus, the refreshes for a particular tenant must be run sequentially, i.e.
 # not in parallel: they may overwrite files or otherwise conflict. there are no
-# such conflicts between tenants, except for system resources such as cpu and
+# such conflicts *between* tenants, except for system resources such as cpu and
 # memory.
 #
 # therefore, this version of one-job.sh runs the refresh for all 5 tenants in
@@ -26,7 +26,7 @@
 # then does a bit of tidying up: solr optimize, check status of runs, etc.
 ##################################################################################
 cd
-source ${HOME}/pipeline-config.sh
+source ${HOME}/pipeline-config.sh -q
 echo 'starting solr refresh' `date` >> ${SOLR_LOG_DIR}/refresh.log
 ./oj.bampfa.sh &
 ./oj.botgarden.sh &

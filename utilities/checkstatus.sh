@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd
-source pipeline-config.sh -q
+source ${HOME}/pipeline-config.sh -q
 
 for t in bampfa botgarden cinefiles pahma ucjeps
 do

@@ -257,7 +257,7 @@ Certain search terms are supposed to handled specially. For example:
 There's a script and a test file for that! Here's how it works:
 
 ```
-$ python query-test-cases.py https://webapps-dev.cspace.berkeley.edu/solr/pahma-public query-test-cases.pahma.txt 
+$ python3 query-test-cases.py https://webapps-dev.cspace.berkeley.edu/solr/pahma-public query-test-cases.pahma.txt
 # test cases for Solr stemming, character and case folding, and synonyms
 # format: data as it appears in the database, a tab, query term that should match it.
 # accented characters and ligatures

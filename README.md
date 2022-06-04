@@ -29,7 +29,7 @@ tS.py is a short script to test the (local) installation of the Python solr
 client module and operation of the (local) solr server. To run:
 
 ```bash
-$ python tS.py pahma-public
+$ python3 tS.py pahma-public
 pahma-public, records found: 735314
 ```
 
@@ -147,7 +147,7 @@ If you want to see if your Solr cores are available and you have the Python Solr
 properly installed, you can use `tS.py`. Try:
 
 `
-python tS.py
+python3 tS.py
 `
 
 in this very directory and debug from there.
@@ -156,7 +156,7 @@ For example, if you would like to run check to see if a list of PAHMA museum num
 could make a file of the museum numbers, one per line, and try:
 
 `
-python tS.py pahma-public http://localhost:8983 'objmusno_s:"%s"' < /tmp/objmusno_s.txt > objmusno_s.txt 
+python3 tS.py pahma-public http://localhost:8983 'objmusno_s:"%s"' < /tmp/objmusno_s.txt > objmusno_s.txt
 `
 
 Caveats:

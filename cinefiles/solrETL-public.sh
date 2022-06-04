@@ -23,8 +23,8 @@ time psql -R"@@" -F $'\t' -A -U $USERNAME -d "$CONNECTSTRING" --pset footer -c "
 time psql -R"@@" -F $'\t' -A -U $USERNAME -d "$CONNECTSTRING" --pset footer -c "select * from cinefiles_denorm.filmdocs" -o d1c.csv
 time psql -R"@@" -F $'\t' -A -U $USERNAME -d "$CONNECTSTRING" --pset footer -f metadata_public.sql -o d1d.csv
 # some fix up required, alas: data from cspace is dirty: contain csv delimiters, newlines, etc. that's why we used @@ as temporary record separator
-time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1a.csv | python computeTimeIntegersCineFiles.py docs.csv
-time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1b.csv | python computeTimeIntegersCineFiles.py films.csv
+time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1a.csv | python3 computeTimeIntegersCineFiles.py docs.csv
+time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1b.csv | python3 computeTimeIntegersCineFiles.py films.csv
 time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1c.csv > link.csv
 time perl -pe 's/[\r\n]/ /g;s/\@\@/\n/g' d1d.csv > metadata.csv
 rm d1?.csv

@@ -3,7 +3,7 @@
 # check that all the rows have the same number of cells as the header
 #
 # e.g.
-# python evaluate.py 4solr.pahma.public.csv checked.csv > counts.csv
+# python3 evaluate.py 4solr.pahma.public.csv checked.csv > counts.csv
 # head -4 counts.csv | expand -20
 #
 # id                  748756              748756

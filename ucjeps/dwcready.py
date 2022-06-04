@@ -14,7 +14,7 @@ dwc_mapping = [d for d in dwc_mapping if d[1] not in specialhandling]
 inputcolumns = [ i[0] for i in dwc_mapping if i[1] != 'tbd']
 outputcolumns = [ i[1] for i in dwc_mapping if i[1] != 'tbd']
 
-# to run type: python dwcready.py 4solr.ucjeps.public.csv your.output.file
+# to run type: python3 dwcready.py 4solr.ucjeps.public.csv your.output.file
 
 staticvalues = [('institutionCode', 'UCJEPS'),
                 ('basisOfRecord', 'PreservedSpecimen'),

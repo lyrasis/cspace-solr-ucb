@@ -12,8 +12,8 @@ gunzip 4solr.botgarden.public.csv.gz
 cut -f17 4solr.botgarden.public.csv > scinames.csv
 # this version of the script is a bit rude: it hits GBIF sequentially, but without pauses
 python3 parseNamesGBIFparts.py scinames.csv parsednames.csv names.pickle
-# nohup python /usr/local/share/django/botgarden_project/gbif/parseNamesGBIF4UCBG.py scinames.csv parsednames.csv names.pickle &
-# python /usr/local/share/django/botgarden_project/gbif/parseNamesGBIF4UCBG.py scinames.csv parsednames.csv names.pickle
+# nohup python3 /usr/local/share/django/botgarden_project/gbif/parseNamesGBIF4UCBG.py scinames.csv parsednames.csv names.pickle &
+# python3 /usr/local/share/django/botgarden_project/gbif/parseNamesGBIF4UCBG.py scinames.csv parsednames.csv names.pickle
 rm 4solr.botgarden.public.csv
 # make a copy, in case we need to recover it
 cp names.pickle ${SOLR_CACHE_DIR}

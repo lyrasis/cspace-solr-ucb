@@ -6,13 +6,13 @@ try:
     host = sys.argv[2]
     query_template = sys.argv[3]
 except:
-    print('syntax: python %s solar_core hostname query_template' % sys.argv[0])
+    print('syntax: python3 %s solar_core hostname query_template' % sys.argv[0])
     print()
-    print('e.g     python %s pahma-public https://webapps.cspace.berkeley.edu "*:*"' % sys.argv[0])
+    print('e.g     python3 %s pahma-public https://webapps.cspace.berkeley.edu "*:*"' % sys.argv[0])
     print()
     print('or (using a template with a filler and input from stdin):')
     print()
-    print('        python %s pahma-public http://localhost:8983 \'objmusno_txt:"%%s"\' < list_of_musnos.txt > found.txt' % sys.argv[0])
+    print('        python3 %s pahma-public http://localhost:8983 \'objmusno_txt:"%%s"\' < list_of_musnos.txt > found.txt' % sys.argv[0])
     print()
     print('i.e. will read a list of template fillers from stdin, write fillers and counts to stdout')
     sys.exit(1)

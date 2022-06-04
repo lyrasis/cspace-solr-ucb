@@ -54,7 +54,7 @@ rm m3.sort.csv m4.csv
 ##############################################################################
 # check the final file
 ##############################################################################
-time python ../common/evaluate.py m6.csv 4solr.${TENANT}.${CORE}.csv > /dev/null
+time python3 ../common/evaluate.py m6.csv 4solr.${TENANT}.${CORE}.csv > /dev/null
 ###############################################################################
 # get rid of intermediate files
 ###############################################################################
