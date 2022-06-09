@@ -3,13 +3,17 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.3.0-rc4
-Thu Jun  2 15:40:27 PDT 2022
+This is version 6.3.0
+Wed Jun  8 17:19:35 PDT 2022
 
-df69848 (HEAD -> main) NOJIRA: formatting changes only to crontab
+d331072 (HEAD -> main) CSW-634: correct email parms for cinefiles denorm job
+650945b CSW-680: the blacklight stack is python3 everywhere now
+c378603 (origin/main, origin/HEAD) CSW-634: backout incorrect database hostname in dev and qa for solr pipelines
+6987aad (tag: 6.3.0-rc4) revise CHANGELOG.txt and bump version to 6.3.0-rc4
+df69848 NOJIRA: formatting changes only to crontab
 8c6f665 CSW-634: set_platform should use LOGNAME not USER for platform check
 0d29e83 CSW-634: add bash sha-bang line to several pipeline script
-8926bf3 (tag: 6.3.0-rc3, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.3.0-rc3
+8926bf3 (tag: 6.3.0-rc3) revise CHANGELOG.txt and bump version to 6.3.0-rc3
 8609426 CSW-634: incremental improvements and correx to blacklight stack crontab
 cd45ef5 CSW-634: solr pipeline jobs each need to source global config file
 04831d0 CSW-634: use better dummy email addrs for dev and qa deployments
