@@ -12,7 +12,7 @@
 # run BMU batch jobs (nightly or twice a day depending)
 ##################################################################################
 # run BMUs (sequentially, starting one minute after 7pm)
-10 19 * * * {$HOME}/bin/bmu-run.sh > /dev/null 2>&1
+10 19 * * * ${HOME}/bin/bmu-run.sh > /dev/null 2>&1
 ##################################################################################
 # BMU monitoring / report (i.e. send nightly emails)
 ##################################################################################
@@ -41,8 +41,12 @@
 01 01 * * * ${HOME}/bin/hierarchies/refresh.sh > /dev/null 2>&1
 15 01 * * * cd ${HOME}/bin/hierarchies ; ./checkstatus.sh pahma | mail -r "cspace-support@lists.berkeley.edu" -s "hierarchies refresh" mtblack@berkeley.edu
 ##################################################################################
+# tidy up the blacklight databases every early monday
+##################################################################################
+0 1 * * 1 ${HOME}/projects/radiance/dbcleanup-aws.sh 2>> /cspace/blacklight/dbcleanup.log
+##################################################################################
 # monitor webapp use, compute solr core stats, goaccess log analysis
-################################################################################
+##################################################################################
 00 00 * * * /cspace/monitor/checklogs.sh | mail -r "cspace-support@lists.berkeley.edu" -s "Access Log Analysis" jblowe@berkeley.edu
 # analyze and summarize the django logs and solr cores, keep a copy of an extract of the other vhost logs
 05 04 * * * cd /cspace/monitor ; ./analyze.sh > /dev/null 2>&1 ; ./corestats.sh > /dev/null 2>&1
