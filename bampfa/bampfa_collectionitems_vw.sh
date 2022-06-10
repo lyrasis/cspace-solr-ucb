@@ -19,6 +19,6 @@ time psql -R"@@" -A -U $USERNAME -d "$CONNECTSTRING"  -c "select * from utils.${
 time perl -i -pe 's/[\r\n]/ /g;s/\@\@/\n/g;s/\|/\t/g;' ${TENANT}_collectionitems_vw.tab
 rm -f ${TENANT}_collectionitems_vw.tab.gz
 gzip ${TENANT}_collectionitems_vw.tab
-mail -A ${TENANT}_collectionitems_vw.tab.gz -s "${TENANT}_collectionitems_vw.csv.gz" -- ${CONTACT} < /dev/null
+mail -A ${TENANT}_collectionitems_vw.tab.gz -r "cspace-support@lists.berkeley.edu" -s "${TENANT}_collectionitems_vw.csv.gz" -- ${CONTACT} < /dev/null
 #
 date
