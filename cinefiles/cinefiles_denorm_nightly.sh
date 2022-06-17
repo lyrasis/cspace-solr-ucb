@@ -14,7 +14,8 @@
 # Log files go in ${SOLR_LOG_DIR}
 # NB: gets password for nuxeo_cinefiles from .pgpass
 
-source ${HOME}/cinefiles-denorm-config.sh
+source ${HOME}/pipeline-config.sh
+
 export BASEDIR=${HOME}/solrdatasources/cinefiles
 export SCRIPTDIR=$BASEDIR/scripts
 export PGUSER=nuxeo_cinefiles

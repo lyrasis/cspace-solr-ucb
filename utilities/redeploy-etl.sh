@@ -47,8 +47,6 @@ then
    exit 1
 else
   cp pipeline-config-${ENVIRONMENT}.sh ${HOME}/pipeline-config.sh
-  # cinefiles denorm process has its own config
-  cp cinefiles/cinefiles-denorm-config-${ENVIRONMENT}.sh ${HOME}/cinefiles-denorm-config.sh
 fi
 
 cp utilities/o*.sh ${HOME}
