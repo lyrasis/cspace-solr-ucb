@@ -3,12 +3,14 @@ CHANGELOG for cspace-solr-ucb
 OK, it is not a *real* change log, but a list of changes resulting from git log
 sometimes with some human annotation after the fact.
 
-This is version 6.4.0-rc2
-Fri Jun 17 15:12:16 PDT 2022
+This is version 6.4.0-rc3
+Wed Jul  6 15:26:54 PDT 2022
 
-6db8c1e (HEAD -> main) CSW-634: update app_cspace crontab to match other changes
+0bbd6b9 (HEAD -> main) CSW-634: set_platform.sh should be executable, though in fact it is only 'source'd
+824678f (tag: 6.4.0-rc2, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.4.0-rc2
+6db8c1e CSW-634: update app_cspace crontab to match other changes
 af82e8b CSW-634: merge config for cinefiles denorm into solr pipeline config
-85dd534 (tag: 6.4.0-rc1, origin/main, origin/HEAD) revise CHANGELOG.txt and bump version to 6.4.0-rc1
+85dd534 (tag: 6.4.0-rc1) revise CHANGELOG.txt and bump version to 6.4.0-rc1
 25444b2 CSW-634: create and revise crontab for app_cspace, the ec2 app user
 f15ed55 CSW-690: fix email parms for BAMPFA nightly extract
 68be321 HMP-239: 'cron' blacklight cleanup script dbcleanup-aws.sh
