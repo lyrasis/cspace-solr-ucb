@@ -9,19 +9,21 @@
 # renamed in a single batch. Then, finally, one more batch file is
 # executed to create indexes.
 #
-# This script should be installed in ${HOME}/solrdatasources/cinefiles/scripts
-# SQL files go in ${HOME}/solrdatasources/cinefiles/scripts/sql/denorm_nightly
+# This script should be installed in ${HOME}/cspace-solr-ucb/cinefiles/scripts
+# SQL files go in ${HOME}/cspace-solr-ucb/cinefiles/scripts/sql/denorm_nightly
 # Log files go in ${SOLR_LOG_DIR}
 # NB: gets password for nuxeo_cinefiles from .pgpass
 
-source ${HOME}/pipeline-config.sh
+# source ${HOME}/pipeline-config.sh # WE WANT TO BE SELF CONTAINED
 
-export BASEDIR=${HOME}/solrdatasources/cinefiles
+export BASEDIR=${HOME}/cspace-solr-ucb/cinefiles
 export SCRIPTDIR=$BASEDIR/scripts
 export PGUSER=nuxeo_cinefiles
+export PGPASSWORD="${CINEFILES_PGPASSWORD}" # apply via SSM param store
 export PGDATABASE=cinefiles_domain_cinefiles
 export PGHOST="${CINEFILES_PGHOST}"
 export PGPORT="${CINEFILES_PGPORT}"
+export EMAIL_FROM=${CINEFILES_EMAIL_FROM}
 export CONTACT="${CINEFILES_CONTACT}"
 
 export SQLDIR="$SCRIPTDIR/sql/denorm_nightly"
@@ -36,7 +38,7 @@ echo  "$(date): starting cinefiles_denorm_nightly" >> $FOOFILE
 
 function notify
 {
-   echo "NOTIFY: $1" | mail -r "cspace-support@lists.berkeley.edu" -s "cinefiles denorm" ${CONTACT}
+   echo "NOTIFY: $1" | mail -r ${EMAIL_FROM} -s "cinefiles denorm" ${CONTACT}
 }
 
 function log
